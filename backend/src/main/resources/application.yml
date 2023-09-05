@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  ssl:
+    enabled: false
+spring:
+  profiles:
+    active: secret
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
