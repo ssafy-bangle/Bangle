@@ -7,7 +7,7 @@ import userApi from '@src/apis/user';
 import { useEffect, useState } from 'react';
 import { privateToPublic } from '@ethereumjs/util';
 
-export default function SignOrSend(mode: string) {
+export default function SignOrSend({ mode }: { mode: string }) {
 	// states from children
 	const [nickname, setNickname] = useState<string>("")
 	const [isAuthor, setIsAuthor] = useState<boolean>(false)

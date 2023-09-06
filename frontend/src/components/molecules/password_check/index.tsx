@@ -9,7 +9,13 @@ export default function PasswordCheck({ setIsKeyValid, setPrivateKey}: PasswordC
 
 	useEffect(() => {
 		if (password === passwordCheck) {
-			setPrivateKey(makeHash(password))
+			makeHash(password).then((hashedBuffer) => {
+				setPrivateKey(hashedBuffer)
+				console.log("hashedBufferPrivateKey: ", 
+				Array.from(new Uint8Array(hashedBuffer))
+			.map(b => b.toString(16).padStart(2, "0"))
+			.join(""))
+			})
 			setIsKeyValid(true)
 		} else {
 			setIsKeyValid(false)
@@ -20,9 +26,9 @@ export default function PasswordCheck({ setIsKeyValid, setPrivateKey}: PasswordC
 		const encodedPassword = new TextEncoder().encode(password)
 		const hashedBuffer = await crypto.subtle.digest("SHA-256", encodedPassword)
 		return hashedBuffer
-		return Array.from(new Uint8Array(hashedBuffer))
-			.map(b => b.toString(16).padStart(2, "0"))
-			.join("");
+		// return Array.from(new Uint8Array(hashedBuffer))
+		// 	.map(b => b.toString(16).padStart(2, "0"))
+		// 	.join("");
 	}
 
 	return (
