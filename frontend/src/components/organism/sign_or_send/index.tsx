@@ -5,13 +5,14 @@ import Checkbox from '@src/components/atoms/checkbox';
 import Button from '@src/components/atoms/button';
 import userApi from '@src/apis/user';
 import { useEffect, useState } from 'react';
+import { privateToPublic } from '@ethereumjs/util';
 
 export default function SignOrSend(mode: string) {
 	// states from children
 	const [nickname, setNickname] = useState<string>("")
 	const [isAuthor, setIsAuthor] = useState<boolean>(false)
 	const [isKeyValid, setIsKeyValid] = useState<boolean>(false)
-	const [hashedPassword, setHashedPassword] = useState<string>("")
+	const [privateKey, setPrivateKey] = useState<Uint8Array>()
 
 	// state from HERE
 	const [isButtonActive, setIsButtonActive] = useState<boolean>(false)
@@ -19,12 +20,12 @@ export default function SignOrSend(mode: string) {
 
 
 	useEffect(() => {
-		if (nickname !== "" && isKeyValid && hashedPassword !== "") {
+		if (nickname !== "" && isKeyValid && privateKey !== undefined) {
 			setIsButtonActive(true)
 		} else {
 			setIsButtonActive(false)
 		}
-	}, [nickname, isKeyValid, hashedPassword])
+	}, [nickname, isKeyValid, privateKey])
 
 	const complete = () => {
 		if (isSendMode) {
@@ -36,7 +37,14 @@ export default function SignOrSend(mode: string) {
 
 	const send = () => {
 		// send public key to server
-		userApi.postPublicKey(nickname, hashedPassword)
+		if (privateKey) {
+			const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
+			.map(b => b.toString(16).padStart(2, "0"))
+			.join("")
+			// reset privateKey to undefined for security
+			setPrivateKey(undefined)
+			userApi.postPublicKey(nickname, publicKey)
+		}
 	}
 	const sign = () => {
 		// sign smart contracts to polygon network
@@ -56,7 +64,7 @@ export default function SignOrSend(mode: string) {
 				</>
 			}
 
-			<PasswordCheck setIsKeyValid={setIsKeyValid} setHashedPassword={setHashedPassword}></PasswordCheck>
+			<PasswordCheck setIsKeyValid={setIsKeyValid} setPrivateKey={setPrivateKey}></PasswordCheck>
 
 			{ isSendMode && 
 				<Checkbox placeholder='작가인가요?' setInput={setIsAuthor}></Checkbox>

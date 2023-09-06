@@ -22,5 +22,5 @@ export type InputProps = {
 
 export type PasswordCheckProps = {
   setIsKeyValid: Function;
-  setHashedPassword: Function;
+  setPrivateKey: Function;
 }
