@@ -14,3 +14,13 @@ export type menuProps = {
   name: string;
   url: string;
 };
+
+export type InputProps = {
+  placeholder: string;
+  setInput: Function;
+}
+
+export type PasswordCheckProps = {
+  setIsKeyValid: Function;
+  setHashedPassword: Function;
+}
