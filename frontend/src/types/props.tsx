@@ -18,4 +18,11 @@ export type MenuProps = {
 export type InputProps = {
   mode: 'default' | 'focus' | 'error';
   content: string;
+  placeholder: string;
+  setInput: Function;
+};
+
+export type PasswordCheckProps = {
+  setIsKeyValid: Function;
+  setPrivateKey: Function;
 };
