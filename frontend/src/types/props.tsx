@@ -10,7 +10,12 @@ export type NavProps = {
   role: 'author' | 'user';
 };
 
-export type menuProps = {
+export type MenuProps = {
   name: string;
   url: string;
+};
+
+export type InputProps = {
+  mode: 'default' | 'focus' | 'error';
+  content: string;
 };

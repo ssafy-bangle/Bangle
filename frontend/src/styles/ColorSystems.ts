@@ -9,5 +9,6 @@ export const ColorSystem = css`
     --BG_GRAY3: #484b52;
     --BG_POINT: #ffe86f;
     --BG_MAIN: #2cc295;
+    --test: #e5e5e5;
   }
 `;

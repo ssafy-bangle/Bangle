@@ -8,8 +8,10 @@ export default function Landing() {
   return (
     <>
       <S.Container>
-        <S.Light priority width={120} src={LightImg} alt={'light'} />
-        <S.Shine priority width={360} src={ShineImg} alt={'shine'} />
+        <S.ImgBox>
+          <S.Light priority width={120} src={LightImg} alt={'light'} />
+          <S.Shine priority width={360} src={ShineImg} alt={'shine'} />
+        </S.ImgBox>
         <S.TitleContainer>
           <S.Title>방에서 쓴 글이</S.Title>
           <S.Title>모두의 블록 안으로</S.Title>

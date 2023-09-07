@@ -3,18 +3,22 @@ import Image from 'next/image';
 
 export const Container = styled.div`
   height: 100vh;
+  widht: 1280px;
   margin: 0 250px 0 250px;
+`;
+
+export const ImgBox = styled.div`
+  position: relative;
 `;
 
 export const Light = styled(Image)`
   margin-left: 120px;
-  position: relative;
 `;
 
 export const Shine = styled(Image)`
   position: absolute;
-  top: 210px;
-  left: 252px;
+  top: 200px;
+  left: 0;
   z-index: 100;
 `;
 

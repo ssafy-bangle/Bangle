@@ -1,9 +1,10 @@
+import { InputProps } from '@src/types/props';
 import * as S from './index.styled';
 
-export default function Input(content: string) {
+export default function Input({ content, mode }: InputProps) {
   return (
     <>
-      <div>{content}</div>
+      <S.StyledInput mode={mode} placeholder={`${content}`}></S.StyledInput>
     </>
   );
 }
