@@ -1,9 +1,13 @@
 FROM amazoncorretto:17-alpine
-WORKDIR /backend
+WORKDIR /back
 COPY . .
-#RUN chmod +x gradlew
+RUN pwd
+RUN ls -la
+RUN chmod +x gradlew
 #RUN ./gradlew clean build
+CMD ["./gradlew", "clean", "build"]
+ENTRYPOINT ["java", "-jar", "build/libs/bangle-0.0.1-SNAPSHOT.jar"]
 #ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "build/libs/Dokkaebi-0.0.1-SNAPSHOT.jar"]
-ARG JAR_FILE=build/libs/bangle-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} backend.jar
-ENTRYPOINT ["java", "-jar", "backend.jar"]
+#ARG JAR_FILE=build/libs/bangle-0.0.1-SNAPSHOT.jar
+#COPY ${JAR_FILE} backend.jar
+#ENTRYPOINT ["java", "-jar", "backend.jar"]
