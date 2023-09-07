@@ -19,7 +19,7 @@ export default function Cart() {
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
         <S.ListContainer></S.ListContainer>
-        <S.InfoConatiner></S.InfoConatiner>
+        <S.InfoContainer></S.InfoContainer>
         <Button length={'long'} size={'small'} content="결제하기" />
       </S.Container>
     </S.StyledDrawer>

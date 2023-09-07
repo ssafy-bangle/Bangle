@@ -32,7 +32,7 @@ export const ListContainer = styled.div`
   //   overflow-y: scroll;
 `;
 
-export const InfoConatiner = styled(ListContainer)`
+export const InfoContainer = styled(ListContainer)`
   background-color: var(--test);
   height: 150px;
   //   overflow-y: scroll;

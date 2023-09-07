@@ -44,7 +44,7 @@ export default function Nav({ role }: NavProps) {
         </S.MenuContainer>
         {role === 'user' ? (
           <>
-            <Input mode="focus" content="검색어를 입력해주세요" />
+            <Input size="long" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
             <S.CartBox>
               <Image src={CartImg} alt="cartImg" onClick={showDrawer} />
             </S.CartBox>

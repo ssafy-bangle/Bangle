@@ -16,10 +16,10 @@ export type MenuProps = {
 };
 
 export type InputProps = {
-  mode: 'default' | 'focus' | 'error';
-  content: string;
+  size: 'short' | 'long';
+  state: 'default' | 'focus' | 'error';
   placeholder: string;
-  setInput: Function;
+  setInput: (value: string) => void;
 };
 
 export type PasswordCheckProps = {

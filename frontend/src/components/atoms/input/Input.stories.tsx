@@ -10,13 +10,19 @@ type Story = StoryObj<typeof Input>;
 const Template: Story = {
   name: 'Default',
   argTypes: {
-    mode: {
+    size: {
+      type: 'string',
+      control: 'select',
+      options: ['short', 'long'],
+      description: '길이',
+    },
+    state: {
       type: 'string',
       control: 'select',
       options: ['default', 'focus', 'error'],
-      description: '모드',
+      description: '상태',
     },
-    content: {
+    placeholder: {
       type: 'string',
       description: '내용',
     },
@@ -29,8 +35,9 @@ export const DefaultInput: Story = {
   name: 'Default',
   args: {
     ...Template.args,
-    mode: 'default',
-    content: '테스트컨텐츠',
+    size: 'short',
+    state: 'default',
+    placeholder: '테스트컨텐츠',
   },
 };
 
@@ -39,8 +46,9 @@ export const FocusInput: Story = {
   name: 'Focus',
   args: {
     ...Template.args,
-    mode: 'focus',
-    content: '테스트컨텐츠',
+    size: 'short',
+    state: 'focus',
+    placeholder: '테스트컨텐츠',
   },
 };
 
@@ -49,7 +57,8 @@ export const ErrorInput: Story = {
   name: 'Error',
   args: {
     ...Template.args,
-    mode: 'error',
-    content: '테스트컨텐츠',
+    size: 'short',
+    state: 'error',
+    placeholder: '테스트컨텐츠',
   },
 };

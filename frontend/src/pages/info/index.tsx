@@ -1,10 +1,4 @@
-import SignOrSend from '@src/components/organism/sign_or_send';
-
+import * as S from './index.styled';
 export default function Info() {
-  return (
-    <>
-      <SignOrSend mode={'send'} />
-      회원을 가입하는 페이지
-    </>
-  );
+  return <S.Container></S.Container>;
 }
