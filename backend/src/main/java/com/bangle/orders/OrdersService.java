@@ -5,39 +5,55 @@ import java.io.File;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class OrdersService {
 
+  private final RestTemplate restTemplate;
+
+  @Value("${kubo.rpc.host}")
+  private String kuboRpcHost;
 
   public IpfsResponseDTO upload(RegisterRequestDTO registerRequestDTO) {
     try {
+      // encrypt
       SecretKey secretKey = CryptoService.createSecretKey();
-      byte[] encoded = secretKey.getEncoded();
-      System.out.println("ENCODED: " + CryptoService.byteToHex(encoded));
       IvParameterSpec iv = CryptoService.generateIv();
-      byte[] encryptedBook = CryptoService.encryptBook(secretKey, iv,
-          registerRequestDTO.book.getBytes());
-      byte[] decryptedBook = CryptoService.decryptBook(secretKey, iv,
-          encryptedBook);
-      // need to upload to IPFS
-      String encode = "UTF-8";
-      System.out.println("BOOK     : " + registerRequestDTO.book);
-      System.out.println("BOOK  STR: " + (new String(registerRequestDTO.book.getBytes(), encode)).substring(1, 50));
-      System.out.println("BOOK  HEX: " + CryptoService.byteToHex(registerRequestDTO.book.getBytes()));
+      byte[] encryptedBook = CryptoService
+          .encryptBook(secretKey, iv, registerRequestDTO.book.getBytes());
 
-      System.out.println("ENC   STR: " + (new String(encryptedBook, encode)).substring(1, 50));
-      System.out.println("ENC   HEX: " + CryptoService.byteToHex(encryptedBook));
+      // encrypt AES secretKey with member's public key
+      String encryptedKeyHex = "";
 
-      System.out.println("DEC   STR: " + (new String(decryptedBook, encode)).substring(1, 50));
-      System.out.println("DEC   HEX: " + CryptoService.byteToHex(decryptedBook));
+      // make encryptedBook to file, use docker volume to make spring & kubo use same file path
+      // or something??
+      String filepath = "";
 
+      // upload to IPFS
+      UriComponents uriComponents = UriComponentsBuilder.newInstance()
+          .scheme("http")
+          .host(kuboRpcHost)
+          .path("/api/v0/add")
+          .queryParam("arg", filepath)
+          .build();
+      KuboAddResponseDTO kuboAddResponseDTO = restTemplate.postForObject(
+          uriComponents.toString(), new LinkedMultiValueMap<>(), KuboAddResponseDTO.class);
 
-      return new IpfsResponseDTO("testKey", "testAddress");
+      if (kuboAddResponseDTO != null) {
+        return new IpfsResponseDTO(encryptedKeyHex, kuboAddResponseDTO.hash);
+      } else {
+        return new IpfsResponseDTO("", "");
+      }
     } catch (Exception e) {
       System.out.println(e);
       return null;

@@ -8,14 +8,14 @@ services:
       context: ./
       dockerfile: dockerfile
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8000:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://backend_db:3306/bangle_db?serverTimezone=UTC&characterEncoding=UTF-8&collation=utf8mb4_bin
       SPRING_DATASOURCE_USERNAME: ssafy
       SPRING_DATASOURCE_PASSWORD: ssafy
-#      KUBO_TCP: http://backend_kubo:4001
-      KUBO_RPC: http://backend_kubo:5001
-#      KUBO_GATEWAY: http://backend_kubo:8080
+      KUBO_TCP_HOST: backend_kubo:4001
+      KUBO_RPC_HOST: backend_kubo:5001
+      KUBO_GATEWAY_HOST: backend_kubo:8080
 
   backend_db:
     container_name: backend_db
@@ -37,9 +37,9 @@ services:
       - ipfs_data:/data/ipfs
       - ipfs_staging:/export
     ports:
-#      - "127.0.0.1:4001:4001"  # TCP
+      - "0.0.0.0:4001:4001"  # TCP
       - "127.0.0.1:5001:5001"  # RPC
-#      - "127.0.0.1:8080:8080"  # Gateway
+      - "127.0.0.1:8080:8080"  # Gateway
 
 volumes:
   db_volume:
