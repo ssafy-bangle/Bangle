@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import * as S from './index.styled.';
-import { Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
+import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
+import Munzibtn from '@src/components/molecules/munzibtn';
+import Button from '@src/components/atoms/button';
 
 export default function Mypage() {
   return (
@@ -13,21 +15,23 @@ export default function Mypage() {
             <S.MainInfo>
               <strong>방글이 님</strong>
             </S.MainInfo>
-            {/* 수정하기 button */}
+            <Button length={'short'} size={'small'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
-          {/* 작가모드로 변경 button */}
+          <Button length={'short'} size={'small'} icon="mode" content="작가모드로 변경" />
           <S.Logout href="/" />
         </S.LeftSection>
         <S.RightSection>
           <S.RightTopSection>
             <S.PartTitle>보유 먼지</S.PartTitle>
             <S.MunziPart>
-              <S.MainInfo>
-                내 먼지 <strong>30</strong>개
-              </S.MainInfo>
-              {/* 내역보기 button */}
+              <S.MunziPartLeft>
+                <Image src={DarkMunzi} alt="다크먼지" />
+                <S.MainInfo>
+                  내 먼지 <strong>30</strong>개
+                </S.MainInfo>
+              </S.MunziPartLeft>
+              <Button length={'short'} size={'small'} theme={'line'} content="내역보기" />
             </S.MunziPart>
-
             <S.PartTitle>충전하기</S.PartTitle>
           </S.RightTopSection>
           <S.RightBottomSection>
@@ -38,11 +42,13 @@ export default function Mypage() {
             </S.RightBottomLeftSection>
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
-              <Image src={Munzi3} alt="munzi3Img" />
-              {/*button */}
-              {/*button */}
-              {/*button */}
-              {/*button */}
+              <S.MunziBtnContainer>
+                <Image src={Munzi3} alt="munzi3Img" />
+                <Munzibtn price={1} content="￦1,000" />
+                <Munzibtn price={5} content="￦5,000" />
+                <Munzibtn price={10} content="￦10,000" />
+                <Munzibtn price={20} content="￦20,000" />
+              </S.MunziBtnContainer>
             </S.RightBottomRightSection>
           </S.RightBottomSection>
         </S.RightSection>

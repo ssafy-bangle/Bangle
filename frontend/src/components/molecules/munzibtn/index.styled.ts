@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 export const MunziBtn = styled.div`
-  width: 27.6rem;
   padding-top: 1.2rem;
   padding-bottom: 1.2rem;
   padding-left: 2rem;
