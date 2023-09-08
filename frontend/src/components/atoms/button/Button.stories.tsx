@@ -32,6 +32,10 @@ const Template: Story = {
       type: 'string',
       description: '내용',
     },
+    icon: {
+      type: 'string',
+      description: '아이콘'
+    }
   },
   render: (args) => <Button {...args} />,
 };
@@ -81,5 +85,18 @@ export const shortSmallBtn: Story = {
     size: 'small',
     active: true,
     content: '테스트컨텐츠',
+  },
+};
+
+export const withIcon: Story = {
+  ...Template,
+  name: 'Short & Small & Icon',
+  args: {
+    ...Template.args,
+    length: 'short',
+    size: 'small',
+    active: true,
+    content: '테스트컨텐츠',
+    icon: 'mode',
   },
 };

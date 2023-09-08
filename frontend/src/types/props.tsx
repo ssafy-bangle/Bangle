@@ -3,6 +3,7 @@ export type ButtonProps = {
   size?: 'big' | 'small';
   active?: boolean;
   content?: string;
+  icon?: string;
   onClick?: () => void;
 };
 
@@ -29,5 +30,10 @@ export type PasswordCheckProps = {
 
 export type MunziBtnProps = {
   price?: number;
+  content: string;
   onClick?: () => void;
 };
+
+export type IconProps = {
+  name: string;
+}

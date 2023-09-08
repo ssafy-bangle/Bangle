@@ -11,4 +11,11 @@ export const Button = styled.button<ButtonProps>`
   color: var(--BG_WHITE);
   font-size: ${({ size }) => (size == 'small' ? '1.6rem' : '2rem')};
   font-weight: 700;
+  display: flex;
+  align-items: center;
+`;
+
+export const Icon = styled.div`
+  padding-right: 0.8rem;
+  padding-bottom: 0.1rem;
 `;
