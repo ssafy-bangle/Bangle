@@ -1,13 +1,14 @@
-import * as S from './index.styled';
 import { InputProps } from '@src/types/props';
+import * as S from './index.styled';
 
-export default function Input({ placeholder, setInput }: InputProps) {
+export default function Input({ size, state, placeholder, setInput }: InputProps) {
   return (
     <>
-      <input type="text" name="text" id="text" 
+      <S.StyledInput
+        size={size}
+        state={state}
         placeholder={placeholder}
-        onChange={e=>setInput(e.currentTarget.value)}
-      />
+        onChange={({ target: { value } }) => setInput(value)}></S.StyledInput>
     </>
   );
 }
