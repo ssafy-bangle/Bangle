@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.bangle.domain.member.domain.Member;
+import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;

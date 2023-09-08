@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bangle.domain.member.domain.Member;
+import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
