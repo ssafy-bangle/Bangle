@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bangle.domain.member.domain.Member;
+import com.bangle.domain.member.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -42,7 +42,7 @@ public class CustomMemberDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(this.member.getMemberId());
+        return String.valueOf(this.member.getId());
     }
 
     @Override
