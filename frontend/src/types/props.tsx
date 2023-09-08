@@ -26,3 +26,8 @@ export type PasswordCheckProps = {
   setIsKeyValid: Function;
   setPrivateKey: Function;
 };
+
+export type MunziBtnProps = {
+  price?: number;
+  onClick?: () => void;
+};

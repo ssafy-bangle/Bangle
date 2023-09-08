@@ -7,3 +7,4 @@ export { default as SearchImg } from './search.png';
 export { default as BookImg } from './book.png';
 export { default as RecommendImg } from './recomend.png';
 export { default as CartBlackImg } from './cart_black.png';
+export { default as DarkMunzi } from './munzi_d.png';
