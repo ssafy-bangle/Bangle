@@ -1,6 +1,7 @@
 export type ButtonProps = {
   length: 'long' | 'short';
   size?: 'big' | 'small';
+  theme?: 'line' | 'text';
   active?: boolean;
   content?: string;
   icon?: string;
