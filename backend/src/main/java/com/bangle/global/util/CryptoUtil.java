@@ -1,4 +1,4 @@
-package com.bangle.crypto;
+package com.bangle.global.util;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -11,14 +11,12 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class CryptoService {
+@Component
+@Slf4j
+public class CryptoUtil {
   public static SecretKey createSecretKey() throws NoSuchAlgorithmException {
     KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
     keyGenerator.init(256);

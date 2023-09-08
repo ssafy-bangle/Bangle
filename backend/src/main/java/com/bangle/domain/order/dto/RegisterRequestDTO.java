@@ -1,4 +1,4 @@
-package com.bangle.orders;
+package com.bangle.domain.order.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,12 +1,13 @@
-package com.bangle.orders;
+package com.bangle.domain.order.service;
 
-import com.bangle.crypto.CryptoService;
-import java.io.File;
+import com.bangle.global.util.CryptoUtil;
+import com.bangle.domain.order.dto.IpfsResponseDTO;
+import com.bangle.domain.order.dto.KuboAddResponseDTO;
+import com.bangle.domain.order.dto.RegisterRequestDTO;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OrdersService {
+public class OrderService {
 
   private final RestTemplate restTemplate;
 
@@ -27,10 +28,10 @@ public class OrdersService {
   public IpfsResponseDTO upload(RegisterRequestDTO registerRequestDTO) {
     try {
       // encrypt
-      SecretKey secretKey = CryptoService.createSecretKey();
-      IvParameterSpec iv = CryptoService.generateIv();
-      byte[] encryptedBook = CryptoService
-          .encryptBook(secretKey, iv, registerRequestDTO.book.getBytes());
+      SecretKey secretKey = CryptoUtil.createSecretKey();
+      IvParameterSpec iv = CryptoUtil.generateIv();
+      byte[] encryptedBook = CryptoUtil
+          .encryptBook(secretKey, iv, registerRequestDTO.getBook().getBytes());
 
       // encrypt AES secretKey with member's public key
       String encryptedKeyHex = "";
@@ -50,7 +51,7 @@ public class OrdersService {
           uriComponents.toString(), new LinkedMultiValueMap<>(), KuboAddResponseDTO.class);
 
       if (kuboAddResponseDTO != null) {
-        return new IpfsResponseDTO(encryptedKeyHex, kuboAddResponseDTO.hash);
+        return new IpfsResponseDTO(encryptedKeyHex, kuboAddResponseDTO.getHash());
       } else {
         return new IpfsResponseDTO("", "");
       }

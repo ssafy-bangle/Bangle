@@ -1,21 +1,22 @@
-package com.bangle.orders;
+package com.bangle.domain.order.controller;
 
+import com.bangle.domain.order.service.OrderService;
+import com.bangle.domain.order.dto.IpfsResponseDTO;
+import com.bangle.domain.order.dto.RegisterRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
-public class OrdersController {
+public class OrderController {
 
-  private final OrdersService ordersService;
+  private final OrderService ordersService;
 
   @GetMapping("")
   public ResponseEntity<?> what() {
