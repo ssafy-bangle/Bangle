@@ -3,6 +3,6 @@ import { atom } from 'recoil';
 const KEY = 'STATE';
 
 export const CartOpenState = atom<boolean>({
-  key: `${KEY}/CartOpenState`,
+  key: `${KEY}/cart`,
   default: false,
 });

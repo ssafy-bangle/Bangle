@@ -8,7 +8,10 @@ export default function Input({ size, state, placeholder, setInput }: InputProps
         size={size}
         state={state}
         placeholder={placeholder}
-        onChange={({ target: { value } }) => setInput(value)}></S.StyledInput>
+        onChange={({ target: { value } }) => {
+          console.log('Test', value);
+          setInput(value);
+        }}></S.StyledInput>
     </>
   );
 }
