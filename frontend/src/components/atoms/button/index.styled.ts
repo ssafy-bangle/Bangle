@@ -18,10 +18,9 @@ export const Button = styled.button<ButtonProps>`
   font-weight: ${({ theme }) => (theme == 'line' ? '400' : '700')};
   display: flex;
   align-items: center;
-  
+
   &:hover {
     background-color: ${({ theme }) => theme == 'line' && 'rgba(253, 252, 252, 0.25)'};
-    )};
   }
 `;
 
