@@ -6,21 +6,23 @@ export const Container = styled.div`
 `;
 
 export const LeftSection = styled.div`
-  width: 45%;
+  width: 35%;
 `;
 
 export const RightSection = styled.div`
-  width: 55%;
+  width: 60%;
 `;
 
 export const SectionContainer = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 export const RightTopSection = styled.div``;
 
 export const RightBottomSection = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 export const RightBottomLeftSection = styled.div`
@@ -34,9 +36,30 @@ export const RightBottomRightSection = styled.div`
   margin-left: 3.6rem;
 `;
 
-export const NicknamePart = styled.div``;
+export const NicknamePart = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4rem;
+`;
 
-export const MunziPart = styled.div``;
+export const MunziPart = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4rem;
+`;
+
+export const MunziPartLeft = styled.div`
+  display: flex;
+  gap: 1.6rem;
+`
+
+export const MunziBtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.77rem;
+`;
 
 export const PageTitle = styled.div`
   color: var(--BG_GRAY3);
@@ -56,7 +79,6 @@ export const MainInfo = styled.div`
   color: var(--BG_WHITE);
   font-size: 3.2rem;
   font-weight: 400;
-  padding-bottom: 4rem;
   & > strong {
     font-weight: 700;
   }
