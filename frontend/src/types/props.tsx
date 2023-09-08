@@ -10,7 +10,19 @@ export type NavProps = {
   role: 'author' | 'user';
 };
 
-export type menuProps = {
+export type MenuProps = {
   name: string;
   url: string;
+};
+
+export type InputProps = {
+  size: 'short' | 'long';
+  state: 'default' | 'focus' | 'error';
+  placeholder: string;
+  setInput: (value: string) => void;
+};
+
+export type PasswordCheckProps = {
+  setIsKeyValid: Function;
+  setPrivateKey: Function;
 };

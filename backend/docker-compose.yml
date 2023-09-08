@@ -1,0 +1,47 @@
+services:
+  backend_server:
+    container_name: backend_server
+    depends_on:
+      - backend_db
+      - backend_kubo
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://backend_db:3306/bangle_db?serverTimezone=UTC&characterEncoding=UTF-8&collation=utf8mb4_bin
+      SPRING_DATASOURCE_USERNAME: ssafy
+      SPRING_DATASOURCE_PASSWORD: ssafy
+#      KUBO_TCP: http://backend_kubo:4001
+      KUBO_RPC: http://backend_kubo:5001
+#      KUBO_GATEWAY: http://backend_kubo:8080
+
+  backend_db:
+    container_name: backend_db
+    image: mysql:8.0
+    environment:
+      MYSQL_USER: ssafy
+      MYSQL_ROOT_PASSWORD: ssafy
+      MYSQL_PASSWORD: ssafy
+      MYSQL_DATABASE: bangle_db
+#    ports:
+#      - "127.0.0.1:3306:3306"
+    volumes:
+      - db_volume:/var/lib/mysql
+
+  backend_kubo:
+    container_name: backend_kubo
+    image: ipfs/kubo
+    volumes:
+      - ipfs_data:/data/ipfs
+      - ipfs_staging:/export
+    ports:
+#      - "127.0.0.1:4001:4001"  # TCP
+      - "127.0.0.1:5001:5001"  # RPC
+#      - "127.0.0.1:8080:8080"  # Gateway
+
+volumes:
+  db_volume:
+  ipfs_data:
+  ipfs_staging:
