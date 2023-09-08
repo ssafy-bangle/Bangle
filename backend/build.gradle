@@ -45,6 +45,10 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation("com.auth0:java-jwt:3.10.3")
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1'
 }
 
 tasks.named('test') {
@@ -73,8 +77,5 @@ sourceSets {
 // gradle clean 시, Q Class 디렉토리까지 삭제하도록 설정
 clean {
     delete file(querydslDir)
-    testImplementation 'org.springframework.security:spring-security-test'
 
-    implementation("com.auth0:java-jwt:3.10.3")
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1'
 }
