@@ -14,6 +14,10 @@ const Template: Story = {
       type: 'number',
       description: '가격',
     },
+    content: {
+      type: 'string',
+      description: '텍스트',
+    },
   },
   render: (args) => <MunziBtn {...args} />,
 };
@@ -24,5 +28,6 @@ export const PriceBtn: Story = {
   args: {
     ...Template.args,
     price: 10,
+    content: '구매하기',
   },
 };

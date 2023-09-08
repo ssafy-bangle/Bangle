@@ -21,21 +21,23 @@ export const MunziBtn = styled.div`
   }
 `;
 
-export const Purchase = styled.div`
-  color: var(--BG_GRAY2);
-  font-weight: 400;
-`;
-
 export const TextBox = styled.div`
   display: flex;
   align-items: center;
 `;
 
-export const MunziPrice = styled.div`
-  padding-right: 0.8rem;
+export const MunziDark = styled(Image)`
+  width: 2.5rem;
+  `;
+  
+  export const MunziPrice = styled.div`
+  padding-left: 0.8rem;
   font-weight: 500;
 `;
 
-export const MunziDark = styled(Image)`
-  width: 2.5rem;
+export const Purchase = styled.div`
+  color: var(--BG_GRAY2);
+  font-weight: 400;
 `;
+
+
