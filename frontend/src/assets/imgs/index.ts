@@ -8,3 +8,7 @@ export { default as BookImg } from './book.png';
 export { default as RecommendImg } from './recomend.png';
 export { default as CartBlackImg } from './cart_black.png';
 export { default as DarkMunzi } from './munzi_d.png';
+export { default as LogoBlackImg } from './logo_black.png';
+export { default as Munzi1 } from './munzi_1.png';
+export { default as Munzi2 } from './munzi_2.png';
+export { default as Munzi3 } from './munzi_3.png';

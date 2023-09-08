@@ -1,22 +1,13 @@
-import { client } from "@src/apis/client";
+import { client } from '@src/apis/client';
 
-const login = async (body: loginReqProps): Promise<loginResProps> => {
+const postPublicKey = async (nickname: string, publicKey: string) => {
   try {
-    const res = await client().post('/login/apple', body);
+    const res = await client().post('/users', { nickname, publicKey });
     return res.data;
   } catch (e) {
-    throw new Error("");
+    throw new Error('');
   }
 };
 
-const postPublicKey = async (nickname:string, publicKey: string) => {
-  try {
-    const res = await client().post('/users', {nickname, publicKey})
-    return res.data
-  } catch (e) {
-    throw new Error("")
-  }
-}
-
-const userApi = { login, postPublicKey };
+const userApi = { postPublicKey };
 export default userApi;

@@ -24,6 +24,11 @@ export type InputProps = {
   setInput: (value: string) => void;
 };
 
+export type CheckBoxProps = {
+  content: string;
+  setInput: (value: boolean) => void;
+};
+
 export type PasswordCheckProps = {
   setIsKeyValid: Function;
   setPrivateKey: Function;

@@ -5,10 +5,20 @@ import { useRouter } from 'next/router';
 
 export default function Layout(props: { children: React.ReactNode }) {
   const router = useRouter();
+  const checkPath = () => {
+    switch (router.pathname) {
+      case '/':
+        return false;
+      case '/info':
+        return false;
+      default:
+        return true;
+    }
+  };
 
   return (
     <S.Container>
-      {router.pathname !== '/' && <Nav role="user" />}
+      {checkPath() && <Nav role="user" />}
       {props.children}
       <Cart />
     </S.Container>

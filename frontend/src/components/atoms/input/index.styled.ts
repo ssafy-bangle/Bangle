@@ -3,6 +3,7 @@ import { Input } from 'antd';
 
 export const StyledInput = styled(Input)<{ size: 'long' | 'short'; state: 'default' | 'focus' | 'error' }>`
   width: ${({ size }) => (size === 'short' ? '27rem' : '31.2rem')} !important;
+  height: 4.5rem;
   padding: 1.4rem 1.6rem 1.4rem 1.6rem;
   border: 1px solid;
   background: transparent !important;
@@ -19,4 +20,7 @@ export const StyledInput = styled(Input)<{ size: 'long' | 'short'; state: 'defau
   font-size: ${({ size }) => (size === 'short' ? '1.2rem' : '1.6rem')} !important;
   font-weight: 400;
   border-radius: 1.2rem;
+  & :hover {
+    border-color: var(--BG_MAIN) !important;
+  }
 `;
