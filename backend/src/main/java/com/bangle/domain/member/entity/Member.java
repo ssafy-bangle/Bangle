@@ -1,5 +1,9 @@
 package com.bangle.domain.member.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,10 +38,17 @@ public class Member {
 
 	private String provider;
 
-	private String role;
+	private String roles;
 
-	private Long dust;
+	private float dust;
 
 	@Column(name = "user_id")
 	private String userId;
+
+	public List<String> getRoleList() {
+		if (this.roles.length() > 0) {
+			return Arrays.asList(this.roles.split(","));
+		}
+		return new ArrayList<>();
+	}
 }

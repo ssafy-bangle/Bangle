@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bangle.domain.member.domain.Member;
+import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.MemberService;
 import com.bangle.global.auth.jwt.JwtPayloadDto;
 import com.bangle.global.auth.oauth.oidc.publickey.KakaoPublicKeyService;
