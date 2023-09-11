@@ -68,12 +68,12 @@ public class Member {
 
 	public void join(JoinRequest joinForm) {
 		this.nickname = joinForm.nickname();
-		this.privateKey = joinForm.privateKey();
+		this.publicKey = joinForm.publicKey();
 	}
 
 	public void joinAuthor(JoinRequest joinForm, Author saveAuthor) {
 		this.nickname = joinForm.nickname();
-		this.privateKey = joinForm.privateKey();
+		this.publicKey = joinForm.publicKey();
 		this.roles = "ROLE_AUTHOR";
 		this.author = saveAuthor;
 	}
