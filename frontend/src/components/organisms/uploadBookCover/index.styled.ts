@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Upload } from 'antd';
 
 export const Container = styled.div`
-  width: 27rem !important;
+  width: 27.8rem !important;
+  padding-top: 1.2rem;
 `;
 
 export const InputTitle = styled.div`
@@ -27,5 +28,8 @@ export const StyledUpload = styled(Upload)`
 `;
 
 export const CheckboxContainer = styled.span`
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  color: var(--BG_GRAY1);
+  font-size: 1.6rem;
 `;

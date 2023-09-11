@@ -45,13 +45,12 @@ export type IconProps = {
 };
 
 export type DropdownProps = {
-  size?: 'small' | 'big';
-  state: 'default' | 'focus';
-  item: DropdownItems;
-  setItem: (value: string) => void;
+  source?: string;
+  items: DropdownItems[];
+  setInput: (value: string) => void;
 };
 
 export type DropdownItems = {
   label: string;
   key: number;
-}
+};

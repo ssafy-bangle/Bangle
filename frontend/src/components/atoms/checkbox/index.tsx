@@ -9,6 +9,7 @@ export default function Checkbox({ content, setInput }: CheckBoxProps) {
         name="checkbox"
         id="checkbox"
         onChange={({ target: { checked } }) => setInput(checked)}
+        style={{accentColor: 'var(--BG_MAIN)', width: '1.6rem', height: '1.6rem'}}
       />
       <S.Content>{content}</S.Content>
     </S.Container>
