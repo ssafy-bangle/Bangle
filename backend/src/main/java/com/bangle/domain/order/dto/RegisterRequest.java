@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class RegisterRequestDTO {
+public class RegisterRequest {
   String title;
   MultipartFile cover;
   Integer price;

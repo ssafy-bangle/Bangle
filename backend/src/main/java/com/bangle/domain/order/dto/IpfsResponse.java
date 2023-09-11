@@ -3,11 +3,11 @@ package com.bangle.domain.order.dto;
 import lombok.Data;
 
 @Data
-public class IpfsResponseDTO {
+public class IpfsResponse {
   String key;
   String address;
 
-  public IpfsResponseDTO(String key, String address) {
+  public IpfsResponse(String key, String address) {
     this.key = key;
     this.address = address;
   }

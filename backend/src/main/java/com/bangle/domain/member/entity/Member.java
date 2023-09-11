@@ -27,8 +27,8 @@ public class Member {
 	@Column(name = "member_id")
 	private Long id;
 
-	@Column(name = "private_key")
-	private String privateKey;
+	@Column(name = "public_key")
+	private String publicKey;
 
 	private String email;
 
