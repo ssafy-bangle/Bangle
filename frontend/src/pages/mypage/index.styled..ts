@@ -53,7 +53,7 @@ export const MunziPart = styled.div`
 export const MunziPartLeft = styled.div`
   display: flex;
   gap: 1.6rem;
-`
+`;
 
 export const MunziBtnContainer = styled.div`
   display: flex;
@@ -63,7 +63,7 @@ export const MunziBtnContainer = styled.div`
 
 export const PageTitle = styled.div`
   color: var(--BG_GRAY3);
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   font-weight: 700;
   padding-bottom: 4rem;
 `;

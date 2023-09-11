@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.bangle.domain.author.entity.Author;
+import com.bangle.domain.member.dto.JoinRequest;
+import com.bangle.domain.member.dto.MemberResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,8 +38,8 @@ public class Member {
 	@Column(name = "member_id")
 	private Long id;
 
-	@Column(name = "private_key")
-	private String privateKey;
+	@Column(name = "public_key")
+	private String publicKey;
 
 	private String email;
 
@@ -63,4 +65,17 @@ public class Member {
 		}
 		return new ArrayList<>();
 	}
+
+	public void join(JoinRequest joinForm) {
+		this.nickname = joinForm.nickname();
+		this.publicKey = joinForm.publicKey();
+	}
+
+	public void joinAuthor(JoinRequest joinForm, Author saveAuthor) {
+		this.nickname = joinForm.nickname();
+		this.publicKey = joinForm.publicKey();
+		this.roles = "ROLE_AUTHOR";
+		this.author = saveAuthor;
+	}
+
 }
