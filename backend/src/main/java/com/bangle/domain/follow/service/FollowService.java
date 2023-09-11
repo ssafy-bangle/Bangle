@@ -1,14 +1,11 @@
 package com.bangle.domain.follow.service;
 
 import com.bangle.domain.author.entity.Author;
-import com.bangle.domain.author.repository.AuthorRepository;
 import com.bangle.domain.author.service.AuthorService;
 import com.bangle.domain.follow.entity.Follow;
 import com.bangle.domain.follow.repository.FollowRepository;
 import com.bangle.domain.member.entity.Member;
-import com.bangle.domain.member.repository.MemberRepository;
 import com.bangle.domain.member.service.MemberService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

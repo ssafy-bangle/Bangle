@@ -1,6 +1,5 @@
 package com.bangle.domain.follow.controller;
 
-import com.bangle.domain.follow.entity.Follow;
 import com.bangle.domain.follow.service.FollowService;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
