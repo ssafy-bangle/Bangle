@@ -87,4 +87,6 @@ public class CustomMemberDetails implements UserDetails {
     public String getNickname() {
         return this.member.getNickname();
     }
+
+    public String getPublicKey() { return this.member.getPublicKey(); }
 }
