@@ -1,11 +1,11 @@
 package com.bangle.domain.member.service;
 
+import com.bangle.domain.author.repository.AuthorRepository;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.author.entity.Author;
-import com.bangle.domain.author.repository.AuthorRepository;
 import com.bangle.domain.member.dto.JoinRequest;
 import com.bangle.domain.member.dto.MemberResponse;
 import com.bangle.domain.member.entity.Member;
