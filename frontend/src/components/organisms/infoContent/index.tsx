@@ -64,9 +64,9 @@ export default function InfoContent() {
   return (
     <>
       <S.Container>
-        <Input size={'long'} state={'default'} placeholder={'닉네임'} setInput={setNickname} />
-        <Input size={'long'} state={'default'} placeholder={'지갑 비밀번호'} setInput={setPassword} />
-        <Input size={'long'} state={'default'} placeholder={'지갑 비밀번호 확인'} setInput={setPasswordCheck} />
+        <Input size={'default'} state={'default'} placeholder={'닉네임'} setInput={setNickname} />
+        <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호'} setInput={setPassword} />
+        <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호 확인'} setInput={setPasswordCheck} />
         <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
         <Button size={'big'} length={'short'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
       </S.Container>
