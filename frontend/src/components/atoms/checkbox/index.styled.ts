@@ -5,7 +5,9 @@ export const Container = styled.div`
   justify-content: center;
 `;
 
-export const StyledCheckBox = styled.input``;
+export const StyledCheckBox = styled.input`
+  margin-right: 0.8rem;
+`;
 
 export const Content = styled.span`
   margin: auto 0 auto 0;

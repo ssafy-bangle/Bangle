@@ -1,11 +1,11 @@
 import { StoryObj, Meta } from '@storybook/react';
-import DropdownItem from '.';
+import Dropdown from '.';
 
 export default {
-  component: DropdownItem,
-} as Meta<typeof DropdownItem>;
+  component: Dropdown,
+} as Meta<typeof Dropdown>;
 
-type Story = StoryObj<typeof DropdownItem>;
+type Story = StoryObj<typeof Dropdown>;
 
 const Template: Story = {
   name: 'Default',
@@ -23,7 +23,7 @@ const Template: Story = {
       description: '상태',
     },
   },
-  render: (args) => <DropdownItem {...args} />,
+  render: (args) => <Dropdown {...args} />,
 };
 
 export const DefaultInput: Story = {

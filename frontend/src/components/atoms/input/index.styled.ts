@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { Input } from 'antd';
 
-export const StyledInput = styled(Input)<{ size: 'short' | 'default' | 'medium' | 'long'; state: 'default' | 'focus' | 'error' }>`
+export const StyledInput = styled(Input)<{
+  size: 'short' | 'default' | 'medium' | 'long';
+  state: 'default' | 'focus' | 'error';
+}>`
   width: ${({ size }) => {
     switch (size) {
       case 'short':
@@ -30,7 +33,9 @@ export const StyledInput = styled(Input)<{ size: 'short' | 'default' | 'medium' 
   font-size: ${({ size }) => (size === 'default' ? '1.2rem' : '1.6rem')} !important;
   font-weight: 400;
   border-radius: 1.2rem;
-  &:hover, &:focus {
+  color: ${({ size }) => (size === 'default' ? 'var(--BG_GRAY3)' : 'var(--BG_GRAY1)')};
+  &:hover,
+  &:focus {
     border-color: var(--BG_MAIN) !important;
   }
 `;
