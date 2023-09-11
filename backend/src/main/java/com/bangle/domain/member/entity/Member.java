@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.bangle.domain.author.entity.Author;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +25,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
+@Table(indexes = {
+	@Index(name = "idx_user_id", columnList = "user_id"),
+	@Index(name = "idx_nickname", columnList = "nickname")
+})
 public class Member {
 
 	@Id
@@ -44,6 +53,9 @@ public class Member {
 
 	@Column(name = "user_id")
 	private String userId;
+
+	@OneToOne(mappedBy = "member")
+	private Author author;
 
 	public List<String> getRoleList() {
 		if (this.roles.length() > 0) {

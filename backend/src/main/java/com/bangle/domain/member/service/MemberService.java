@@ -19,7 +19,8 @@ public class MemberService {
 		return memberRepository.save(member);
 	}
 
-	public Optional<Member> findByUserId(String userId) {
-		return memberRepository.findByUserId(userId);
+	public Member findByUserId(String userId) {
+		return memberRepository.findByUserId(userId)
+			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다"));
 	}
 }

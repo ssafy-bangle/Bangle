@@ -1,7 +1,5 @@
 package com.bangle.global.auth.security;
 
-import java.util.Optional;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,15 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomMemberDetailService implements UserDetailsService {
 
-    private final MemberService memberService;
+	private final MemberService memberService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> optionalMember = memberService.findByUserId(username);
-        if (optionalMember.isPresent()) {
-            CustomMemberDetails userDetails = new CustomMemberDetails(optionalMember.get());
-            return userDetails;
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		try {
+			Member findMember = memberService.findByUserId(username);
+            return new CustomMemberDetails(findMember);
+		} catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
-        return null;
-    }
+	}
 }

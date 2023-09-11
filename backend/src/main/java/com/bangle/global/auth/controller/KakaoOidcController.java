@@ -3,7 +3,6 @@ package com.bangle.global.auth.controller;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -49,28 +48,28 @@ public class KakaoOidcController {
 		}
 		log.info("kakao login data = {}", memberData);
 		log.info("kakao picture = {}", memberData.getPicture());
-		Optional<Member> optionalMember = memberService.findByUserId(memberData.getSub());
-		Member newMember;
 		String memberStatus = "EXIST_MEMBER";
-		if (optionalMember.isEmpty()) {
+		Member member;
+		try {
+			member = memberService.findByUserId(memberData.getSub());
+		} catch (Exception e) {
 			memberStatus = "NEW_MEMBER";
-			newMember = Member.builder()
+			memberService.save(Member.builder()
 				.userId(memberData.getSub())
 				.nickname(memberData.getNickname())
 				.email(memberData.getEmail())
 				.dust(0)
-                .roles("ROLE_USER")
+				.roles("ROLE_USER")
 				.provider("KAKAO")
-				.build();
-			memberService.save(newMember);
-			optionalMember = memberService.findByUserId(memberData.getSub());
+				.build());
+			member = memberService.findByUserId(memberData.getSub());
 		}
 
-		String userId = optionalMember.get().getUserId();
+		String userId = member.getUserId();
 
 		// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 		Map<String, Object> tokens = new LinkedHashMap<>();
-		tokens.put("member-information", optionalMember.get());
+		tokens.put("member-information", member);
 		tokens.put("access-token", JwtTokenUtil.getAccessToken(userId));
 		tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(userId));
 		tokens.put("member-status", memberStatus);
