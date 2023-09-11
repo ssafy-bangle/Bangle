@@ -6,12 +6,12 @@ public record MemberResponse(
 	String nickname,
 	float dust,
 	String email,
-	String privateKey,
+	String publicKey,
 	String role,
 	String userId
 ) {
 
 	public MemberResponse(Member member) {
-		this(member.getNickname(), member.getDust(),member.getEmail(),member.getPrivateKey(),member.getRoles(),member.getUserId());
+		this(member.getNickname(), member.getDust(),member.getEmail(),member.getPublicKey(),member.getRoles(),member.getUserId());
 	}
 }
