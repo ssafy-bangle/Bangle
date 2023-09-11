@@ -7,7 +7,7 @@ export const StyledDrawer = styled(Drawer)``;
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.8rem;
   width: 31.2rem;
 `;
 
@@ -28,11 +28,9 @@ export const Title = styled.div`
 
 export const ListContainer = styled.div`
   background-color: var(--test);
-  height: 385px;
   border-radius: 1.2rem;
 `;
 
 export const InfoContainer = styled(ListContainer)`
   background-color: var(--test);
-  height: 150px;
 `;
