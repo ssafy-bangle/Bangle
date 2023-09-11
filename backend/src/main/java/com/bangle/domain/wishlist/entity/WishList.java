@@ -36,5 +36,6 @@ public class WishList {
 	@JoinColumn(name = "book_id")
 	private Book book;
 
-	private Boolean wish;
+	@Column(name = "delete_wish", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean delete;
 }

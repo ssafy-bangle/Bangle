@@ -1,13 +1,16 @@
 import * as S from './index.styled';
-import { InputProps } from '@src/types/props';
+import { CheckBoxProps } from '@src/types/props';
 
-export default function Checkbox({ placeholder, setInput}: InputProps) {
-	return (
-		<>
-			<input type="checkbox" name="checkbox" id="checkbox"
-				onChange={e=>setInput(e.currentTarget.value)}
-			/>
-			<label htmlFor="checkbox">{placeholder}</label>
-		</>
-	);
+export default function Checkbox({ content, setInput }: CheckBoxProps) {
+  return (
+    <S.Container>
+      <S.StyledCheckBox
+        type="checkbox"
+        name="checkbox"
+        id="checkbox"
+        onChange={({ target: { checked } }) => setInput(checked)}
+      />
+      <S.Content>{content}</S.Content>
+    </S.Container>
+  );
 }
