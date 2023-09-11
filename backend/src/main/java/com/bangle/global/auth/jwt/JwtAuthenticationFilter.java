@@ -82,11 +82,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// If so, then grab user details and create spring auth token using username, pass, authorities/roles
 			if (userId != null) {
 				// jwt 토큰에 포함된 계정 정보(userId) 통해 실제 디비에 해당 정보의 계정이 있는지 조회.
-				Optional<Member> optionalMember = memberService.findByUserId(userId);
+				try {
+					Member member = memberService.findByUserId(userId);
 
-				if (optionalMember.isPresent()) {
 					// 식별된 정상 유저인 경우, 요청 context 내에서 참조 가능한 인증 정보(jwtAuthentication) 생성.
-					CustomMemberDetails userDetails = new CustomMemberDetails(optionalMember.get());
+					CustomMemberDetails userDetails = new CustomMemberDetails(member);
 					UsernamePasswordAuthenticationToken jwtAuthentication = new UsernamePasswordAuthenticationToken(
 						userDetails,
 						null, userDetails.getAuthorities());
@@ -94,6 +94,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 					jwtAuthentication.setDetails(userDetails);
 					log.info("JWT Auth OK!");
 					return jwtAuthentication;
+				} catch (Exception e) {
+					log.info(e.getMessage());
+					return null;
 				}
 			}
 			return null;
