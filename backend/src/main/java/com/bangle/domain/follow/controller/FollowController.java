@@ -28,9 +28,10 @@ public class FollowController {
 
 		if (followService.follow(userId, authorId)) {
 			return BaseResponse.ok(HttpStatus.OK, "follow Success");
-		} else {
-			return BaseResponse.fail("follow Fail", 200);
 		}
+
+		return BaseResponse.fail("follow Fail", 200);
+
 
 
 	}
