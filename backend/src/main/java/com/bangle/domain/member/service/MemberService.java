@@ -5,12 +5,14 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.author.entity.Author;
-import com.bangle.domain.authorRepository.AuthorRepository;
+import com.bangle.domain.author.repository.AuthorRepository;
 import com.bangle.domain.member.dto.JoinRequest;
 import com.bangle.domain.member.dto.MemberResponse;
 import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.repository.MemberRepository;
+import com.bangle.global.auth.security.CustomMemberDetails;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,6 +32,7 @@ public class MemberService {
 			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다"));
 	}
 
+	@Transactional
 	public MemberResponse join(String username, JoinRequest joinForm) {
 		Member member = findByUserId(username);
 		if (joinForm.isAuthor()) {
@@ -48,5 +51,11 @@ public class MemberService {
 
 	public MemberResponse memberInfo() {
 		return null;
+	}
+
+	@Transactional
+	public void changeNickname(String userId, String nickname) {
+		Member member = findByUserId(userId);
+		member.changeNickname(nickname);
 	}
 }
