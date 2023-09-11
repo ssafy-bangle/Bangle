@@ -36,6 +36,7 @@ public class Follow {
 	@JoinColumn(name = "author_id")
 	private Author author;
 
-	private Boolean status;
+	@Column(name = "delete_follow", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean delete;
 }
 
