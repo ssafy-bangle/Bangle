@@ -78,4 +78,7 @@ public class Member {
 		this.author = saveAuthor;
 	}
 
+	public void changeNickname(String nickname) {
+		this.nickname = nickname;
+	}
 }
