@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import * as S from './index.styled';
 import Input from '@src/components/atoms/input';
+import Dropdown from '@src/components/molecules/dropdown';
+import type { DropdownItems } from '@src/types/props';
+
+const items: DropdownItems[] = [
+  {
+    label: '일반',
+    key: 0,
+  },
+  {
+    label: '자기계발',
+    key: 1,
+  },
+  {
+    label: '금융',
+    key: 2,
+  },
+  {
+    label: '소설',
+    key: 3,
+  },
+];
 
 const { Dragger } = Upload;
 
@@ -28,6 +49,10 @@ const props: UploadProps = {
 };
 
 export default function UploadBookInfo() {
+  const [genre, setGenre] = useState<string>();
+  useEffect(() => {
+    console.log('TEST', genre);
+  }, [genre]);
   return (
     <S.Container>
       <S.InputContainer>
@@ -38,13 +63,15 @@ export default function UploadBookInfo() {
       </S.InputContainer>
 
       <S.InputContainer>
-        <S.InputTitle>
-          가격 <strong>*</strong>
-        </S.InputTitle>
-        <Input placeholder={'30자 이내로 작성해주세요'} size={'short'} state={'default'} setInput={() => {}} />
+        <S.Price>
+          <S.InputTitle>
+            가격 <strong>*</strong>
+          </S.InputTitle>
+          <Input placeholder={'단위 : 먼지'} size={'short'} state={'default'} setInput={() => {}} />
+        </S.Price>
         <S.Genre>
           <S.InputTitle>장르</S.InputTitle>
-          <Input placeholder={'30자 이내로 작성해주세요'} size={'short'} state={'default'} setInput={() => {}} />
+          <Dropdown items={items} setInput={setGenre} />
         </S.Genre>
       </S.InputContainer>
 
@@ -59,7 +86,7 @@ export default function UploadBookInfo() {
         </S.UploadTitle>
         <Dragger {...props}>
           <S.IconContainer>
-            <UploadOutlined />
+            <UploadOutlined style={{ color: 'var(--BG_GRAY1)', marginRight: '1rem' }} />
             <p className="ant-upload-text">10 Mb 이하 EPUB 형식의 책 파일을 업로드해주세요.</p>
           </S.IconContainer>
         </Dragger>
