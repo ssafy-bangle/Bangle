@@ -42,4 +42,16 @@ export type MunziBtnProps = {
 
 export type IconProps = {
   name: string;
+};
+
+export type DropdownProps = {
+  size?: 'small' | 'big';
+  state: 'default' | 'focus';
+  item: DropdownItems;
+  setItem: (value: string) => void;
+};
+
+export type DropdownItems = {
+  label: string;
+  key: number;
 }
