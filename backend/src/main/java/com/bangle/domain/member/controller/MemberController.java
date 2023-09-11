@@ -1,6 +1,7 @@
 package com.bangle.domain.member.controller;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,5 +92,17 @@ public class MemberController {
 		@RequestBody JoinRequest joinForm) {
 		MemberResponse memberResponse = memberService.join(memberDetails.getUsername(), joinForm);
 		return BaseResponse.okWithData(HttpStatus.OK, "회원가입 완료", memberResponse);
+	}
+
+	@PutMapping
+	public ResponseEntity<?> changeNickname(
+		@AuthenticationPrincipal CustomMemberDetails memberDetails,
+		@RequestBody HashMap<String,String> map) {
+		if (!map.containsKey("nickname")) {
+			return BaseResponse.fail("잘못된 요청입니다.", 400);
+		}
+		String nickname = map.get("nickname");
+		memberService.changeNickname(memberDetails.getUsername(), nickname);
+		return BaseResponse.okWithData(HttpStatus.OK, "닉네임 변경 완료", nickname);
 	}
 }

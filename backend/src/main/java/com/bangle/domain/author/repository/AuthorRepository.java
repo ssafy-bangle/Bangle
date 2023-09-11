@@ -1,4 +1,4 @@
-package com.bangle.domain.authorRepository;
+package com.bangle.domain.author.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
