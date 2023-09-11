@@ -6,8 +6,6 @@ export const BgContainer = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 39.6rem;
-  height: 48rem;
   border-radius: 1.2rem;
   background: var(--BG_WHITE);
   margin: auto;
@@ -15,6 +13,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 3.9rem 4.2rem;
 `;
 
 export const Title = styled.div`
