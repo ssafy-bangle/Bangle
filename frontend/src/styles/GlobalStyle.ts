@@ -40,9 +40,9 @@ body {
   width: 100%;
   height: 100%;
   background-color: var(--BG_BLACK);
-  color: var(--BG_WHITE);
   font-family: NotoSansKR;
 }
+
 
 #root {
   margin: 0 auto;
@@ -56,7 +56,6 @@ html {
 * {
   box-sizing: border-box;
   font-family: NotoSansKR;
-  color: var(--BG_WHITE);
 }
 
 button {
@@ -68,7 +67,6 @@ button {
 
 a, a:visited {
   text-decoration: none;
-  color: black;
 }
 `;
 

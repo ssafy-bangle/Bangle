@@ -1,9 +1,21 @@
-import Menu from '@src/components/atoms/menu';
 import * as S from './index.styled';
 import { NavProps } from '@src/types/props';
-import { Logo } from '@src/assets/icons';
+import Menu from '@src/components/atoms/menu';
+import { CartImg, LogoImg } from '@src/assets/imgs';
+import Input from '@src/components/atoms/input';
+import Image from 'next/image';
+import { useSetRecoilState } from 'recoil';
+import { CartOpenState } from '@src/modules/state';
+import { useRouter } from 'next/router';
 
 export default function Nav({ role }: NavProps) {
+  const router = useRouter();
+  const setOpen = useSetRecoilState(CartOpenState);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
   const authorList = {
     home: '홈',
     write: '출판',
@@ -22,13 +34,27 @@ export default function Nav({ role }: NavProps) {
   const selectedList = role === 'author' ? authorList : userList;
 
   return (
-    <>
-      <Logo />
-      <div>
-        {Object.entries(selectedList).map(([k, v]) => (
-          <Menu key={k} name={v} url={k} />
-        ))}
-      </div>
-    </>
+    <S.Container>
+      <S.LogoBox src={LogoImg} width={36} alt="logoImg" onClick={() => router.push('/')} />
+      <S.NavContainer>
+        <S.MenuContainer>
+          {Object.entries(selectedList).map(([k, v], idx) => (
+            <Menu key={idx} name={v} url={k} />
+          ))}
+        </S.MenuContainer>
+        {role === 'user' ? (
+          <>
+            <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
+            <S.CartBox>
+              <Image src={CartImg} alt="cartImg" onClick={showDrawer} />
+            </S.CartBox>
+          </>
+        ) : (
+          <S.Info>
+            안녕하세요. <strong>방글이 작가</strong>님
+          </S.Info>
+        )}
+      </S.NavContainer>
+    </S.Container>
   );
 }

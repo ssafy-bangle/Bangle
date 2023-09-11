@@ -22,6 +22,12 @@ const Template: Story = {
       options: ['big', 'small'],
       description: '크기',
     },
+    theme: {
+      type: 'string',
+      control: 'select',
+      options: ['line', 'text'],
+      description: '크기',
+    },
     active: {
       type: 'boolean',
       control: 'select',
@@ -32,6 +38,10 @@ const Template: Story = {
       type: 'string',
       description: '내용',
     },
+    icon: {
+      type: 'string',
+      description: '아이콘'
+    }
   },
   render: (args) => <Button {...args} />,
 };
@@ -81,5 +91,31 @@ export const shortSmallBtn: Story = {
     size: 'small',
     active: true,
     content: '테스트컨텐츠',
+  },
+};
+
+export const lineBtn: Story = {
+  ...Template,
+  name: 'Line',
+  args: {
+    ...Template.args,
+    length: 'short',
+    size: 'small',
+    theme: 'line',
+    active: true,
+    content: '테스트컨텐츠',
+  },
+};
+
+export const withIcon: Story = {
+  ...Template,
+  name: 'Short & Small & Icon',
+  args: {
+    ...Template.args,
+    length: 'short',
+    size: 'small',
+    active: true,
+    content: '테스트컨텐츠',
+    icon: 'mode',
   },
 };
