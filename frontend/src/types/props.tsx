@@ -18,7 +18,7 @@ export type MenuProps = {
 };
 
 export type InputProps = {
-  size: 'short' | 'long';
+  size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;
   setInput: (value: string) => void;

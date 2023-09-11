@@ -13,7 +13,7 @@ const Template: Story = {
     size: {
       type: 'string',
       control: 'select',
-      options: ['short', 'long'],
+      options: ['short', 'medium', 'default', 'long'],
       description: '길이',
     },
     state: {
@@ -35,7 +35,7 @@ export const DefaultInput: Story = {
   name: 'Default',
   args: {
     ...Template.args,
-    size: 'short',
+    size: 'default',
     state: 'default',
     placeholder: '테스트컨텐츠',
   },
@@ -46,7 +46,7 @@ export const FocusInput: Story = {
   name: 'Focus',
   args: {
     ...Template.args,
-    size: 'short',
+    size: 'default',
     state: 'focus',
     placeholder: '테스트컨텐츠',
   },
@@ -57,8 +57,41 @@ export const ErrorInput: Story = {
   name: 'Error',
   args: {
     ...Template.args,
-    size: 'short',
+    size: 'default',
     state: 'error',
+    placeholder: '테스트컨텐츠',
+  },
+};
+
+export const LongInput: Story = {
+  ...Template,
+  name: 'Long',
+  args: {
+    ...Template.args,
+    size: 'long',
+    state: 'default',
+    placeholder: '테스트컨텐츠',
+  },
+};
+
+export const ShortInput: Story = {
+  ...Template,
+  name: 'Short',
+  args: {
+    ...Template.args,
+    size: 'short',
+    state: 'default',
+    placeholder: '테스트컨텐츠',
+  },
+};
+
+export const MediumInput: Story = {
+  ...Template,
+  name: 'Medium',
+  args: {
+    ...Template.args,
+    size: 'medium',
+    state: 'default',
     placeholder: '테스트컨텐츠',
   },
 };
