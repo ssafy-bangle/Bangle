@@ -39,7 +39,7 @@ export const DefaultModal: Story = {
   name: 'DefaultModal',
   args: {
     ...Template.args,
-    open: false,
+    open: true,
     type: 'publish',
     title: '테스트케이스',
     firstPrice: 5,

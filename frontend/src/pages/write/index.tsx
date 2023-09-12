@@ -2,6 +2,7 @@ import UploadBookCover from '@src/components/organisms/uploadBookCover';
 import * as S from './index.styled';
 import UploadBookInfo from '@src/components/organisms/uploadBookInfo';
 import Button from '@src/components/atoms/button';
+import Modal from '@src/components/molecules/modal';
 
 export default function Write() {
   return (
@@ -12,7 +13,7 @@ export default function Write() {
         <UploadBookInfo />
       </S.Content>
       <S.BtnContainer>
-        <Button length={'long'} content={'다음'} />
+        <Modal open title={'책제목'} firstPrice={5} secondPrice={10} />
       </S.BtnContainer>
     </>
   );

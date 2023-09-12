@@ -23,9 +23,7 @@ export default function Modal({ open, type, title, firstPrice, secondPrice, onCl
   };
   return (
     <>
-      <S.StyledButton type="primary" onClick={showModal}>
-        Open Modal with customized button props
-      </S.StyledButton>
+      <Button length={'long'} content={'다음'} onClick={showModal} />
       <S.StyledModal
         open={isOpen}
         onOk={handleOk}

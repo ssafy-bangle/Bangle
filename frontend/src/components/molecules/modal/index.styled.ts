@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import { Button, Modal } from 'antd';
 
 export const StyledButton = styled(Button)`
