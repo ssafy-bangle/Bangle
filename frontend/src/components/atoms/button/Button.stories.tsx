@@ -18,8 +18,6 @@ const Template: Story = {
     },
     size: {
       type: 'string',
-      control: 'select',
-      options: ['big', 'small'],
       description: '크기',
     },
     theme: {
@@ -40,19 +38,18 @@ const Template: Story = {
     },
     icon: {
       type: 'string',
-      description: '아이콘'
-    }
+      description: '아이콘',
+    },
   },
   render: (args) => <Button {...args} />,
 };
 
-export const LongBigBtn: Story = {
+export const LongSmallBtn: Story = {
   ...Template,
-  name: 'Long & Big',
+  name: 'Long & Small',
   args: {
     ...Template.args,
     length: 'long',
-    size: 'big',
     theme: 'default',
     active: true,
     content: '테스트컨텐츠',
@@ -64,21 +61,8 @@ export const shortBigBtn: Story = {
   name: 'Short & Big',
   args: {
     ...Template.args,
-    length: 'short',
+    length: 'medium',
     size: 'big',
-    theme: 'default',
-    active: true,
-    content: '테스트컨텐츠',
-  },
-};
-
-export const LongSmallBtn: Story = {
-  ...Template,
-  name: 'Long & Small',
-  args: {
-    ...Template.args,
-    length: 'long',
-    size: 'small',
     theme: 'default',
     active: true,
     content: '테스트컨텐츠',
@@ -91,7 +75,6 @@ export const shortSmallBtn: Story = {
   args: {
     ...Template.args,
     length: 'short',
-    size: 'small',
     theme: 'default',
     active: true,
     content: '테스트컨텐츠',
@@ -104,7 +87,6 @@ export const lineBtn: Story = {
   args: {
     ...Template.args,
     length: 'short',
-    size: 'small',
     theme: 'line',
     active: true,
     content: '테스트컨텐츠',
@@ -117,7 +99,6 @@ export const withIcon: Story = {
   args: {
     ...Template.args,
     length: 'short',
-    size: 'small',
     active: true,
     theme: 'default',
     content: '테스트컨텐츠',
@@ -131,7 +112,6 @@ export const textBtn: Story = {
   args: {
     ...Template.args,
     length: 'long',
-    size: 'small',
     theme: 'text',
     active: true,
     content: '테스트컨텐츠',
