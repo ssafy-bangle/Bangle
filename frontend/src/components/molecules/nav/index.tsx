@@ -46,7 +46,7 @@ export default function Nav({ role }: NavProps) {
           <>
             <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
             <S.CartBox>
-              <Image src={CartImg} alt="cartImg" onClick={showDrawer} />
+              <Image src={CartImg} width={20} alt="cartImg" onClick={showDrawer} />
             </S.CartBox>
           </>
         ) : (

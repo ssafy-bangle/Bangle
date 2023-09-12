@@ -1,17 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  height: max;
-`;
-
 export const BannerSection = styled.div`
-  padding-bottom: 6rem;
+  margin-bottom: 4rem;
 `;
 
 export const ContainerBox = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-right: 130px;
+  margin-right: 6rem;
 `;
 
 export const BookBox = styled.div`
@@ -23,9 +19,7 @@ export const BookBox = styled.div`
   }
 `;
 
-export const RecommendSection = styled.div`
-  height: max;
-`;
+export const RecommendSection = styled.div``;
 
 export const BooksBox = styled.div`
   width: inherit;

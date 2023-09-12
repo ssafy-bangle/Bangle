@@ -12,3 +12,4 @@ export { default as LogoBlackImg } from './logo_black.png';
 export { default as Munzi1 } from './munzi_1.png';
 export { default as Munzi2 } from './munzi_2.png';
 export { default as Munzi3 } from './munzi_3.png';
+export { default as TestBook } from './test_book.png';

@@ -3,11 +3,12 @@ import * as S from './index.styled.';
 import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
+import PageTitle from '@src/components/atoms/pageTitle';
 
 export default function Mypage() {
   return (
     <S.Container>
-      <S.PageTitle>마이페이지</S.PageTitle>
+      <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
           <S.PartTitle>독자 정보</S.PartTitle>
@@ -37,13 +38,13 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <Image src={Munzi1} alt="munzi1Img" />
-              <Image src={Munzi2} alt="munzi2Img" />
+              <Image src={Munzi1} width={285} alt="munzi1Img" />
+              <Image src={Munzi2} width={285} alt="munzi2Img" />
             </S.RightBottomLeftSection>
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
               <S.MunziBtnContainer>
-                <Image src={Munzi3} alt="munzi3Img" />
+                <Image src={Munzi3} width={300} alt="munzi3Img" />
                 <Munzibtn price={1} content="￦1,000" />
                 <Munzibtn price={5} content="￦5,000" />
                 <Munzibtn price={10} content="￦10,000" />

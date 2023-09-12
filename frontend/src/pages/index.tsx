@@ -17,10 +17,13 @@ export default function Landing() {
           <S.Title>모두의 블록 안으로</S.Title>
         </S.TitleContainer>
         <S.Content>
-          설명 길게 주저리 주저리 포인트는 감성을 담아서 <br /> 열심히 적어보면 아주 좋을 것 같습니다. <br />
-          저는 감성이 없어서 항상 이런 식으로 미루는 걸 좋아해요 ㅎㅎ
+          혼자 가지고 있기엔 공유하고 싶고,
+          <br />
+          공유하기엔 과정이 부담스러웠던 원고.
+          <br />
+          작가와 독자가 직접 만날 수 있는 공간 '방글'
         </S.Content>
-        <Button length="short" size="small" content="시작하기" onClick={() => router.push('/info')} />
+        <Button length="short" size="big" content="시작하기" onClick={() => router.push('/info')} />
       </S.Container>
     </>
   );
