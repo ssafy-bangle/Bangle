@@ -1,6 +1,27 @@
 import styled from 'styled-components';
 import { Button, Modal } from 'antd';
 
+export const ModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
+export const ModalBackDrop = styled.div`
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  border: 0;
+`;
+
 export const StyledButton = styled(Button)`
   padding-top: 1.2rem;
   padding-bottom: 1.2rem;
@@ -20,7 +41,9 @@ export const StyledModal = styled(Modal)`
   max-width: 34.2rem;
 `;
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div.attrs((props) => ({
+  role: 'dialog',
+}))`
   padding: 2.4rem 1.5rem 1.4rem 1.5rem;
   background: var(--BG_WHITE);
   border-radius: 2.4rem;
@@ -61,4 +84,7 @@ export const MunziPrice = styled.div`
   font-weight: 700;
   margin-left: 2rem;
   color: var(--BG_GRAY3);
+`;
+export const ButtonContainer = styled.div`
+  z-index: 1100;
 `;
