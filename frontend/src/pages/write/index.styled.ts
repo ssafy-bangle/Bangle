@@ -11,7 +11,6 @@ export const Content = styled.div`
   width: 98.4rem;
   gap: 5.8rem;
   margin: 0 auto 3rem auto;
-  display: flex;
   justify-content: space-between;
 `;
 

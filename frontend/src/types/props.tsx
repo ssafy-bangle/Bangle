@@ -1,3 +1,6 @@
+import { ReactRenderer } from '@storybook/react';
+import { StaticImageData } from 'next/image';
+
 export type ButtonProps = {
   length: 'long' | 'short' | 'medium';
   theme?: 'default' | 'line' | 'text';
@@ -6,6 +9,14 @@ export type ButtonProps = {
   content?: string;
   icon?: string;
   onClick?: () => void;
+};
+
+export type BookCoverProps = {
+  imgSrc: StaticImageData;
+};
+
+export type BookProps = {
+  imgSrc: StaticImageData;
 };
 
 export type NavProps = {

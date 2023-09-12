@@ -3,11 +3,12 @@ import * as S from './index.styled';
 import UploadBookInfo from '@src/components/organisms/uploadBookInfo';
 import Button from '@src/components/atoms/button';
 import Modal from '@src/components/molecules/modal';
+import PageTitle from '@src/components/atoms/pageTitle';
 
 export default function Write() {
   return (
     <>
-      <S.PageTitle>출판하기</S.PageTitle>
+      <PageTitle>출판하기</PageTitle>
       <S.Content>
         <UploadBookCover />
         <UploadBookInfo />
