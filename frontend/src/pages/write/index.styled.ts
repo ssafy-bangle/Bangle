@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const BtnContainer = styled.div`
   text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 
 export const Content = styled.div`

@@ -23,7 +23,7 @@ export default function Landing() {
           <br />
           작가와 독자가 직접 만날 수 있는 공간 '방글'
         </S.Content>
-        <Button length="short" size="big" content="시작하기" onClick={() => router.push('/info')} />
+        <Button length="medium" size="big" content="시작하기" onClick={() => router.push('/info')} />
       </S.Container>
     </>
   );

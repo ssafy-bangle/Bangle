@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import { Dropdown, Space } from 'antd';
 
-
-export const StyledSelection = styled(Dropdown)`
-
-`;
+export const StyledSelection = styled(Dropdown)``;
 
 export const StyledSpace = styled(Space)`
   width: 22.8rem;
