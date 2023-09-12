@@ -12,7 +12,7 @@ export default function Write() {
         <UploadBookInfo />
       </S.Content>
       <S.BtnContainer>
-        <Button length={'long'} size={'small'} content={'다음'} />
+        <Button length={'long'} content={'다음'} />
       </S.BtnContainer>
     </>
   );
