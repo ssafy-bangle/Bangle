@@ -25,14 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/payments")
 public class PaymentController {
   private final PaymentService paymentService;
-  private final PaymentRepository paymentRepository;
 
   @GetMapping("/")
-  public ResponseEntity<?> getPaymentHistory(
+  public ResponseEntity<?> getAllPayment(
       @AuthenticationPrincipal CustomMemberDetails customMemberDetails
   ) {
-    List<PaymentResponse> paymentResponseList = paymentService.getAllPaymentByUserId(
-        customMemberDetails.getUsername());
+    List<PaymentResponse> paymentResponseList = paymentService.readAllByMember(
+        customMemberDetails.getUser());
     return BaseResponse.okWithData(HttpStatus.OK, "???", paymentResponseList);
   }
 
@@ -43,7 +42,7 @@ public class PaymentController {
   ) {
     try {
       // 결제되었다 치고 포인트 올리기
-      paymentService.postPaymentOf(customMemberDetails.getUsername(), amount);
+      paymentService.updatePaymentOf(customMemberDetails.getUser(), amount);
       return BaseResponse.ok(HttpStatus.OK, "???");
     } catch (Exception e) {
       return BaseResponse.fail("???", 404);

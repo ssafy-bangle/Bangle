@@ -14,27 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class PaymentService {
-  private final MemberRepository memberRepository;
   private final PaymentRepository paymentRepository;
 
-  public List<PaymentResponse> getAllPaymentByUserId(String userId) {
-    return paymentRepository.getAllPaymentByUserId(userId)
+  public List<PaymentResponse> readAllByMember(Member member) {
+    return paymentRepository.getAllPaymentByMemberId(member.getId())
         .stream().map(PaymentResponse::new).toList();
   }
 
-  public void postPaymentOf(String userId, int amount) throws NoSuchElementException{
-    // find member
-    memberRepository.findByUserId(userId).ifPresentOrElse(
-        member -> {
-          // update member's point
-          member.updateDust(amount);
-          // make payment
-          paymentRepository.save(Payment.builder().amount(amount).member(member).build());
-        },
-        () -> { throw new NoSuchElementException(); }
-    );
-    // 환전???
+  @Transactional
+  public void updatePaymentOf(Member member, int amount) {
+    member.updateDust(amount);
+    paymentRepository.save(Payment.builder().amount(amount).member(member).build());
   }
+
+  // 환전??
 }
