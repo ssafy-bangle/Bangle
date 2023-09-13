@@ -4,15 +4,17 @@ import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
-import { MyPageProps } from '@src/types/props';
+import { UserInfoState } from '@src/modules/user';
+import { useRecoilValue } from 'recoil';
 
-export default function Mypage({ role }: MyPageProps) {
+export default function Mypage() {
+  const { roles } = useRecoilValue(UserInfoState);
   return (
     <S.Container>
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
-          <S.PartTitle>{role === 'user' ? '독자' : '작가'} 정보</S.PartTitle>
+          <S.PartTitle>{roles === 'user' ? '독자' : '작가'} 정보</S.PartTitle>
 
           <S.NicknamePart>
             <S.MainInfo>
@@ -21,8 +23,8 @@ export default function Mypage({ role }: MyPageProps) {
 
             <Button length={'short'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
-          {role === 'author' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
-          {role === 'user' ? (
+          {roles === 'author' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {roles === 'user' ? (
             <Button length={'medium'} icon="mode" content="작가모드로 변경" />
           ) : (
             <Button length={'medium'} icon="mode" content="독자모드로 변경" />
@@ -46,13 +48,13 @@ export default function Mypage({ role }: MyPageProps) {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <Image src={Munzi1} width={285} alt="munzi1Img" />
-              <Image src={Munzi2} width={285} alt="munzi2Img" />
+              <Image src={Munzi1} width={270} alt="munzi1Img" />
+              <Image src={Munzi2} width={270} alt="munzi2Img" />
             </S.RightBottomLeftSection>
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
               <S.MunziBtnContainer>
-                <Image src={Munzi3} width={300} alt="munzi3Img" />
+                <Image src={Munzi3} width={250} alt="munzi3Img" />
                 <Munzibtn price={1} content="￦1,000" />
                 <Munzibtn price={5} content="￦5,000" />
                 <Munzibtn price={10} content="￦10,000" />

@@ -35,7 +35,7 @@ export const SmallChip: Story = {
     ...Template.args,
     size: 'small',
     title: '테스트 케이스',
-    icon: '🙄'
+    icon: '🙄',
   },
 };
 

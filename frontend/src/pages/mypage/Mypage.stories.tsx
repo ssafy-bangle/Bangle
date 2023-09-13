@@ -9,31 +9,9 @@ type Story = StoryObj<typeof Mypage>;
 
 const Template: Story = {
   name: 'Default',
-  argTypes: {
-    role: {
-      type: 'string',
-      control: 'select',
-      options: ['author', 'user'],
-      description: '모드 선택',
-    },
-  },
-  render: (args) => <Mypage {...args} />,
+  render: () => <Mypage />,
 };
 
-export const authorMypage: Story = {
+export const defaultMypage: Story = {
   ...Template,
-  name: 'authorMypage',
-  args: {
-    ...Template.args,
-    role: 'author',
-  },
-};
-
-export const userMypage: Story = {
-  ...Template,
-  name: 'userMypage',
-  args: {
-    ...Template.args,
-    role: 'user',
-  },
 };

@@ -8,6 +8,6 @@ export const UserInfoState = atom({
     publickKey: '',
     nickname: '',
     email: '',
-    roles: 'user',
+    roles: 'author',
   },
 });
