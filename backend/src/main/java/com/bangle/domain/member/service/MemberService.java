@@ -27,9 +27,12 @@ public class MemberService {
 	}
 
 	public Member findByUserId(String userId) {
-		Optional<Member> op = memberRepository.findByUserId(userId);
 		return memberRepository.findByUserId(userId)
 			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다"));
+	}
+
+	public Optional<Member> getOptionalByUserId(String userId) {
+		return memberRepository.findByUserId(userId);
 	}
 
 	@Transactional

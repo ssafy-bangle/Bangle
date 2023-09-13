@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import java.util.Optional;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,43 +48,33 @@ public class MemberController {
 
 	@PostMapping("/login/kakao")
 	public ResponseEntity<?> oidcLogin(@RequestHeader("Authorization") String idToken) {
-		JwtPayloadDto memberData;
 		try {
-			memberData = oidcUtil.decodeIdToken(idToken);
+			JwtPayloadDto memberData = oidcUtil.decodeIdToken(idToken);
+			log.info("kakao login data = {}", memberData);
+			Optional<Member> optionalMember = memberService.getOptionalByUserId(memberData.getSub());
+			Member member = optionalMember.orElse(Member.builder()
+					.userId(memberData.getSub())
+					.nickname(memberData.getNickname())
+					.email(memberData.getEmail())
+					.dust(0)
+					.roles("ROLE_USER")
+					.provider("KAKAO")
+					.build());
+
+			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
+			boolean isNewMember = optionalMember.isEmpty();
+			Map<String, Object> tokens = new LinkedHashMap<>();
+			tokens.put("member-information", new MemberResponse(member));
+			tokens.put("access-token", JwtTokenUtil.getAccessToken(member.getUserId()));
+			tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(member.getUserId()));
+			tokens.put("isNew", isNewMember);
+			//Redis에 20일 동안 저장
+			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refresh-token"), Duration.ofDays(20));
+			return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
+
 		} catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
+			return BaseResponse.fail(HttpStatus.UNAUTHORIZED, "id_token is not valid");
 		}
-		log.info("kakao login data = {}", memberData);
-		log.info("kakao picture = {}", memberData.getPicture());
-		String memberStatus = "EXIST_MEMBER";
-		Member member;
-		try {
-			member = memberService.findByUserId(memberData.getSub());
-		} catch (Exception e) {
-			memberStatus = "NEW_MEMBER";
-			memberService.save(Member.builder()
-				.userId(memberData.getSub())
-				.nickname(memberData.getNickname())
-				.email(memberData.getEmail())
-				.dust(0)
-				.roles("ROLE_USER")
-				.provider("KAKAO")
-				.build());
-			member = memberService.findByUserId(memberData.getSub());
-		}
-
-		String userId = member.getUserId();
-
-		// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-		Map<String, Object> tokens = new LinkedHashMap<>();
-		tokens.put("member-information", new MemberResponse(member));
-		tokens.put("access-token", JwtTokenUtil.getAccessToken(userId));
-		tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(userId));
-		tokens.put("member-status", memberStatus);
-		//Redis에 20일 동안 저장
-		template.opsForValue().set("refresh " + userId, (String)tokens.get("refresh-token"), Duration.ofDays(20));
-
-		return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
 	}
 
 	@PostMapping

@@ -16,10 +16,14 @@ public class BaseResponse {
     }
 
     public static ResponseEntity<?> okWithHeaders(
-        HttpStatus status, String msg, Map<String, String> headers, Object data) {
-        ResponseEntity.BodyBuilder bodyBuilder = ResponseEntity.status(status.value());
-        headers.forEach(bodyBuilder::header);
-        return bodyBuilder.body(new SuccessResponse(msg, data));
+        HttpStatus status, String msg, HttpHeaders httpHeaders, Object data) {
+        return ResponseEntity.status(status).headers(httpHeaders)
+            .body(new SuccessResponse(msg, data));
+    }
+    public static ResponseEntity<?> okWithHeaders(
+        HttpStatus status, String msg, HttpHeaders httpHeaders) {
+        return ResponseEntity.status(status).headers(httpHeaders)
+            .body(new SuccessResponse(msg, null));
     }
 
     public static ResponseEntity<?> okWithData(HttpStatus status, String msg, Object data) {

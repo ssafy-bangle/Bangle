@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OicdResponse {
+public class OidcResponse {
   @JsonProperty("id_token")
   String idToken;
 
