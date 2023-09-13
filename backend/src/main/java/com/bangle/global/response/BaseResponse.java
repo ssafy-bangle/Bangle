@@ -15,7 +15,7 @@ public class BaseResponse {
         return ResponseEntity.status(status).body(new SuccessResponse(msg));
     }
 
-    public static ResponseEntity<?> okWithHeaders(
+    public static ResponseEntity<?> okWithHeadersAndData(
         HttpStatus status, String msg, HttpHeaders httpHeaders, Object data) {
         return ResponseEntity.status(status).headers(httpHeaders)
             .body(new SuccessResponse(msg, data));
