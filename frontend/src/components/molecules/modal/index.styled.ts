@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button, Modal } from 'antd';
 
 export const ModalContainer = styled.div`
   display: flex;
@@ -20,25 +19,6 @@ export const ModalBackDrop = styled.div`
   left: 0;
   right: 0;
   border: 0;
-`;
-
-export const StyledButton = styled(Button)`
-  padding-top: 1.2rem;
-  padding-bottom: 1.2rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  background: rgba(72, 75, 82, 0.5);
-  border-radius: 1.2rem;
-  border: 1px solid var(--BG_GRAY2);
-  color: var(--BG_WHITE);
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const StyledModal = styled(Modal)`
-  max-width: 34.2rem;
 `;
 
 export const StyledContainer = styled.div.attrs((props) => ({
@@ -77,6 +57,7 @@ export const FirstMunzi = styled.div`
 `;
 export const PriceContainer = styled.div`
   display: flex;
+  align-items: center;
   margin-left: auto;
 `;
 export const MunziPrice = styled.div`

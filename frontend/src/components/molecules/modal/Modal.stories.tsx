@@ -10,10 +10,6 @@ type Story = StoryObj<typeof Modal>;
 const Template: Story = {
   name: 'Default',
   argTypes: {
-    open: {
-      type: 'boolean',
-      description: '여부',
-    },
     title: {
       type: 'string',
       description: '제목',
@@ -39,7 +35,6 @@ export const DefaultModal: Story = {
   name: 'DefaultModal',
   args: {
     ...Template.args,
-    open: true,
     type: 'publish',
     title: '테스트케이스',
     firstPrice: 5,
