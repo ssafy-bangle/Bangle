@@ -22,12 +22,12 @@ public class BookshelfDetailRepositoryCustomImpl implements BookshelfDetailRepos
     QBookshelf bookshelf = QBookshelf.bookshelf;
 
     @Override
-    public List<BookshelfResponse> findBookshelfByMemberId(Member member) {
+    public List<BookshelfResponse> findBookshelfByMemberId(Long memberId) {
         return jpaQueryFactory.select(
                     Projections.constructor(BookshelfResponse.class, book.id, book.title, bookshelf.address, book.cover, bookshelf.readPages.divide(book.totalPages).multiply(100).as("progress")))
                 .from(bookshelf)
                 .join(book).on(bookshelf.book.id.eq(book.id))
-                .where(bookshelf.member.id.eq(member.getId()))
+                .where(bookshelf.member.id.eq(memberId))
                 .fetch();
     }
 

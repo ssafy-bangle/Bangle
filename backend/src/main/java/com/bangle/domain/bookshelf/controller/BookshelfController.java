@@ -23,9 +23,7 @@ public class BookshelfController {
     @GetMapping("/list")
     public ResponseEntity<?> listBookshelf(@AuthenticationPrincipal CustomMemberDetails member) {
 
-        String userId = member.getUsername();
-
-        List<BookshelfResponse> list = bookshelfService.list(userId);
+        List<BookshelfResponse> list = bookshelfService.list(member.getPK());
 
         return BaseResponse.okWithData(HttpStatus.OK, "get list success", list);
     }

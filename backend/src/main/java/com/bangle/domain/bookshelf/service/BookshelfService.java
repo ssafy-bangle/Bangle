@@ -15,11 +15,9 @@ public class BookshelfService {
     private final MemberService memberService;
     private final BookshelfDetailRepositoryCustom bookshelfDetailRepositoryCustom;
 
-    public List<BookshelfResponse> list(String userId) {
-        Member findUser = memberService.findByUserId(userId);
-        System.out.println(findUser.getId());
+    public List<BookshelfResponse> list(Long memberId) {
 
-        List<BookshelfResponse> bookshelfResponses = bookshelfDetailRepositoryCustom.findBookshelfByMemberId(findUser);
+        List<BookshelfResponse> bookshelfResponses = bookshelfDetailRepositoryCustom.findBookshelfByMemberId(memberId);
 
         System.out.println(bookshelfResponses);
 

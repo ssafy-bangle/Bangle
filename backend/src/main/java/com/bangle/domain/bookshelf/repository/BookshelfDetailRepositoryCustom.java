@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface BookshelfDetailRepositoryCustom {
 
-    List<BookshelfResponse> findBookshelfByMemberId(Member member);
+    List<BookshelfResponse> findBookshelfByMemberId(Long memberId);
 }
