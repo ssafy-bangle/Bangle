@@ -67,10 +67,8 @@ export type DropdownItems = {
 };
 
 export type ModalProps = {
-  open: boolean;
   title?: string;
   type?: 'publish' | 'buy' | 'munzi';
   firstPrice?: number;
   secondPrice?: number;
-  onClick?: () => void;
 };
