@@ -10,7 +10,7 @@ export default function Icon({ name }: IconProps) {
 		} else if (name === 'cart') {
 		  return <ShoppingCartOutlined />;
 		} else {
-		  return null;
+		  return name;
 		}
 	  }
 

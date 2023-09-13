@@ -1,7 +1,9 @@
 package com.bangle.domain.member.dto;
 
 import com.bangle.domain.member.entity.Member;
+import lombok.Builder;
 
+@Builder
 public record MemberResponse(
 	String nickname,
 	int dust,

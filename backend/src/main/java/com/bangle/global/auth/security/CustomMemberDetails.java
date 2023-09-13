@@ -45,6 +45,10 @@ public class CustomMemberDetails implements UserDetails {
         return this.member.getUserId();
     }
 
+    public Long getPK() {
+        return  this.member.getId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return this.accountNonExpired;

@@ -1,14 +1,15 @@
 import * as S from './index.styled';
-import { NavProps } from '@src/types/props';
 import Menu from '@src/components/atoms/menu';
 import { CartImg, LogoImg } from '@src/assets/imgs';
 import Input from '@src/components/atoms/input';
 import Image from 'next/image';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import { useRouter } from 'next/router';
+import { UserInfoState } from '@src/modules/user';
 
-export default function Nav({ role }: NavProps) {
+export default function Nav() {
+  const { roles } = useRecoilValue(UserInfoState);
   const router = useRouter();
   const setOpen = useSetRecoilState(CartOpenState);
 
@@ -31,7 +32,7 @@ export default function Nav({ role }: NavProps) {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = role === 'author' ? authorList : userList;
+  const selectedList = roles === 'author' ? authorList : userList;
 
   return (
     <S.Container>
@@ -42,7 +43,7 @@ export default function Nav({ role }: NavProps) {
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-        {role === 'user' ? (
+        {roles === 'user' ? (
           <>
             <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
             <S.CartBox>

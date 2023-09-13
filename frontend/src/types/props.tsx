@@ -13,18 +13,11 @@ export type ButtonProps = {
 
 export type BookCoverProps = {
   imgSrc: StaticImageData;
+  size?: 'small' | 'big';
 };
 
 export type BookProps = {
   imgSrc: StaticImageData;
-};
-
-export type NavProps = {
-  role: 'author' | 'user';
-};
-
-export type MyPageProps = {
-  role: 'author' | 'user';
 };
 
 export type MenuProps = {
@@ -75,4 +68,11 @@ export type ModalProps = {
   type?: 'publish' | 'buy' | 'munzi';
   firstPrice?: number;
   secondPrice?: number;
+};
+
+export type ChipProps = {
+  title: string;
+  size: 'small' | 'big';
+  icon?: string;
+  onClick?: () => void;
 };

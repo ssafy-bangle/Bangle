@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,5 +96,18 @@ public class MemberController {
 		String nickname = map.get("nickname");
 		memberService.changeNickname(memberDetails.getUsername(), nickname);
 		return BaseResponse.okWithData(HttpStatus.OK, "닉네임 변경 완료", nickname);
+	}
+
+	@GetMapping
+	public ResponseEntity<?> getInfo(@AuthenticationPrincipal CustomMemberDetails member) {
+
+		try {
+			MemberResponse memberResponse = memberService.memberInfo(member.getUsername());
+
+			return BaseResponse.okWithData(HttpStatus.OK, "회원정보 조회 완료", memberResponse);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return BaseResponse.fail("회원정보 조회 실패", 200);
+		}
 	}
 }
