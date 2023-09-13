@@ -43,9 +43,9 @@ public class PaymentController {
     try {
       // 결제되었다 치고 포인트 올리기
       paymentService.updatePaymentOf(customMemberDetails.getUser(), amount);
-      return BaseResponse.ok(HttpStatus.OK, "???");
+      return BaseResponse.ok(HttpStatus.OK, "update payment success");
     } catch (Exception e) {
-      return BaseResponse.fail("???", 404);
+      return BaseResponse.fail(HttpStatus.NOT_FOUND, "member not found");
     }
   }
 
