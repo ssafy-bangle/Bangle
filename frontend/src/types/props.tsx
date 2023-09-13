@@ -2,9 +2,9 @@ import { ReactRenderer } from '@storybook/react';
 import { StaticImageData } from 'next/image';
 
 export type ButtonProps = {
-  length: 'long' | 'short';
-  size?: 'big' | 'small';
-  theme?: 'line' | 'text';
+  length: 'long' | 'short' | 'medium';
+  theme?: 'default' | 'line' | 'text';
+  size?: 'big';
   active?: boolean;
   content?: string;
   icon?: string;
@@ -68,4 +68,13 @@ export type DropdownProps = {
 export type DropdownItems = {
   label: string;
   key: number;
+};
+
+export type ModalProps = {
+  open: boolean;
+  title?: string;
+  type?: 'publish' | 'buy' | 'munzi';
+  firstPrice?: number;
+  secondPrice?: number;
+  onClick?: () => void;
 };

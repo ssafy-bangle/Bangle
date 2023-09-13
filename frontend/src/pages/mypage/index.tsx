@@ -19,15 +19,14 @@ export default function Mypage({ role }: MyPageProps) {
               <strong>방글이 님</strong>
             </S.MainInfo>
 
-            <Button length={'short'} size={'small'} theme={'line'} content="수정하기" />
+            <Button length={'short'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
           {role === 'author' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
           {role === 'user' ? (
-            <Button length={'short'} size={'small'} icon="mode" content="작가모드로 변경" />
+            <Button length={'medium'} icon="mode" content="작가모드로 변경" />
           ) : (
-            <Button length={'short'} size={'small'} icon="mode" content="독자모드로 변경" />
+            <Button length={'medium'} icon="mode" content="독자모드로 변경" />
           )}
-
           <S.Logout href="/" />
         </S.LeftSection>
         <S.RightSection>
@@ -40,7 +39,7 @@ export default function Mypage({ role }: MyPageProps) {
                   내 먼지 <strong>30</strong>개
                 </S.MainInfo>
               </S.MunziPartLeft>
-              <Button length={'short'} size={'small'} theme={'line'} content="내역보기" />
+              <Button length={'short'} theme={'line'} content="내역보기" />
             </S.MunziPart>
             <S.PartTitle>충전하기</S.PartTitle>
           </S.RightTopSection>

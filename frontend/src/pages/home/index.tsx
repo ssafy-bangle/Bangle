@@ -15,7 +15,7 @@ export default function Home() {
           <Image width={550} src={BannerImg} alt="bannerImg" />
           <S.BookBox>
             <Image width={120} src={BookImg} alt="BookImg" />
-            <Button length="long" size="big" content="구매하기" />
+            <Button length="long" content="구매하기" />
           </S.BookBox>
         </S.ContainerBox>
       </S.BannerSection>

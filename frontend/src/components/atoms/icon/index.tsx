@@ -1,11 +1,22 @@
 import * as S from './index.styled';
 import { IconProps } from '@src/types/props';
-import { SyncOutlined } from '@ant-design/icons';
+import { SyncOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 export default function Icon({ name }: IconProps) {
+
+	function RenderComponent({ name }: IconProps) {
+		if (name === 'mode') {
+		  return <SyncOutlined />;
+		} else if (name === 'cart') {
+		  return <ShoppingCartOutlined />;
+		} else {
+		  return null;
+		}
+	  }
+
 	return (
 		<>
-			{name == 'mode' && <SyncOutlined />}
+			<RenderComponent name={name} />
 		</>
 	);
 }
