@@ -58,7 +58,6 @@ public class MemberService {
 				.nickname(member.getNickname())
 				.dust(member.getDust())
 				.email(member.getEmail())
-				.publicKey(member.getPublicKey())
 				.role(member.getRoles())
 				.userId(member.getUserId())
 				.build();

@@ -107,7 +107,7 @@ public class MemberController {
 			return BaseResponse.okWithData(HttpStatus.OK, "회원정보 조회 완료", memberResponse);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return BaseResponse.fail("회원정보 조회 실패", 200);
+			return BaseResponse.fail(HttpStatus.UNAUTHORIZED, "회원정보 조회 실패");
 		}
 	}
 }
