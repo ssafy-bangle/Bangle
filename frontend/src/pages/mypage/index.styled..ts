@@ -1,6 +1,21 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
+export const StyledInput = styled.input`
+  display: block;
+  width: 33.6rem;
+  color: var(--BG_GRAY2);
+  text-align: justify;
+  margin-bottom: 4rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  background-color: transparent;
+  border: 0px solid;
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const Container = styled.div`
   height: calc(100vh - 13.2rem - 44px);
 `;

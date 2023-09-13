@@ -4,21 +4,30 @@ import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
+import { MyPageProps } from '@src/types/props';
 
-export default function Mypage() {
+export default function Mypage({ role }: MyPageProps) {
   return (
     <S.Container>
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
-          <S.PartTitle>독자 정보</S.PartTitle>
+          <S.PartTitle>{role === 'user' ? '독자' : '작가'} 정보</S.PartTitle>
+
           <S.NicknamePart>
             <S.MainInfo>
               <strong>방글이 님</strong>
             </S.MainInfo>
+
             <Button length={'short'} size={'small'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
-          <Button length={'short'} size={'small'} icon="mode" content="작가모드로 변경" />
+          {role === 'author' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {role === 'user' ? (
+            <Button length={'short'} size={'small'} icon="mode" content="작가모드로 변경" />
+          ) : (
+            <Button length={'short'} size={'small'} icon="mode" content="독자모드로 변경" />
+          )}
+
           <S.Logout href="/" />
         </S.LeftSection>
         <S.RightSection>

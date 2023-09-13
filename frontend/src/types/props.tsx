@@ -23,6 +23,10 @@ export type NavProps = {
   role: 'author' | 'user';
 };
 
+export type MyPageProps = {
+  role: 'author' | 'user';
+};
+
 export type MenuProps = {
   name: string;
   url: string;
