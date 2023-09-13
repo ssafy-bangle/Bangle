@@ -25,8 +25,8 @@ public class CustomMemberDetailService implements UserDetailsService {
 			Member findMember = memberService.findByUserId(username);
             return new CustomMemberDetails(findMember);
 		} catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+			System.out.println(e.getMessage());
+			return null;
+		}
 	}
 }
