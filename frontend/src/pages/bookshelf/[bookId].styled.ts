@@ -55,9 +55,16 @@ export const MoreInfoBtn = styled.button`
 `;
 
 export const ReviewContainer = styled.div`
-    display: flex;
     color: var(--BG_GRAY1);
     font-size: 2rem;
     font-weight: 700;
-    margin-top: 6rem;
+    margin: 6rem 0 1.6rem 0;
+`;
+
+export const CardContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.4rem;
+    margin-top: 2.4rem;
+    justify-content: space-between;
 `;

@@ -5,6 +5,8 @@ import { TestBook } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import { useState } from 'react';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import Rating from '@src/components/atoms/rating';
+import ReviewCard from '@src/components/atoms/reviewCard';
 
 const textContent = `1000자를 세 문단으로 나눴으면, 각 문단은 문항에서 묻는 내용을 채워 넣습니다. SK 브로드밴드의 2019년 기출 문항을 예로 들어보겠습니다. '최고 수준의 목표를 세우고 자발적으로 성취한 경험'을 1000자로 적어야 합니다. '최고 수준의 목표'와 '성취한 경험'이 핵심 키워드겠네요. 일단 세 문단으로 구성하기로 계획합니다. 첫 문단에 '최고 수준의 목표'에 대한 내용을, 두세 번째 문단에 '성취한 경험'을 구체적으로 적어주면 완결성이 있는 글이 나올 것 같네요.
 경험이 조금 부족하다면, 하나의 경험을 디테일하게 분해해야 합니다. SK 브로드밴드에 지원한다고 하죠. 저는 첫 문단에 '최고 수준의 목표는 무엇이었고, 왜 그것을 목표로 삼았는지'에 대한 이야기로 333자를 채우겠습니다. 
@@ -46,6 +48,12 @@ export default function BookId() {
         </S.InfoContainer>
         <S.ReviewContainer>
           <S.InfoTitle>리뷰</S.InfoTitle>
+          <Rating value={4} label={true} editable={false} setInput={() => {}} />
+          <S.CardContainer>
+            {[1,2,3,4,5,6,7].map((card) => (
+              <ReviewCard imgSrc={TestBook} />
+            ))}
+          </S.CardContainer>
         </S.ReviewContainer>
       </S.Container>
     </>
