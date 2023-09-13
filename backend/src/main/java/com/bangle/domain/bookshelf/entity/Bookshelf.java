@@ -1,7 +1,7 @@
-package com.bangle.domain.book.entity;
+package com.bangle.domain.bookshelf.entity;
 
-import com.bangle.domain.author.entity.Author;
-
+import com.bangle.domain.book.entity.Book;
+import com.bangle.domain.member.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,41 +17,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Getter
 @Builder
-public class Book {
+public class Bookshelf {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "bookshelf_id")
 	private Long id;
 
+	@JoinColumn(name = "book_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "author_id")
-	private Author author;
+	private Book book;
 
-	private String title;
-
-	private String genre;
-
-	private String introduction;
-
-	@Column(name = "purchase_price")
-	private int purchasePrice;
-
-	private int rentalPrice;
+	@JoinColumn(name = "member_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Member member;
 
 	private String address;
 
-	@Column(name = "average_score")
-	private float averageScore;
-
-	private String cover;
-
-	@Column(name = "sale_count")
-	private Long saleCount;
-
-	@Column(name = "total_pages")
-	private int totalPages;
+	@Column(name = "read_pages")
+	private int readPages;
 
 }
