@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Bookshelf {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "book_shelf_id")
+	@Column(name = "bookshelf_id")
 	private Long id;
 
 	@JoinColumn(name = "book_id")
