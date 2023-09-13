@@ -10,7 +10,6 @@ import com.bangle.domain.member.dto.JoinRequest;
 import com.bangle.domain.member.dto.MemberResponse;
 import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.repository.MemberRepository;
-import com.bangle.global.auth.security.CustomMemberDetails;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +48,17 @@ public class MemberService {
 		return new MemberResponse(member);
 	}
 
-	public MemberResponse memberInfo() {
-		return null;
+	public MemberResponse memberInfo(String userId) {
+		Member member = memberRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
+
+		return MemberResponse.builder()
+				.nickname(member.getNickname())
+				.dust(member.getDust())
+				.email(member.getEmail())
+				.publicKey(member.getPublicKey())
+				.role(member.getRoles())
+				.userId(member.getUserId())
+				.build();
 	}
 
 	@Transactional
