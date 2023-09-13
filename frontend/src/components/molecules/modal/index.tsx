@@ -45,12 +45,17 @@ export default function Modal({ type, title, firstPrice, secondPrice }: ModalPro
               </S.MunziContainer>
               <S.Divider />
               <S.ButtonContainer>
-                {type == 'publish' ?
-                <Button theme="text" content={`즉시 충전(${secondPrice})`} length="long" onClick={() => {}} />
-                :
-                <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={() => {}} />
-              }
-                <Button theme="default" content={type == 'publish' ? `출판하기(${secondPrice}먼지)` : `즉시구매(${secondPrice}먼지)` } length="long" onClick={() => router.push('/')} />
+                {type == 'publish' ? (
+                  <Button theme="text" content={`즉시 충전(${secondPrice})`} length="long" onClick={() => {}} />
+                ) : (
+                  <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={() => {}} />
+                )}
+                <Button
+                  theme="default"
+                  content={type == 'publish' ? `출판하기(${secondPrice}먼지)` : `즉시구매(${secondPrice}먼지)`}
+                  length="long"
+                  onClick={() => router.push('/')}
+                />
               </S.ButtonContainer>
             </S.StyledContainer>
           </S.ModalBackDrop>
