@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class FailResponse {
     private boolean success;
     private String msg;
-    private int status;
+    public FailResponse(String m) {
+        success = false;
+        msg = ": " + m;
+    }
 }

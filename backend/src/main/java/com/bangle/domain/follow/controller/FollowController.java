@@ -30,7 +30,7 @@ public class FollowController {
 			return BaseResponse.ok(HttpStatus.OK, "follow Success");
 		}
 
-		return BaseResponse.fail("follow Fail", 200);
+		return BaseResponse.fail(HttpStatus.OK, "follow failure");
 
 
 

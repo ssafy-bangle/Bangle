@@ -3,6 +3,8 @@ server:
   ssl:
     enabled: false
 spring:
+  bangle:
+    host: "http://localhost:8000"
   profiles:
     active: secret
   mvc:

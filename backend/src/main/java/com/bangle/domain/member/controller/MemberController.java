@@ -99,7 +99,7 @@ public class MemberController {
 		@AuthenticationPrincipal CustomMemberDetails memberDetails,
 		@RequestBody HashMap<String,String> map) {
 		if (!map.containsKey("nickname")) {
-			return BaseResponse.fail("잘못된 요청입니다.", 400);
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
 		}
 		String nickname = map.get("nickname");
 		memberService.changeNickname(memberDetails.getUsername(), nickname);
