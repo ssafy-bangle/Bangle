@@ -45,13 +45,11 @@ public class Member {
 
 	private String nickname;
 
-	private float point;
-
 	private String provider;
 
 	private String roles;
 
-	private float dust;
+	private int dust;
 
 	@Column(name = "user_id")
 	private String userId;
@@ -81,4 +79,6 @@ public class Member {
 	public void changeNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
+	public void updateDust(int amount) { this.dust += amount; }
 }
