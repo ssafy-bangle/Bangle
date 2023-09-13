@@ -13,6 +13,7 @@ export type ButtonProps = {
 
 export type BookCoverProps = {
   imgSrc: StaticImageData;
+  size?: 'small' | 'big';
 };
 
 export type BookProps = {
@@ -75,4 +76,11 @@ export type ModalProps = {
   type?: 'publish' | 'buy' | 'munzi';
   firstPrice?: number;
   secondPrice?: number;
+};
+
+export type ChipProps = {
+  title: string;
+  size: 'small' | 'big';
+  icon?: string;
+  onClick?: () => void;
 };
