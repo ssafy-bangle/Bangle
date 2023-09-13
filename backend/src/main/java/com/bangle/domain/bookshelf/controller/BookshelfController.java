@@ -4,7 +4,6 @@ import com.bangle.domain.bookshelf.dto.BookshelfResponse;
 import com.bangle.domain.bookshelf.service.BookshelfService;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

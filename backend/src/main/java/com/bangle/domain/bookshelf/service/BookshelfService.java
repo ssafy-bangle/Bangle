@@ -1,15 +1,11 @@
 package com.bangle.domain.bookshelf.service;
 
 import com.bangle.domain.bookshelf.dto.BookshelfResponse;
-import com.bangle.domain.bookshelf.entity.Bookshelf;
 import com.bangle.domain.bookshelf.repository.BookshelfDetailRepositoryCustom;
-import com.bangle.domain.bookshelf.repository.BookshelfRepository;
 import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.MemberService;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class BookshelfService {
 
     private final MemberService memberService;
-//    @Qualifier("bookshelfDetailRepositoryCustomImpl")
     private final BookshelfDetailRepositoryCustom bookshelfDetailRepositoryCustom;
 
     public List<BookshelfResponse> list(String userId) {
