@@ -3,6 +3,11 @@ server:
   ssl:
     enabled: false
 spring:
+  backend:
+    host: http://localhost:8000
+  frontend:
+    scheme: http
+    host: localhost:3000
   profiles:
     active: secret
   mvc:

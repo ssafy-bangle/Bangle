@@ -1,3 +1,5 @@
+import * as S from './index.styled.';
+
 export default function Search() {
-  return <>검색페이지</>;
+  return <></>;
 }

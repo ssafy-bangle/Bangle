@@ -51,4 +51,7 @@ public class Book {
 	@Column(name = "sale_count")
 	private Long saleCount;
 
+	@Column(name = "total_pages")
+	private int totalPages;
+
 }

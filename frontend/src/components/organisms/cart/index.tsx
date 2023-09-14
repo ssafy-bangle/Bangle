@@ -1,5 +1,4 @@
 import * as S from './index.styled';
-
 import { useRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import Button from '@src/components/atoms/button';
@@ -20,7 +19,7 @@ export default function Cart() {
         </S.Box>
         <S.ListContainer></S.ListContainer>
         <S.InfoContainer></S.InfoContainer>
-        <Button length={'long'} size={'small'} content="결제하기" />
+        <Button length={'long'} content="결제하기" />
       </S.Container>
     </S.StyledDrawer>
   );
