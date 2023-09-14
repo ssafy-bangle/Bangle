@@ -76,3 +76,10 @@ export type ChipProps = {
   icon?: string;
   onClick?: () => void;
 };
+
+export type RatingProps = {
+  value: number;
+  label: boolean;
+  editable: boolean;
+  setInput: (value: number) => void;
+};
