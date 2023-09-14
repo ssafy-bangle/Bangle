@@ -64,11 +64,14 @@ public class MemberController {
 
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			boolean isNewMember = optionalMember.isEmpty();
+			if (isNewMember) {
+				memberService.save(member);
+			}
 			Map<String, Object> tokens = new LinkedHashMap<>();
 			tokens.put("member-information", new MemberResponse(member));
 			tokens.put("access-token", JwtTokenUtil.getAccessToken(member.getUserId()));
 			tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(member.getUserId()));
-			tokens.put("isNew", isNewMember);
+			tokens.put("isNewMember", isNewMember);
 			//Redis에 20일 동안 저장
 			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refresh-token"), Duration.ofDays(20));
 			return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
