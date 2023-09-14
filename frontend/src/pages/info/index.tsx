@@ -23,10 +23,10 @@ export default function Info() {
       loginApi.postOidcLogin(idToken)
       .then((data) => {
         data = data.data
-        setUserInfo({...data})
+        setUserInfo({...(data.memberInformation)})
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
-        if (data.isNewMember) {
+        if (data.needPublicKey) {
           router.push('/info');
         } else {
           router.push('/home');
