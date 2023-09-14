@@ -68,12 +68,12 @@ public class MemberController {
 				memberService.save(member);
 			}
 			Map<String, Object> tokens = new LinkedHashMap<>();
-			tokens.put("member-information", new MemberResponse(member));
-			tokens.put("access-token", JwtTokenUtil.getAccessToken(member.getUserId()));
-			tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(member.getUserId()));
+			tokens.put("memberInformation", new MemberResponse(member));
+			tokens.put("accessToken", JwtTokenUtil.getAccessToken(member.getUserId()));
+			tokens.put("refreshToken", JwtTokenUtil.getRefreshToken(member.getUserId()));
 			tokens.put("isNewMember", isNewMember);
 			//Redis에 20일 동안 저장
-			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refresh-token"), Duration.ofDays(20));
+			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refreshToken"), Duration.ofDays(20));
 			return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
 
 		} catch (JsonProcessingException e) {
