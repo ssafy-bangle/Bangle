@@ -83,3 +83,7 @@ export type RatingProps = {
   editable: boolean;
   setInput: (value: number) => void;
 };
+
+export type NoValueProps = {
+  type: string;
+};
