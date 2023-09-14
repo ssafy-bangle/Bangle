@@ -19,6 +19,6 @@ const Template: Story = {
   render: (args) => <PageTitle {...args}></PageTitle>,
 };
 
-export const Tmp: Story = {
+export const Default: Story = {
   ...Template,
 };

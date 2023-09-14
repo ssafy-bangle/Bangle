@@ -32,7 +32,7 @@ const Template: Story = {
   render: () => <Dropdown items={items} setInput={() => {}} />,
 };
 
-export const DefaultDrop: Story = {
+export const Default: Story = {
   ...Template,
   name: 'Default',
 };

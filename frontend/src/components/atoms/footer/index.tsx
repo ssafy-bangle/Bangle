@@ -1,6 +1,6 @@
 import * as S from './index.styled';
 
-export default function footer() {
+export default function Footer() {
   return (
     <>
       <S.Footer>

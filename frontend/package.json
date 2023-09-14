@@ -20,6 +20,7 @@
     "antd": "^5.8.5",
     "axios": "^1.5.0",
     "chart.js": "^4.4.0",
+    "epubjs": "^0.3.93",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",

@@ -18,7 +18,7 @@ const Template: Story = {
   render: (args) => <Icon {...args} />,
 };
 
-export const BtnIcon: Story = {
+export const Default: Story = {
   ...Template,
   name: 'Small',
   args: {

@@ -12,6 +12,6 @@ const Template: Story = {
   render: () => <Bookshelf />,
 };
 
-export const Tmp: Story = {
+export const Default: Story = {
   ...Template,
 };
