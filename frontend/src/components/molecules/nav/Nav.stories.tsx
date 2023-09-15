@@ -12,6 +12,6 @@ const Template: Story = {
   render: () => <Nav />,
 };
 
-export const defaultNav: Story = {
+export const Default: Story = {
   ...Template,
 };

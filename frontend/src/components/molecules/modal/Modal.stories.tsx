@@ -30,9 +30,8 @@ const Template: Story = {
   render: (args) => <Modal {...args} />,
 };
 
-export const DefaultModal: Story = {
+export const Default: Story = {
   ...Template,
-  name: 'DefaultModal',
   args: {
     ...Template.args,
     type: 'publish',

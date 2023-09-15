@@ -5,9 +5,10 @@ const KEY = 'USER';
 export const UserInfoState = atom({
   key: `${KEY}/info`,
   default: {
-    publickKey: '',
     nickname: '',
+    dust: 0,
     email: '',
-    roles: 'author',
+    role: 'ROLE_AUTHOR',
+    userId: ''
   },
 });

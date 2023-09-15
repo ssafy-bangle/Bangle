@@ -12,6 +12,6 @@ const Template: Story = {
   render: () => <Mypage />,
 };
 
-export const defaultMypage: Story = {
+export const Default: Story = {
   ...Template,
 };

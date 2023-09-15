@@ -12,6 +12,6 @@ const Template: Story = {
   render: () => <Info />,
 };
 
-export const Tmp: Story = {
+export const Default: Story = {
   ...Template,
 };

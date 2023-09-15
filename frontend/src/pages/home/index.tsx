@@ -4,6 +4,6 @@ import UserHome from '@src/components/organisms/userHome';
 import AuthorHome from '@src/components/organisms/authorHome';
 
 export default function Home() {
-  const { roles } = useRecoilValue(UserInfoState);
-  return <>{roles === 'user' ? <UserHome /> : <AuthorHome />}</>;
+  const { role } = useRecoilValue(UserInfoState);
+  return <>{role === 'ROLE_USER' ? <UserHome /> : <AuthorHome />}</>; 
 }

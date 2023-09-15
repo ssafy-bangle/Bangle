@@ -16,7 +16,7 @@ const textContent = `1000자를 세 문단으로 나눴으면, 각 문단은 문
 두 번째 문단에는 '목표를 이루려면 어떤 노력을 해야 했는지, 최대 장애물은 무엇인지, 장애물을 극복하려면 어떤 방법이 필요했는지'에 대한 이야기로 333자를 채우겠습니다. '경험'은 '에피소드'가 많이 발생할 것이기 때문에, 그때 있었던 에피소드도 넣겠습니다.`;
 
 export default function BookId() {
-  const [isClicked, setIsClicked] = useState<Boolean>(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   return (
     <>
       <PageTitle>책장</PageTitle>
@@ -32,15 +32,13 @@ export default function BookId() {
             </S.PriceContainer>
             <S.InfoText>
               <S.InfoTitle>소개</S.InfoTitle>
-              <S.InfoContent style={isClicked ? { overflow: 'visible' } : { height: '16.4rem' }}>
-                {textContent}
-              </S.InfoContent>
-              <S.MoreInfoBtn onClick={() => setIsClicked(!isClicked)}>
+              <S.InfoContent isClicked={isClicked}>{textContent}</S.InfoContent>
+              <S.MoreInfoBtn onClick={() => setIsClicked((pre) => !pre)}>
                 {isClicked ? (
                   <UpOutlined style={{ marginRight: '0.8rem' }} />
                 ) : (
                   <DownOutlined style={{ marginRight: '0.8rem' }} />
-                )}{' '}
+                )}
                 더보기
               </S.MoreInfoBtn>
             </S.InfoText>
@@ -50,7 +48,7 @@ export default function BookId() {
           <S.InfoTitle>리뷰</S.InfoTitle>
           <Rating value={4} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
-            {[1,2,3,4,5,6,7].map((card) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((card: number) => (
               <ReviewCard imgSrc={TestBook} />
             ))}
           </S.CardContainer>
