@@ -11,8 +11,8 @@ import lombok.Setter;
 public class FailResponse {
     private boolean success;
     private String msg;
-    public FailResponse(String m) {
+    public FailResponse(String status, String m) {
         success = false;
-        msg = ": " + m;
+        msg = status + ": " + m;
     }
 }

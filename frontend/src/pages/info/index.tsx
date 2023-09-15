@@ -21,8 +21,8 @@ export default function Info() {
       const idToken = Array.isArray(router.query.id_token) ? router.query.id_token[0] : router.query.id_token;
       console.log("idToken: ", idToken)
       loginApi.postOidcLogin(idToken)
-      .then((data) => {
-        data = data.data
+      .then((res) => {
+        const data = res.data
         setUserInfo({...(data.memberInformation)})
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
