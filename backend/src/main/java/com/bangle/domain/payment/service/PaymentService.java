@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
+  private final MemberRepository memberRepository;
   private final PaymentRepository paymentRepository;
 
   public List<PaymentResponse> readAllByMember(Member member) {
@@ -25,6 +26,7 @@ public class PaymentService {
   @Transactional
   public void updatePaymentOf(Member member, int amount) {
     member.updateDust(amount);
+    memberRepository.save(member);
     paymentRepository.save(Payment.builder().amount(amount).member(member).build());
   }
 
