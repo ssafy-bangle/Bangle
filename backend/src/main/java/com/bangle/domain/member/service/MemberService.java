@@ -53,7 +53,7 @@ public class MemberService {
 
 	public MemberResponse memberInfo(String userId) {
 		Member member = memberRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
-
+		System.out.println(member.getNickname());
 		return MemberResponse.builder()
 				.nickname(member.getNickname())
 				.dust(member.getDust())

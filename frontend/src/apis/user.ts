@@ -18,5 +18,16 @@ const postMemberInfo = async (nickname: string, publicKey: string, role: string)
   }
 }
 
-const userApi = { postMemberInfo };
+const getMemberInfo = async () => {
+  try {
+    const res = await clientWithToken().get('/members')
+    return res.data;
+  } catch(e) {
+    console.log("Error at getMemberInfo: ", e)
+    throw new Error('');
+
+  }
+}
+
+const userApi = { postMemberInfo, getMemberInfo };
 export default userApi;

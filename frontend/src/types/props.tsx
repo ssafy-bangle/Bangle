@@ -66,8 +66,7 @@ export type DropdownItems = {
 export type ModalProps = {
   title?: string;
   type?: 'publish' | 'buy' | 'munzi';
-  firstPrice?: number;
-  secondPrice?: number;
+  publishPrice?: number;
 };
 
 export type ChipProps = {

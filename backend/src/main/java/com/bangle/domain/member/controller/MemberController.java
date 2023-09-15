@@ -105,7 +105,6 @@ public class MemberController {
 
 		try {
 			MemberResponse memberResponse = memberService.memberInfo(member.getUsername());
-
 			return BaseResponse.okWithData(HttpStatus.OK, "회원정보 조회 완료", memberResponse);
 		} catch(Exception e) {
 			e.printStackTrace();

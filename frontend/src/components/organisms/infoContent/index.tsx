@@ -6,7 +6,7 @@ import userApi from '@src/apis/user';
 import { useEffect, useState } from 'react';
 import { privateToPublic } from '@ethereumjs/util';
 import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 
 export default function InfoContent() {
@@ -18,6 +18,7 @@ export default function InfoContent() {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const handleOnClick = () => {
     const send = () => {
       if (privateKey) {
@@ -27,7 +28,10 @@ export default function InfoContent() {
         setPrivateKey(undefined);
         userApi.postMemberInfo(nickname, publicKey,
           isAuthor ? "ROLE_AUTHOR" : "ROLE_USER"
-          );
+          )
+          .then((res) => {
+            setUserInfo({...(res.data.memberInformation)})
+          });
         router.push('/home');
       }
     };
