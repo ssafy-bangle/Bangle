@@ -8,7 +8,7 @@ export const UserInfoState = atom({
     nickname: '',
     dust: 0,
     email: '',
-    role: 'ROLE_AUTHOR',
+    role: 'ROLE_USER',
     userId: ''
   },
 });

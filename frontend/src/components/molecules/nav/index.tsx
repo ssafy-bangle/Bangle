@@ -46,18 +46,18 @@ export default function Nav() {
           ))}
         </S.MenuContainer>
         {role === 'ROLE_USER' ? (
-          <>
-            <SearchBar />
-            <S.CartBox onClick={showDrawer}>
-              <Icon name="cart" />
-            </S.CartBox>
-          </>
+          <SearchBar />
         ) : (
           <S.Info>
             안녕하세요. <strong>방글이 작가</strong>님
           </S.Info>
         )}
       </S.NavContainer>
+      {role === 'ROLE_USER' && (
+        <S.CartBox onClick={showDrawer}>
+          <Icon name="cart" />
+        </S.CartBox>
+      )}
     </S.Container>
   );
 }

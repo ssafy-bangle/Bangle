@@ -53,7 +53,7 @@ export default function SearchBar() {
             </S.SearchLogContainer>
           </S.InputStyle>
         ) : (
-          <S.SearchIcon onClick={() => setIsClicked((pre) => !pre)}>
+          <S.SearchIcon onMouseEnter={() => setIsClicked((pre) => !pre)}>
             <Icon name="search" />
           </S.SearchIcon>
         )}
