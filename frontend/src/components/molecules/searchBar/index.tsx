@@ -4,6 +4,7 @@ import Input from '@src/components/atoms/input';
 import Icon from '@src/components/atoms/icon';
 import { useState } from 'react';
 import Chip from '@src/components/atoms/chip';
+import { useRouter } from 'next/router';
 
 // 최신순으로 3개만 불러오기
 const recentLog = ['어느 날 싸피에 책 한 권이 날아왔다', '평범한 학생인', '상일이삼'];
@@ -11,12 +12,18 @@ const genreCategory = [{ '👻': '스릴러' }, { '💖': '로맨스' }, { '🎠
 
 export default function SearchBar() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const router = useRouter();
   return (
     <>
       <S.Container>
         {isClicked ? (
           <S.InputStyle onMouseLeave={() => setIsClicked((pre) => !pre)}>
-            <Input size="long" state="default" placeholder="검색어를 입력하세요" setInput={() => {}} />
+            <S.SearchInput>
+              <Input size="long" state="default" placeholder="검색어를 입력하세요" setInput={() => {}} />
+              <S.SearchBtn onClick={() => {router.push('search')}}>
+                <Icon name="search" />
+              </S.SearchBtn>
+            </S.SearchInput>
             <S.SearchLogContainer>
               <S.RecentContainer>
                 최근 검색
