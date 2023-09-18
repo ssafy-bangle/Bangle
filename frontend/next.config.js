@@ -5,6 +5,7 @@ const nextConfig = {
       ssr: true,
     },
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
