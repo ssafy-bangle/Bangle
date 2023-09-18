@@ -25,9 +25,10 @@ export const NavContainer = styled.div`
 `;
 
 export const CartBox = styled.div`
-  display: flex;
   margin: auto 1rem auto 4rem;
   cursor: pointer;
+  font-size: 2.4rem;
+  color: var(--BG_WHITE);
 `;
 
 export const Info = styled.div`

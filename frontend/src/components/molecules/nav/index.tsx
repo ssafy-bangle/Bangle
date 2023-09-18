@@ -7,6 +7,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import { useRouter } from 'next/router';
 import { UserInfoState } from '@src/modules/user';
+import SearchBar from '../searchBar';
+import Icon from '@src/components/atoms/icon';
 
 export default function Nav() {
   const { role } = useRecoilValue(UserInfoState);
@@ -45,9 +47,9 @@ export default function Nav() {
         </S.MenuContainer>
         {role === 'ROLE_USER' ? (
           <>
-            <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
-            <S.CartBox>
-              <Image src={CartImg} width={20} alt="cartImg" onClick={showDrawer} />
+            <SearchBar />
+            <S.CartBox onClick={showDrawer}>
+              <Icon name="cart" />
             </S.CartBox>
           </>
         ) : (
