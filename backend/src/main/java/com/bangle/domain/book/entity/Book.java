@@ -1,6 +1,7 @@
 package com.bangle.domain.book.entity;
 
 import com.bangle.domain.author.entity.Author;
+import com.bangle.domain.order.entity.OrderStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,4 +55,10 @@ public class Book {
 	@Column(name = "total_pages")
 	private int totalPages;
 
+	public int getPrice(OrderStatus orderStatus) {
+		if (orderStatus.equals(OrderStatus.RENT)) {
+			return rentalPrice;
+		}
+		return purchasePrice;
+	}
 }

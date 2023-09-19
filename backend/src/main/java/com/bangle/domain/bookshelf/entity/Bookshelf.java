@@ -1,5 +1,8 @@
 package com.bangle.domain.bookshelf.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bangle.domain.book.entity.Book;
 import com.bangle.domain.member.entity.Member;
 import jakarta.persistence.Column;
@@ -40,4 +43,18 @@ public class Bookshelf {
 	@Column(name = "read_pages")
 	private int readPages;
 
+	public static List<Bookshelf> createBookShelfList(Member member, List<Book> books) {
+		List<Bookshelf> bookshelfList = new ArrayList<>();
+		books.forEach(book -> bookshelfList.add(createBookShelf(member,book)));
+		return bookshelfList;
+	}
+
+	private static Bookshelf createBookShelf(Member member,Book book) {
+		return Bookshelf.builder()
+			.member(member)
+			.book(book)
+			.readPages(0)
+			.address("어드레스 넣는 곳")
+			.build();
+	}
 }
