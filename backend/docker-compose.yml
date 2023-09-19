@@ -2,7 +2,7 @@ services:
   backend_server:
     container_name: backend_server
     depends_on:
-      - backend_db
+#      - backend_db
       - backend_kubo
       - backend_redis
     restart: on-failure
@@ -12,9 +12,9 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://backend_db:3306/bangle_db?serverTimezone=UTC&characterEncoding=UTF-8&collation=utf8mb4_bin
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      # SPRING_DATASOURCE_URL: jdbc:mysql://backend_db:3306/bangle_db?serverTimezone=UTC&characterEncoding=UTF-8&collation=utf8mb4_bin
+      # SPRING_DATASOURCE_USERNAME: root
+      # SPRING_DATASOURCE_PASSWORD: root
       KUBO_TCP_HOST: backend_kubo:4001
       KUBO_RPC_HOST: backend_kubo:5001
       KUBO_GATEWAY_HOST: backend_kubo:8080
@@ -23,18 +23,18 @@ services:
     volumes:
       - book_volume:/back/books
 
-  backend_db:
-    container_name: backend_db
-    image: mysql:8.0
-    environment:
-      MYSQL_USER: ssafy
-      MYSQL_PASSWORD: ssafy
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: bangle_db
-    ports:
-      - "127.0.0.1:3306:3306"
-    volumes:
-      - db_volume:/var/lib/mysql
+  #  backend_db:
+  #    container_name: backend_db
+  #    image: mysql:8.0
+  #    environment:
+  #      MYSQL_USER: ssafy
+  #      MYSQL_PASSWORD: ssafy
+  #      MYSQL_ROOT_PASSWORD: root
+  #      MYSQL_DATABASE: bangle_db
+  #    ports:
+  #      - "127.0.0.1:3306:3306"
+  #    volumes:
+  #      - db_volume:/var/lib/mysql
 
   backend_kubo:
     container_name: backend_kubo
@@ -56,6 +56,6 @@ services:
 
 volumes:
   book_volume:
-  db_volume:
+  #  db_volume:
   ipfs_data:
   ipfs_staging:
