@@ -19,7 +19,7 @@ pipeline {
 					sh "docker stop backend-redis || true"
 					sh "docker rm backend-redis || true"
 
-					sh "rm ./src/main/resources/application-secret.yml"
+					sh "rm ./src/main/resources/application-secret.yml || true"
 					sh "cp /var/jenkins_home/secrets/application-secret.yml ./src/main/resources/"
 
 					sh "docker compose up --build -d"
