@@ -32,9 +32,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         log.info("entrypoint start");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final Map<String, Object> body = new LinkedHashMap<>();
-        System.out.println("=========================================================================");
-        System.out.println(backendHost);
-        System.out.println("=========================================================================");
+
         Object expiredException = request.getAttribute("expired");
         if (expiredException instanceof TokenExpiredException) {
             response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
