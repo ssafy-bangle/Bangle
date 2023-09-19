@@ -4,6 +4,8 @@ import com.bangle.domain.book.entity.Book;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +37,17 @@ public class OrderBook {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Order order;
 
-	private String address;
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 
+	public static OrderBook createOrderBook(OrderStatus orderStatus, Book book) {
+		return OrderBook.builder()
+			.book(book)
+			.orderStatus(orderStatus)
+			.build();
+	}
+
+	public void addOrder(Order order) {
+		this.order = order;
+	}
 }
