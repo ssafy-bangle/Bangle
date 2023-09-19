@@ -9,6 +9,7 @@ import com.bangle.domain.review.dto.ReviewRequest;
 import com.bangle.domain.review.entity.Review;
 import com.bangle.domain.review.repository.ReviewRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,6 +30,17 @@ public class ReviewService {
 			.score(request.score())
 			.cover(awsS3Service.uploadImageToS3(cover))
 			.build());
+	}
+
+	@Transactional
+	public void deleteReview(String userId, Long reviewId){
+		// 이미지 삭제 먼저
+		awsS3Service.deleteImage(reviewRepository.findById(reviewId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰"))
+			.getCover()
+			.substring(47));
+		// 리뷰 삭제
+		reviewRepository.deleteById(reviewId);
 	}
 
 }

@@ -7,5 +7,4 @@ import com.bangle.domain.review.entity.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-
 }
