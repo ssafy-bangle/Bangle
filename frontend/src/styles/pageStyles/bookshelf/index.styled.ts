@@ -8,9 +8,8 @@ export const SubTitle = styled.div`
 `;
 export const BookContainer = styled.div`
   display: grid;
-  width: 98.4rem;
-  grid-template-columns: repeat(5, 1fr);
-  grid-row-gap: 3.2rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3.2rem 2rem;
 `;
 
 export const Title = styled(SubTitle)`
@@ -18,8 +17,8 @@ export const Title = styled(SubTitle)`
 `;
 
 export const Container = styled.div`
-  width: 98.4rem;
   margin: 0 auto 3rem auto;
+  padding-bottom: 20rem;
 `;
 
 export const Content = styled.div`
@@ -43,7 +42,6 @@ export const Img = styled(Image)`
 export const Left = styled.div``;
 
 export const Box = styled.div`
-  width: 98.4rem;
   height: 27.1rem;
   border-radius: 2.4rem;
   background-color: rgba(72, 75, 82, 0.5);

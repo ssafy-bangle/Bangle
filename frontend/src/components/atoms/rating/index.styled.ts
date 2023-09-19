@@ -16,4 +16,5 @@ export const LabelRate = styled.div`
   color: var(--BG_GRAY1);
   font-size: 2rem;
   font-weight: 700;
+  margin-left: 2rem;
 `;

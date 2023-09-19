@@ -4,6 +4,7 @@ import Image from 'next/image';
 export const Container = styled.div`
   padding: 6.6rem 0 6.6rem 0;
   position: relative;
+  z-index: 5;
 `;
 
 export const LogoBox = styled(Image)`
@@ -25,9 +26,13 @@ export const NavContainer = styled.div`
 `;
 
 export const CartBox = styled.div`
-  display: flex;
   margin: auto 1rem auto 4rem;
   cursor: pointer;
+  font-size: 2.5rem;
+  color: var(--BG_WHITE);
+  position: absolute;
+  right: -60px;
+  top: 68px;
 `;
 
 export const Info = styled.div`

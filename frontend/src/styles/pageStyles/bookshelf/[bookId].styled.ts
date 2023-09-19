@@ -43,8 +43,8 @@ export const InfoContent = styled.div<{ isClicked: boolean }>`
   font-weight: 400;
   line-height: 160%;
   text-align: justify;
-  overflow-y: ${({ isClicked }) => (isClicked ? 'hidden' : 'visible')};
-  height: ${({ isClicked }) => isClicked && '16.4rem'};
+  overflow-y: ${({ isClicked }) => (isClicked ? 'visible' : 'hidden')};
+  height: ${({ isClicked }) => !isClicked && '16.4rem'};
   margin-bottom: 1.6rem;
 `;
 
