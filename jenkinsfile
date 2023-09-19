@@ -3,7 +3,7 @@ pipeline {
 	stages {
 		stage("Clone") {
 			steps {
-				git branch: 'feature/jenkins',
+				git branch: 'develop',
 					credentialsId: 'hunn2023', 
 					url: 'https://lab.ssafy.com/s09-blockchain-contract-sub2/S09P22A501.git'
 			}
@@ -11,7 +11,7 @@ pipeline {
 		stage("Build Backend") {
 			steps {
 				dir ("./backend") {
-					sh "pwd"
+					// stop running containers and remove images
 					sh "docker stop backend-server || true"
 					sh "docker rm backend-server || true"
 					sh "docker stop backend-kubo || true"
@@ -19,6 +19,7 @@ pipeline {
 					sh "docker stop backend-redis || true"
 					sh "docker rm backend-redis || true"
 
+					// copy application-secret to cloned repo
 					sh "rm ./src/main/resources/application-secret.yml || true"
 					sh "cp /var/jenkins_home/secrets/application-secret.yml ./src/main/resources/"
 
@@ -26,17 +27,17 @@ pipeline {
 				}
 			}
 		}
-		// stage("Build Frontend") {
-		// 	steps {
-		// 		dir ("./frontend") {
-		// 			sh "pwd"
-		// 			sh "docker stop frontend || true"
-		// 			sh "docker rm frontend || true"
+		stage("Build Frontend") {
+			steps {
+		 		dir ("./frontend") {
+					// stop running containers and remove images
+		 			sh "docker stop frontend || true"
+		 			sh "docker rm frontend || true"
 
-		// 			sh "docker build -t frontend ."
-		// 			sh "docker run -p 3000:3000 frontend"
-		// 		}
-		// 	}
-		// }
+		 			sh "docker build -t frontend ."
+		 			sh "docker run -p 3000:3000 frontend"
+		 		}
+		 	}
+		}
 	}
 }
