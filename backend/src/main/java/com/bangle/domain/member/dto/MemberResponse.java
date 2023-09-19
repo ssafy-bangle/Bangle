@@ -8,7 +8,7 @@ public record MemberResponse(
 	String nickname,
 	int dust,
 	String email,
-	String role,
+	String roles,
 	String userId
 ) {
 
