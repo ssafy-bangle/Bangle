@@ -10,8 +10,8 @@ import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import userApi from '@src/apis/user';
 
-export default function Modal({ type, title, publishPrice }: ModalProps) {
-  // get user info 
+export default function Modal({ type, title, publishPrice, onClick }: ModalProps) {
+  // get user info
   const [user, setUser] = useRecoilState(UserInfoState);
 
   const router = useRouter();
@@ -28,20 +28,18 @@ export default function Modal({ type, title, publishPrice }: ModalProps) {
   // 충전 먼지 즉시 이후 user 업데이트
   const chargeDustImmediately = () => {
     if (publishPrice) {
-      paymentAPI.postPayment(publishPrice)
-        .then(() => {
-          userApi.getMemberInfo()
-            .then((res) => {
-              console.log(res.data)
-              setUser({...(res.data)});
-            })
+      paymentAPI.postPayment(publishPrice).then(() => {
+        userApi.getMemberInfo().then((res) => {
+          console.log(res.data);
+          setUser({ ...res.data });
         });
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    console.log(user)
-  }, [user])
+    console.log(user);
+  }, [user]);
 
   return (
     <>
@@ -71,7 +69,12 @@ export default function Modal({ type, title, publishPrice }: ModalProps) {
               <S.Divider />
               <S.ButtonContainer>
                 {type == 'publish' ? (
-                  <Button theme="text" content={`즉시 충전(${publishPrice})`} length="long" onClick={chargeDustImmediately} />
+                  <Button
+                    theme="text"
+                    content={`즉시 충전(${publishPrice})`}
+                    length="long"
+                    onClick={chargeDustImmediately}
+                  />
                 ) : (
                   <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={() => {}} />
                 )}
@@ -79,7 +82,7 @@ export default function Modal({ type, title, publishPrice }: ModalProps) {
                   theme="default"
                   content={type == 'publish' ? `출판하기(${publishPrice}먼지)` : `즉시구매(${publishPrice}먼지)`}
                   length="long"
-                  onClick={() => router.push('/')}
+                  onClick={onClick}
                 />
               </S.ButtonContainer>
             </S.StyledContainer>

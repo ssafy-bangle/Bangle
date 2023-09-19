@@ -1,14 +1,18 @@
+import { UserInfo } from '@src/types/user';
 import { atom } from 'recoil';
 
 const KEY = 'USER';
 
-export const UserInfoState = atom({
+export const UserInfoState = atom<UserInfo>({
   key: `${KEY}/info`,
   default: {
-    nickname: '',
+    member_id: 0,
     dust: 0,
     email: '',
+    nickname: '',
+    provider: 'KAKAO',
+    public_key: new Uint8Array(),
     role: 'ROLE_AUTHOR',
-    userId: ''
+    user_id: '',
   },
 });

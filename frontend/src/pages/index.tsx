@@ -25,10 +25,14 @@ export default function Landing() {
           <br />
           작가와 독자가 직접 만날 수 있는 공간 '방글'
         </S.Content>
-        <a href={kakao_redirect_url}>
-          <Button length="medium" size="big" content="시작하기" onClick={() => console.log("login")} />
-        </a>
-
+        <Button
+          length="medium"
+          size="big"
+          content="시작하기"
+          onClick={() =>
+            router.push(kakao_redirect_url)
+          }
+        />
       </S.Container>
     </>
   );

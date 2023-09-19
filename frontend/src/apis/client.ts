@@ -1,24 +1,32 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_DOMAIN + 'api'
-axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
+function apiInstance() {
+  const client = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_DOMAIN + 'api',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+  });
 
-export const client = () => {
-	const instance = axios.create({
-		// something like tokens
-	})
-	return instance;
+  client.interceptors.request.use(
+    async (config: AxiosRequestConfig) => {
+      const token = 'Bearer ' + localStorage.getItem('accessToken');
+      const Config: InternalAxiosRequestConfig = {
+        ...config,
+        // @ts-ignore
+        headers: {
+          ...config.headers,
+          Authorization: token,
+        },
+      };
+      return Config;
+    },
+    (error) => {
+      Promise.reject(error);
+    },
+  );
+
+  return client;
 }
 
-export const clientWithToken = () => {
-	const instance = axios.create({
-		headers:{
-			Authorization: getAccessTokenHeader()
-		}
-	})
-	return instance;
-}
-
-const getAccessTokenHeader = () => {
-	return "Bearer " + localStorage.getItem("accessToken");
-}
+export default apiInstance;
