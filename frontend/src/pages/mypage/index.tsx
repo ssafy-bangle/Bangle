@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import * as S from './index.styled.';
+import * as S from '@src/styles/pageStyles/mypage/index.styled';
 import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';

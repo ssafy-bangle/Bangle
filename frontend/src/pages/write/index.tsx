@@ -1,5 +1,5 @@
 import UploadBookCover from '@src/components/organisms/uploadBookCover';
-import * as S from './index.styled';
+import * as S from '@src/styles/pageStyles/write/index.styled';
 import UploadBookInfo from '@src/components/organisms/uploadBookInfo';
 import Modal from '@src/components/molecules/modal';
 import PageTitle from '@src/components/atoms/pageTitle';

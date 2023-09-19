@@ -1,5 +1,5 @@
 import Button from '@src/components/atoms/button';
-import * as S from './index.styled';
+import * as S from '@src/styles/pageStyles/index/index.styled';
 import { LightImg, ShineImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
 

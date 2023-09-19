@@ -18,14 +18,6 @@ const Template: Story = {
       type: 'string',
       description: '텍스트',
     },
-    firstPrice: {
-      type: 'number',
-      description: '가격1',
-    },
-    secondPrice: {
-      type: 'number',
-      description: '가격2',
-    },
   },
   render: (args) => <Modal {...args} />,
 };
@@ -36,7 +28,5 @@ export const Default: Story = {
     ...Template.args,
     type: 'publish',
     title: '테스트케이스',
-    firstPrice: 5,
-    secondPrice: 10,
   },
 };

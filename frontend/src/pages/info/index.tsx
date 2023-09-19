@@ -1,5 +1,5 @@
 import InfoContent from '@src/components/organisms/infoContent';
-import * as S from './index.styled';
+import * as S from '@src/styles/pageStyles/info/index.styled';
 import Image from 'next/image';
 import { LogoBlackImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
