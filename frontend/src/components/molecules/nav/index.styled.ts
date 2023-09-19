@@ -4,6 +4,7 @@ import Image from 'next/image';
 export const Container = styled.div`
   padding: 6.6rem 0 6.6rem 0;
   position: relative;
+  z-index: 5;
 `;
 
 export const LogoBox = styled(Image)`

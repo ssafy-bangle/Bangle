@@ -23,7 +23,6 @@ export const SearchBtn = styled.button`
   font-size: 2.4rem;
   background-color: transparent;
   border: none;
-  z-index: 10;
   margin: 1.6rem;
   position: absolute;
   display: inline-flex;
