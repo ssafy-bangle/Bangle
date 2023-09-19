@@ -2,8 +2,7 @@ import PageTitle from '@src/components/atoms/pageTitle';
 import * as S from '@src/styles/pageStyles/search/index.styled';
 import Input from '@src/components/atoms/input';
 import Icon from '@src/components/atoms/icon';
-import { TestBook } from '@src/assets/imgs';
-import BookCover from '@src/components/atoms/bookCover';
+import BooksContainer from '@src/components/organisms/booksContainer';
 
 export default function Search() {
   return (
@@ -17,21 +16,8 @@ export default function Search() {
           </S.SearchBtn>
         </S.SearchInput>
       </S.Container>
-      <S.SubTitle>모든 책</S.SubTitle>
-      <S.BookContainer>
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-        <BookCover imgSrc={TestBook} />
-      </S.BookContainer>
+      <BooksContainer type='book' page='search' title='도서' />
+      <BooksContainer type='author' page='search' title='작가' />
     </>
   );
 }

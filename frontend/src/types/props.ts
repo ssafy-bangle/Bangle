@@ -86,3 +86,9 @@ export type RatingProps = {
 export type NoValueProps = {
   type: string;
 };
+
+export type BooksContainerProps = {
+  type: 'book' | 'author';
+  page: 'bookShelf' | 'search';
+  title: string;
+};

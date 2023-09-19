@@ -3,6 +3,7 @@ import * as S from '@src/styles/pageStyles/bookshelf/index.styled';
 import { TestBook } from '@src/assets/imgs';
 import BookCover from '@src/components/atoms/bookCover';
 import Book from '@src/components/molecules/book';
+import BooksContainer from '@src/components/organisms/booksContainer';
 
 export default function Bookshelf() {
   return (
@@ -20,21 +21,7 @@ export default function Bookshelf() {
           </S.CoverContainer>
         </S.Box>
 
-        <S.SubTitle>모든 책</S.SubTitle>
-        <S.BookContainer>
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-          <Book imgSrc={TestBook} />
-        </S.BookContainer>
+        <BooksContainer type='book' page='bookShelf' title='모든 책' />
       </S.Container>
     </>
   );

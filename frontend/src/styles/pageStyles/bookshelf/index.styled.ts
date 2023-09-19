@@ -18,6 +18,7 @@ export const Title = styled(SubTitle)`
 
 export const Container = styled.div`
   margin: 0 auto 3rem auto;
+  padding-bottom: 20rem;
 `;
 
 export const Content = styled.div`
