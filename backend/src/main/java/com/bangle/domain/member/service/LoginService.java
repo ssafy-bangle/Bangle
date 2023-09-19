@@ -42,6 +42,9 @@ public class LoginService {
         .path("/oauth/token")
         .build();
 
+    System.out.println("loginService");
+    System.out.println("backendHost: " + backendHost);
+
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.setContentType(
         new MediaType("application", "x-www-form-urlencoded", StandardCharsets.UTF_8));
