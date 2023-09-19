@@ -18,7 +18,7 @@ export default function Layout(props: { children: React.ReactNode }) {
 
   return (
     <S.Container>
-      {checkPath() && <Nav role="user" />}
+      {checkPath() && <Nav />}
       {props.children}
       <Cart />
     </S.Container>

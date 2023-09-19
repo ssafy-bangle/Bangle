@@ -1,5 +1,5 @@
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from './index.styled.';
+import * as S from '@src/styles/pageStyles/search/index.styled';
 import Input from '@src/components/atoms/input';
 import Icon from '@src/components/atoms/icon';
 import { TestBook } from '@src/assets/imgs';
