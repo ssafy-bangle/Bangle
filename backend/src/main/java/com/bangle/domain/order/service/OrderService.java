@@ -106,16 +106,18 @@ public class OrderService {
 		}
 
 		List<OrderBook> orderBooks = new ArrayList<>();
+		List<Bookshelf> bookshelf = new ArrayList<>();
 		int totalDust = 0;
 		for (int i = 0; i < books.size(); i++) {
 			Book book = books.get(i);
 			OrderStatus orderStatus = order.books().get(i).orderStatus();
 			totalDust += book.getPrice(orderStatus);
-			orderBooks.add(OrderBook.createOrderBook(orderStatus, books.get(i)));
+			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
+			bookshelf.add(Bookshelf.createBookShelf(member, book, orderStatus));
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
 		orderRepository.save(newOrder);
-		bookshelfRepository.saveAll(Bookshelf.createBookShelfList(member, books));
+		bookshelfRepository.saveAll(bookshelf);
 	}
 }
