@@ -32,7 +32,7 @@ export default function Nav() {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = roles === 'author' ? authorList : userList;
+  const selectedList = roles === 'ROLE_USER' ? userList : authorList;
 
   return (
     <S.Container>
@@ -43,7 +43,8 @@ export default function Nav() {
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-        {roles === 'user' ? (
+
+        {roles === 'ROLE_USER' ? (
           <>
             <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
             <S.CartBox>

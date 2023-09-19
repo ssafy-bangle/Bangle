@@ -1,13 +1,14 @@
-import { client } from '@src/apis/client';
+import apiInstance from './client';
 
+const client = apiInstance();
 const postPublicKey = async (nickname: string, publicKey: string) => {
   try {
-    const res = await client().post('/users', { nickname, publicKey });
+    const res = await client.post('/users', { nickname, publicKey });
     return res.data;
   } catch (e) {
     throw new Error('');
   }
 };
 
-const userApi = { postPublicKey };
-export default userApi;
+const user = { postPublicKey };
+export default user;

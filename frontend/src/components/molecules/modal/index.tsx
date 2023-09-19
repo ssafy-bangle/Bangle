@@ -4,10 +4,8 @@ import { ModalProps } from '@src/types/props';
 import Image from 'next/image';
 import { DarkMunzi } from '@src/assets/imgs';
 import Button from '@src/components/atoms/button';
-import { useRouter } from 'next/router';
 
-export default function Modal({ type, title, firstPrice, secondPrice }: ModalProps) {
-  const router = useRouter();
+export default function Modal({ type, title, firstPrice, secondPrice, onClick }: ModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const showModal = () => {
@@ -46,15 +44,15 @@ export default function Modal({ type, title, firstPrice, secondPrice }: ModalPro
               <S.Divider />
               <S.ButtonContainer>
                 {type == 'publish' ? (
-                  <Button theme="text" content={`즉시 충전(${secondPrice})`} length="long" onClick={() => {}} />
+                  <Button theme="text" content={`즉시 충전(${secondPrice})`} length="long" onClick={onClick} />
                 ) : (
-                  <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={() => {}} />
+                  <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={onClick} />
                 )}
                 <Button
                   theme="default"
                   content={type == 'publish' ? `출판하기(${secondPrice}먼지)` : `즉시구매(${secondPrice}먼지)`}
                   length="long"
-                  onClick={() => router.push('/')}
+                  onClick={onClick}
                 />
               </S.ButtonContainer>
             </S.StyledContainer>
