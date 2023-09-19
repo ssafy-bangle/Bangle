@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 
 export default function Landing() {
   const router = useRouter();
+  const kakao_redirect = process.env.NEXT_PUBLIC_DOMAIN + "login/oauth2/code/kakao";
+  const kakao_redirect_url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c6c5b92bfb2099f919dedc2c24a91134&redirect_uri=" + kakao_redirect
   return (
     <>
       <S.Container>
@@ -23,10 +25,14 @@ export default function Landing() {
           <br />
           작가와 독자가 직접 만날 수 있는 공간 '방글'
         </S.Content>
-        <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c6c5b92bfb2099f919dedc2c24a91134&redirect_uri=http://localhost:8000/login/oauth2/code/kakao">
-          <Button length="medium" size="big" content="시작하기" onClick={() => console.log("login")} />
-        </a>
-
+        <Button
+          length="medium"
+          size="big"
+          content="시작하기"
+          onClick={() =>
+            router.push(kakao_redirect_url)
+          }
+        />
       </S.Container>
     </>
   );

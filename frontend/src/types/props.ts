@@ -1,4 +1,3 @@
-import { ReactRenderer } from '@storybook/react';
 import { StaticImageData } from 'next/image';
 
 export type ButtonProps = {
@@ -67,6 +66,7 @@ export type ModalProps = {
   title?: string;
   type?: 'publish' | 'buy' | 'munzi';
   publishPrice?: number;
+  onClick?: () => void;
 };
 
 export type ChipProps = {

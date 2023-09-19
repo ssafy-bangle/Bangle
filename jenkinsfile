@@ -1,0 +1,43 @@
+pipeline {
+	agent any
+	stages {
+		stage("Clone") {
+			steps {
+				git branch: 'develop',
+					credentialsId: 'hunn2023', 
+					url: 'https://lab.ssafy.com/s09-blockchain-contract-sub2/S09P22A501.git'
+			}
+		}
+		stage("Build Backend") {
+			steps {
+				dir ("./backend") {
+					// stop running containers and remove images
+					sh "docker stop backend-server || true"
+					sh "docker rm backend-server || true"
+					sh "docker stop backend-kubo || true"
+					sh "docker rm backend-kubo || true"
+					sh "docker stop backend-redis || true"
+					sh "docker rm backend-redis || true"
+
+					// copy application-secret to cloned repo
+					sh "rm ./src/main/resources/application-secret.yml || true"
+					sh "cp /var/jenkins_home/secrets/application-secret.yml ./src/main/resources/"
+
+					sh "docker compose up --build -d"
+				}
+			}
+		}
+		stage("Build Frontend") {
+			steps {
+		 		dir ("./frontend") {
+					// stop running containers and remove images
+		 			sh "docker stop frontend || true"
+		 			sh "docker rm frontend || true"
+
+		 			sh "docker build -t frontend ."
+		 			sh "docker run -p 3000:3000 frontend"
+		 		}
+		 	}
+		}
+	}
+}
