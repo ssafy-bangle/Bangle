@@ -34,3 +34,17 @@ export const SearchBtn = styled.button`
     color: var(--BG_MAIN);
   }
 `;
+
+export const SubTitle = styled.div`
+  margin-top: 7.6rem;
+  color: var(--BG_GRAY1);
+  font-size: 2.8rem;
+  font-weight: 700;
+  padding-bottom: 1.6rem;
+`;
+
+export const BookContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.8rem 2rem;
+`;
