@@ -80,8 +80,7 @@ export default function Write() {
         <Modal
           type="publish"
           title={'책제목'}
-          firstPrice={5}
-          secondPrice={10}
+          publishPrice={10}
           onClick={() => {
             console.log('Write TEST!');
             handlePostBook();

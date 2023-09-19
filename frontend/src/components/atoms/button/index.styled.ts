@@ -11,7 +11,7 @@ export const Button = styled.button<ButtonProps>`
     return `${horizontalPadding} ${verticalPadding}`;
   }};
   background-color: ${({ theme }) =>
-    theme != 'default' ? 'transparent' : ({ active }) => (active ? '#2cc295' : '#A3A5A9')};
+    theme != 'default' ? 'transparent' : ({ disabled }) => (disabled ? '#A3A5A9' : '#2cc295')};
   border-radius: 1.2rem;
   border: ${({ theme }) => theme == 'line' && '1.4px solid var(--BG_WHITE)'};
   color: ${({ theme }) => (theme == 'text' ? 'var(--BG_GRAY2)' : 'var(--BG_WHITE)')};

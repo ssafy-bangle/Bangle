@@ -8,13 +8,13 @@ import { UserInfoState } from '@src/modules/user';
 import { useRecoilValue } from 'recoil';
 
 export default function Mypage() {
-  const { roles } = useRecoilValue(UserInfoState);
+  const { role } = useRecoilValue(UserInfoState);
   return (
     <S.Container>
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
-          <S.PartTitle>{roles === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
+          <S.PartTitle>{role === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
 
           <S.NicknamePart>
             <S.MainInfo>
@@ -23,8 +23,8 @@ export default function Mypage() {
 
             <Button length={'short'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
-          {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
-          {roles === 'ROLE_USER' ? (
+          {role === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {role === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가모드로 변경" />
           ) : (
             <Button length={'medium'} icon="mode" content="독자모드로 변경" />

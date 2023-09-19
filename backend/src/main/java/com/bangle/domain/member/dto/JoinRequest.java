@@ -9,6 +9,6 @@ public record JoinRequest(String nickname, String publicKey , String role) {
 		Objects.requireNonNull(role);
 	}
 	public boolean isAuthor(){
-		return role.equals("AUTHOR");
+		return role.equals("ROLE_AUTHOR");
 	}
 }

@@ -62,18 +62,17 @@ public class MemberController {
 					.provider("KAKAO")
 					.build());
 
-			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
 			boolean isNewMember = optionalMember.isEmpty();
 			if (isNewMember) {
 				memberService.save(member);
 			}
 			Map<String, Object> tokens = new LinkedHashMap<>();
-			tokens.put("member-information", new MemberResponse(member));
-			tokens.put("access-token", JwtTokenUtil.getAccessToken(member.getUserId()));
-			tokens.put("refresh-token", JwtTokenUtil.getRefreshToken(member.getUserId()));
-			tokens.put("isNewMember", isNewMember);
+			tokens.put("memberInformation", new MemberResponse(member));
+			tokens.put("accessToken", JwtTokenUtil.getAccessToken(member.getUserId()));
+			tokens.put("refreshToken", JwtTokenUtil.getRefreshToken(member.getUserId()));
+			tokens.put("needPublicKey", isNewMember || member.getPublicKey() == null);
 			//Redis에 20일 동안 저장
-			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refresh-token"), Duration.ofDays(20));
+			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refreshToken"), Duration.ofDays(20));
 			return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
 
 		} catch (JsonProcessingException e) {
@@ -106,7 +105,6 @@ public class MemberController {
 
 		try {
 			MemberResponse memberResponse = memberService.memberInfo(member.getUsername());
-
 			return BaseResponse.okWithData(HttpStatus.OK, "회원정보 조회 완료", memberResponse);
 		} catch(Exception e) {
 			e.printStackTrace();

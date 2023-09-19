@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { UserInfoState } from '@src/modules/user';
 
 export default function Nav() {
-  const { roles } = useRecoilValue(UserInfoState);
+  const { role } = useRecoilValue(UserInfoState);
   const router = useRouter();
   const setOpen = useSetRecoilState(CartOpenState);
 
@@ -32,7 +32,7 @@ export default function Nav() {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = roles === 'ROLE_USER' ? userList : authorList;
+  const selectedList = role === 'ROLE_AUTHOR' ? authorList : userList;
 
   return (
     <S.Container>
@@ -43,8 +43,7 @@ export default function Nav() {
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-
-        {roles === 'ROLE_USER' ? (
+        {role === 'ROLE_USER' ? (
           <>
             <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
             <S.CartBox>

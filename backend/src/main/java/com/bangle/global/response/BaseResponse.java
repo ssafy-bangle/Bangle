@@ -31,6 +31,6 @@ public class BaseResponse {
     }
 
     public static ResponseEntity<?> fail(HttpStatus status, String msg) {
-        return ResponseEntity.status(status).body(new FailResponse(status.getReasonPhrase() + msg));
+        return ResponseEntity.status(status).body(new FailResponse(status.getReasonPhrase(), msg));
     }
 }
