@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -21,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    @Value("${spring.backend.host}")
+    private String backendHost;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws
@@ -39,7 +42,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             body.put("message", authException.getMessage());
             body.put("detail", ((TokenExpiredException) expiredException).getMessage());
             body.put("path", request.getServletPath());
-            body.put("redirectUrl", "http://localhost:8080/api/users/refresh");
+            body.put("redirectUrl", backendHost + "/api/users/refresh");
         } else {
             // 응답 객체 초기화
             body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
