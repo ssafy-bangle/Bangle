@@ -5,6 +5,7 @@ import { TestBook } from '@src/assets/imgs';
 import { BooksContainerProps } from '@src/types/props';
 import { useState } from 'react';
 import Book from '@src/components/molecules/book';
+import Card from '@src/components/atoms/card';
 
 const dummyList = [
   TestBook,
@@ -38,14 +39,14 @@ export default function BooksContainer({ title, type, page }: BooksContainerProp
           <S.TotalBtn onClick={() => setIsClicked((pre) => !pre)}>{isClicked ? '닫기' : '전체보기'}</S.TotalBtn>
         )}
       </S.TitleContainer>
-      <S.BookContainer isClicked={isClicked} page={page}>
+      <S.BookContainer isClicked={isClicked} page={page} type={type}>
         {dummyList.map((img: StaticImageData) =>
           page == 'bookShelf' ? (
             <Book imgSrc={img} />
           ) : type == 'book' ? (
             <BookCover imgSrc={img} />
           ) : (
-            <BookCover imgSrc={img} />
+            <Card type='author' title='작가' />
           ),
         )}
       </S.BookContainer>

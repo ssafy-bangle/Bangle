@@ -92,3 +92,8 @@ export type BooksContainerProps = {
   page: 'bookShelf' | 'search';
   title: string;
 };
+
+export type CardProps = {
+  type: 'author' | 'genre';
+  title: string;
+};
