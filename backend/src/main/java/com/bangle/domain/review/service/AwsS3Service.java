@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
@@ -79,6 +80,10 @@ public class AwsS3Service {
 			"svg");
 		List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png", "image/gif");
 		return allowedExtensions.contains(fileExtension.toLowerCase()) && allowedMimeTypes.contains(mimeType);
+	}
+
+	public void deleteImage(String image){
+		s3.deleteObject(new DeleteObjectRequest(bucket, image));
 	}
 
 }

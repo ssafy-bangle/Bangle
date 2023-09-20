@@ -35,7 +35,7 @@ pipeline {
 		 			sh "docker rm frontend || true"
 
 		 			sh "docker build -t frontend ."
-		 			sh "docker run -p 3000:3000 frontend"
+		 			sh "docker run -p 3000:3000 -d --name frontend frontend"
 		 		}
 		 	}
 		}

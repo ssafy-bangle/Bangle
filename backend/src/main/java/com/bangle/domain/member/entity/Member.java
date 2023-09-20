@@ -81,4 +81,11 @@ public class Member {
 	}
 
 	public void updateDust(int amount) { this.dust += amount; }
+
+	public void buyBook(int cost) {
+		if (dust < cost) {
+			throw new IllegalArgumentException("잔액 부족");
+		}
+		dust -= cost;
+	}
 }

@@ -3,6 +3,8 @@ package com.bangle.domain.review.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,4 +29,12 @@ public class ReviewController {
 		reviewService.writeReview(request, cover, member.getUsername());
 		return BaseResponse.ok(HttpStatus.OK, "리뷰 작성 성공");
 	}
+
+	@DeleteMapping("/api/books/review/{reviewId}")
+	public ResponseEntity<?> deleteReview(@AuthenticationPrincipal CustomMemberDetails member,
+										  @PathVariable Long reviewId){
+		reviewService.deleteReview(member.getUsername(), reviewId);
+		return BaseResponse.ok(HttpStatus.OK, "잠시만");
+	}
+
 }
