@@ -40,6 +40,6 @@ export const GenreCard: Story = {
   args: {
     ...Template.args,
     type: 'genre',
-    title: '장르',
+    title: '로맨스',
   },
 };
