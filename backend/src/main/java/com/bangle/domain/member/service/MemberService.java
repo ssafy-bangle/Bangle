@@ -38,12 +38,7 @@ public class MemberService {
 	public MemberResponse join(String username, JoinRequest joinForm) {
 		Member member = findByUserId(username);
 		if (joinForm.isAuthor()) {
-			Author saveAuthor = authorRepository.save(Author.builder()
-				.member(member)
-				.follower(0L)
-				.income(0L)
-				.introduction("")
-				.build());
+			Author saveAuthor = authorRepository.save(Author.createAuthor(member));
 			member.joinAuthor(joinForm, saveAuthor);
 			return new MemberResponse(member);
 		}
