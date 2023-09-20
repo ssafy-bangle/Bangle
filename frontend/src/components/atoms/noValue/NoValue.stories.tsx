@@ -23,6 +23,15 @@ export const DefaultNo: Story = {
   name: 'Default',
   args: {
     ...Template.args,
-    type: 'bookDetail'
+    type: 'bookDetail',
+  },
+};
+
+export const SearchNo: Story = {
+  ...Template,
+  name: 'Search',
+  args: {
+    ...Template.args,
+    type: 'search',
   },
 };

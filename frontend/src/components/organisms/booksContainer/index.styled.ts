@@ -28,14 +28,21 @@ export const TotalBtn = styled.button`
   background-color: transparent;
 `;
 
-export const BookContainer = styled.div<{ isClicked: boolean; page: string }>`
+export const NoValue = styled.div`
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+  margin: 8rem 0%;
+`;
+
+export const BookContainer = styled.div<{ isClicked: boolean; page: string; type: string }>`
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2.8rem 1.6rem;
-  ${({ page, isClicked }) =>
+  grid-template-columns: ${({ type }) => (type === 'author' ? 'repeat(4, 1fr)' : 'repeat(6, 1fr)')};
+  gap: ${({ type }) => (type === 'author' ? '2.8rem 2.7rem' : '2.8rem 1.6rem')};
+  ${({ page, type, isClicked }) =>
     page === 'search' &&
     `
     overflow-y: ${isClicked ? 'visible' : 'hidden'};
-    height: ${!isClicked ? '24rem' : 'auto'};
+    height: ${!isClicked ? (type === 'author' ? '14rem' : '24rem') : 'auto'};
   `}
 `;
