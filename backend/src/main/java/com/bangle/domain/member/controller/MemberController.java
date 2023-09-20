@@ -111,4 +111,18 @@ public class MemberController {
 			return BaseResponse.fail(HttpStatus.UNAUTHORIZED, "회원정보 조회 실패");
 		}
 	}
+
+	@PutMapping("/register")
+	public ResponseEntity<?> registerAuthor(@AuthenticationPrincipal CustomMemberDetails member) {
+
+		try {
+			if (memberService.registerAuthor(member.getPK())) {
+				return BaseResponse.ok(HttpStatus.OK, "작가 전환 완료");
+			}
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "이미 전환된 작가");
+		} catch(Exception e) {
+			e.printStackTrace();
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "작가 전환 실패");
+		}
+	}
 }
