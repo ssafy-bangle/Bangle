@@ -23,11 +23,11 @@ interface GenreList {
   [key: string]: StaticImageData;
 }
 
-export default function Card({ title, type }: CardProps) {
+export default function Card({ title, type, onClick, isSelected = false }: CardProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const router = useRouter();
   const genreList: GenreList = {
-    sf: genre01,
+    SF: genre01,
     인문: genre02,
     자기계발: genre03,
     로맨스: genre04,
@@ -45,10 +45,11 @@ export default function Card({ title, type }: CardProps) {
 
   const onClickHandler = () => {
     type == 'author' ? router.push('/mypage') : setIsClicked((pre) => !pre);
+    onClick(title);
   };
   return (
     <>
-      <S.CardContainer type={type} title={title} onClick={onClickHandler}>
+      <S.CardContainer type={type} title={title} onClick={onClickHandler} isSelected>
         <S.GenreImage src={genreImageSrc} alt="장르" />
         <S.BlackScreen isClicked={isClicked} />
         <S.Title>{isClicked ? <HeartFilled /> : title}</S.Title>

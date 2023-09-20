@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 export const CardContainer = styled.div<CardProps>`
   background-color: var(--BG_BALCK);
-  width: ${({ type }) => (type == 'author' ? '26rem' : '14.4rem')};
   height: ${({ type }) => (type == 'author' ? '14rem' : '12rem')};
   border-radius: 1.2rem;
   padding: 2rem 1.8rem;
@@ -52,6 +51,7 @@ export const Title = styled.div`
   font-size: 2rem;
   font-weight: 700;
   z-index: 1;
+  text-shadow: 1px 1px 2px var(--BG_GRAY3);
 `;
 
 export const Button = styled.div`
