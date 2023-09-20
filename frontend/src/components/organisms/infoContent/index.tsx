@@ -26,12 +26,9 @@ export default function InfoContent() {
           .map((b) => b.toString(16).padStart(2, '0'))
           .join('');
         setPrivateKey(undefined);
-        userApi.postMemberInfo(nickname, publicKey,
-          isAuthor ? "ROLE_AUTHOR" : "ROLE_USER"
-          )
-          .then((res) => {
-            setUserInfo({...(res.data.memberInformation)})
-          });
+        userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER').then((res) => {
+          setUserInfo({ ...res.data.memberInformation });
+        });
         router.push('/home');
       }
     };
@@ -63,8 +60,8 @@ export default function InfoContent() {
     }
   }, [password, passwordCheck]);
 
-  const recoilNickname = "현재 닉네임: " + useRecoilValue(UserInfoState).nickname;
-  
+  const recoilNickname = '현재 닉네임: ' + useRecoilValue(UserInfoState).nickname;
+
   return (
     <>
       <S.Container>
@@ -72,7 +69,7 @@ export default function InfoContent() {
         <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호(8자 이상)'} setInput={setPassword} />
         <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호 확인'} setInput={setPasswordCheck} />
         <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
-        <Button theme='default' length={'medium'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
+        <Button theme="default" length={'medium'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
       </S.Container>
     </>
   );

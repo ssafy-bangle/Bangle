@@ -11,6 +11,8 @@ export default function Layout(props: { children: React.ReactNode }) {
         return false;
       case '/info':
         return false;
+      case '/ebook':
+        return false;
       default:
         return true;
     }

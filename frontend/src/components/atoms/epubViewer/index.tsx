@@ -1,54 +1,76 @@
-// import React, { useState } from 'react';
-// import Epub from 'epubjs';
+import Epub, { Book, Rendition, Contents, EpubCFI } from 'epubjs';
+import { useEffect, useState, useRef } from 'react';
+import * as S from './index.styled';
 
-// function EpubViewer() {
-//   const [book, setBook] = useState(null);
-//   const [currentCfi, setCurrentCfi] = useState(null);
+export default function EPubViewer({
+  side,
+  clickState,
+  setClickState,
+}: {
+  side: 'left' | 'right';
+  clickState: -1 | 0 | 1;
+  setClickState: (state: -1 | 0 | 1) => void;
+}) {
+  const [book, setBook] = useState<Book | null>(null);
+  const [page, setPage] = useState<number>(side === 'left' ? 1 : 2);
+  const [rendition, setRendition] = useState<Rendition | null>(null);
+  const areaElementRef = useRef<HTMLDivElement>(null);
 
-//   const handleFileUpload = async (e) => {
-//     const file = e.target.files[0];
-//     if (!file) return;
+  useEffect(() => {
+    const epubFilePath = '/moby-dick.epub';
 
-//     const reader = new FileReader();
+    const loadEpub = async () => {
+      try {
+        const epubBook = Epub(epubFilePath);
+        await epubBook.ready;
+        setBook(epubBook);
 
-//     reader.onload = async () => {
-//       const book = Epub(reader.result);
-//       await book.ready;
-//       setBook(book);
-//       setCurrentCfi(book.toc[0].href);
-//     };
+        const areaElement = areaElementRef.current;
+        if (areaElement) {
+          const epubRendition = epubBook.renderTo(areaElement, {
+            width: '100%',
+            height: '90%',
+          });
+          setRendition(epubRendition);
+          epubRendition.display(side === 'left' ? 1 : 2);
+        }
+      } catch (error) {
+        console.error('Error loading EPUB:', error);
+      }
+    };
+    loadEpub();
+  }, []);
 
-//     reader.readAsArrayBuffer(file);
-//   };
+  // 페이지 이벤트 감지 시, 페이지 변경
+  useEffect(() => {
+    clickState === 1 && setPage((cur) => cur + 2);
+    clickState === -1 && page - 2 > 0 && setPage((cur) => cur - 2);
+    setClickState(0);
+  }, [clickState]);
 
-//   const handleNavigation = (cfi) => {
-//     setCurrentCfi(cfi);
-//   };
+  // 페이지 변경 감지 시, 책 화면 변경
+  useEffect(() => {
+    book && rendition && rendition.display(page);
+  }, [page, book, rendition]);
 
-//   return (
-//     <div>
-//       <h1>EPUB Viewer</h1>
-//       <input type="file" accept=".epub" onChange={handleFileUpload} />
-//       {book && (
-//         <div>
-//           <div>
-//             <button onClick={() => handleNavigation(book.prevPage())}>Previous Page</button>
-//             <button onClick={() => handleNavigation(book.nextPage())}>Next Page</button>
-//           </div>
-//           <div>
-//             <button onClick={() => handleNavigation(book.prevChapter())}>Previous Chapter</button>
-//             <button onClick={() => handleNavigation(book.nextChapter())}>Next Chapter</button>
-//           </div>
-//         </div>
-//       )}
-//       {currentCfi && book && (
-//         <iframe
-//           title="epub-viewer"
-//           src={`viewer.html?bookPath=${encodeURIComponent(book.bookPath)}&cfi=${encodeURIComponent(currentCfi)}`}
-//         />
-//       )}
-//     </div>
-//   );
-// }
+  // 책 화면 변경 감지 시, 텍스트 색상 변경
+  useEffect(() => {
+    if (rendition) {
+      rendition.hooks.content.register((content: Contents) => {
+        const bookContainer = content.document.body;
+        const textElements = bookContainer.querySelectorAll('*');
+        textElements.forEach((element: any) => {
+          element.style.color = '#E8E9E9';
+        });
+      });
+    }
+  }, [rendition]);
 
-// export default EpubViewer;
+  return (
+    <S.Container
+      ref={areaElementRef}
+      onClick={() => {
+        side === 'left' ? setClickState(-1) : setClickState(1);
+      }}></S.Container>
+  );
+}

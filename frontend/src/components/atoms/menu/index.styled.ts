@@ -6,8 +6,8 @@ export const Container = styled.div`
   margin: auto;
 `;
 
-export const Menu = styled(Link)<{ isSelected: boolean }>`
-  color: ${({ isSelected }) => (isSelected ? '#2cc295' : '#a3a5a9')};
+export const Menu = styled(Link)<{ selected: boolean }>`
+  color: ${({ selected }) => (selected ? '#2cc295' : '#a3a5a9')};
   font-size: 2rem;
-  font-weight: ${({ isSelected }) => (isSelected ? 700 : 400)};
+  font-weight: ${({ selected }) => (selected ? 700 : 400)};
 `;
