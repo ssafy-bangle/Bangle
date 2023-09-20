@@ -36,6 +36,15 @@ public class Author {
 
 	private Long follower;
 
+	public static Author createAuthor(Member member) {
+		return Author.builder()
+			.member(member)
+			.follower(0L)
+			.income(0L)
+			.introduction("")
+			.build();
+	}
+
 	public String getNickname() {
 		return member.getNickname();
 	}
