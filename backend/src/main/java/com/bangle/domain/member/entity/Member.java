@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.member.dto.JoinRequest;
-import com.bangle.domain.member.dto.MemberResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -87,5 +86,13 @@ public class Member {
 			throw new IllegalArgumentException("잔액 부족");
 		}
 		dust -= cost;
+	}
+
+	public void upgradeAuthor() {
+		this.roles = "ROLE_AUTHOR";
+	}
+
+	public boolean isAuthor() {
+		return roles.equals("ROLE_AUTHOR");
 	}
 }

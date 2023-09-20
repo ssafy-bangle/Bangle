@@ -18,48 +18,64 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberService {
 
-	private final MemberRepository memberRepository;
-	private final AuthorRepository authorRepository;
+    private final MemberRepository memberRepository;
+    private final AuthorRepository authorRepository;
 
-	public Member save(Member member) {
-		return memberRepository.save(member);
-	}
+    public Member save(Member member) {
+        return memberRepository.save(member);
+    }
 
-	public Member findByUserId(String userId) {
-		return memberRepository.findByUserId(userId)
-			.orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다"));
-	}
+    public Member findByUserId(String userId) {
+        return memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다"));
+    }
 
-	public Optional<Member> getOptionalByUserId(String userId) {
-		return memberRepository.findByUserId(userId);
-	}
+    public Optional<Member> getOptionalByUserId(String userId) {
+        return memberRepository.findByUserId(userId);
+    }
 
-	@Transactional
-	public MemberResponse join(String username, JoinRequest joinForm) {
-		Member member = findByUserId(username);
-		if (joinForm.isAuthor()) {
-			Author saveAuthor = authorRepository.save(Author.createAuthor(member));
-			member.joinAuthor(joinForm, saveAuthor);
-			return new MemberResponse(member);
+    @Transactional
+    public MemberResponse join(String username, JoinRequest joinForm) {
+        Member member = findByUserId(username);
+        if (joinForm.isAuthor()) {
+            Author saveAuthor = authorRepository.save(Author.createAuthor(member));
+            member.joinAuthor(joinForm, saveAuthor);
+            return new MemberResponse(member);
+        }
+        member.join(joinForm);
+        return new MemberResponse(member);
+    }
+
+    public MemberResponse memberInfo(String userId) {
+        Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
+        return MemberResponse.builder()
+                .nickname(member.getNickname())
+                .dust(member.getDust())
+                .email(member.getEmail())
+                .roles(member.getRoles())
+                .userId(member.getUserId())
+                .build();
+    }
+
+    @Transactional
+    public void changeNickname(String userId, String nickname) {
+        Member member = findByUserId(userId);
+        member.changeNickname(nickname);
+    }
+
+    @Transactional
+    public boolean registerAuthor(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("멤버가 없습니다"));
+        System.out.println("--------------------");
+        Author author = Author.createAuthor(member);
+        System.out.println("===========================");
+		if (member.isAuthor()){
+			return false;
 		}
-		member.join(joinForm);
-		return new MemberResponse(member);
-	}
-
-	public MemberResponse memberInfo(String userId) {
-		Member member = memberRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 없습니다"));
-		return MemberResponse.builder()
-				.nickname(member.getNickname())
-				.dust(member.getDust())
-				.email(member.getEmail())
-				.roles(member.getRoles())
-				.userId(member.getUserId())
-				.build();
-	}
-
-	@Transactional
-	public void changeNickname(String userId, String nickname) {
-		Member member = findByUserId(userId);
-		member.changeNickname(nickname);
-	}
+        authorRepository.save(author);
+        member.upgradeAuthor();
+		return true;
+    }
 }
