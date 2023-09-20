@@ -52,7 +52,7 @@ export default function BooksContainer({ title, type, page }: BooksContainerProp
             ) : type == 'book' ? (
               <BookCover imgSrc={img} />
             ) : (
-              <Card type="author" title="작가" />
+              <Card type="author" title="작가" onClick={() => {}} isSelected />
             ),
           )}
         </S.BookContainer>
