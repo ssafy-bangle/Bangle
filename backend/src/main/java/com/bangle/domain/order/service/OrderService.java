@@ -48,6 +48,7 @@ public class OrderService {
 	private final BookshelfRepository bookshelfRepository;
 
 	@Value("${kubo.rpc.host}")
+
 	private String kuboRpcHost;
 
 	public IpfsResponse upload(RegisterRequest registerRequest, String publicKeyHex) {
@@ -60,7 +61,7 @@ public class OrderService {
 
 			// encrypt AES secretKey with member's public key
 			// not working yet
-			String encryptedKeyHex = CryptoUtil.encryptAesKey(publicKeyHex, secretAesKey);
+			String sharedSecret = CryptoUtil.makeSharedSecret(publicKeyHex, secretAesKey);
 
 			// make encryptedBook to file, use docker volume to make spring & kubo use same file path
 			//      Path filepath = Paths.get("./books/testbook.epub"); // need to make path unique to file
@@ -84,7 +85,7 @@ public class OrderService {
 			KuboAddResponse kuboAddResponse = restTemplate.postForObject(
 				uriComponents.toString(), new HttpEntity<>(body, header), KuboAddResponse.class);
 			if (kuboAddResponse != null) {
-				return new IpfsResponse(encryptedKeyHex, kuboAddResponse.getHash());
+				return new IpfsResponse(sharedSecret, kuboAddResponse.getHash());
 			} else {
 				return new IpfsResponse("", "");
 			}
