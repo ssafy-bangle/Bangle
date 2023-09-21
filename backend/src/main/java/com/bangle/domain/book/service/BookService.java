@@ -3,6 +3,8 @@ package com.bangle.domain.book.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.book.dto.BookResponse;
@@ -23,5 +25,10 @@ public class BookService {
 			.stream()
 			.map(Book::toResponse)
 			.collect(Collectors.toList());
+	}
+
+
+	public Page<BookResponse> searchByTitleContainsKeyword(String keyword, Pageable pageable) {
+		return bookRepository.findAllByTitleContainsKeywordForSearch(keyword, pageable);
 	}
 }
