@@ -1,6 +1,7 @@
 package com.bangle.domain.book.entity;
 
 import com.bangle.domain.author.entity.Author;
+import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.order.entity.OrderStatus;
 
 import jakarta.persistence.Column;
@@ -60,5 +61,8 @@ public class Book {
 			return rentalPrice;
 		}
 		return purchasePrice;
+	}
+	public BookResponse toResponse(){
+		return new BookResponse(this.getTitle(), this.getGenre(), this.getPurchasePrice(), this.getRentalPrice(), this.getAverageScore(), this.getCover());
 	}
 }
