@@ -11,49 +11,63 @@ const recentLog = ['어느 날 싸피에 책 한 권이 날아왔다', '평범�
 const genreCategory = [{ '👻': '스릴러' }, { '💖': '로맨스' }, { '🎠': '판타지' }];
 
 export default function SearchBar() {
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isHover, setIsHover] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
   const router = useRouter();
+  const handleOnSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push({
+      pathname: '/search',
+      query: {
+        keyword: keyword,
+        category: category,
+      },
+    });
+  };
   return (
     <>
       <S.Container>
-        {isClicked ? (
-          <S.InputStyle onMouseLeave={() => setIsClicked((pre) => !pre)}>
-            <S.SearchInput>
-              <Input size="long" state="default" placeholder="검색어를 입력하세요" setInput={() => {}} />
-              <S.SearchBtn onClick={() => {router.push('search')}}>
-                <Icon name="search" />
-              </S.SearchBtn>
-            </S.SearchInput>
-            <S.SearchLogContainer>
-              <S.RecentContainer>
-                최근 검색
-                <S.RecentItemContainer>
-                  {recentLog.map((content: string) => (
-                    <S.RecentItem>
-                      <CloseCircleOutlined /> {content}
-                    </S.RecentItem>
-                  ))}
-                </S.RecentItemContainer>
-              </S.RecentContainer>
-              <S.Divider />
-              <S.GenreContainer>
-                카테고리
-                <S.ChipsContainer>
-                  {genreCategory.map((item: object, index: number) => (
-                    <Chip
-                      size="small"
-                      icon={Object.keys(item)[0]}
-                      title={Object.values(item)[0]}
-                      key={index}
-                      onClick={() => {}}
-                    />
-                  ))}
-                </S.ChipsContainer>
-              </S.GenreContainer>
-            </S.SearchLogContainer>
-          </S.InputStyle>
+        {isHover ? (
+          <form onMouseLeave={() => setIsHover((pre) => !pre)} onSubmit={handleOnSearch}>
+            <S.InputStyle>
+              <S.SearchInput>
+                <Input size="long" state="default" placeholder="검색어를 입력하세요" setInput={setKeyword} />
+                <S.SearchBtn>
+                  <Icon name="search" />
+                </S.SearchBtn>
+              </S.SearchInput>
+              <S.SearchLogContainer>
+                <S.RecentContainer>
+                  최근 검색
+                  <S.RecentItemContainer>
+                    {recentLog.map((content: string) => (
+                      <S.RecentItem>
+                        <CloseCircleOutlined /> {content}
+                      </S.RecentItem>
+                    ))}
+                  </S.RecentItemContainer>
+                </S.RecentContainer>
+                <S.Divider />
+                <S.GenreContainer>
+                  카테고리
+                  <S.ChipsContainer>
+                    {genreCategory.map((item: object, index: number) => (
+                      <Chip
+                        size="small"
+                        icon={Object.keys(item)[0]}
+                        title={Object.values(item)[0]}
+                        key={index}
+                        setValue={setCategory}
+                      />
+                    ))}
+                  </S.ChipsContainer>
+                </S.GenreContainer>
+              </S.SearchLogContainer>
+            </S.InputStyle>
+          </form>
         ) : (
-          <S.SearchIcon onMouseEnter={() => setIsClicked((pre) => !pre)}>
+          <S.SearchIcon onMouseEnter={() => setIsHover((pre) => !pre)}>
             <Icon name="search" />
           </S.SearchIcon>
         )}

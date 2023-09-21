@@ -1,15 +1,15 @@
 import { InputProps } from '@src/types/props';
 import * as S from './index.styled';
 
-export default function Input({ size, state, placeholder, setInput }: InputProps) {
+export default function Input({ size, state, placeholder, value, setInput }: InputProps) {
   return (
     <>
       <S.StyledInput
         size={size}
         state={state}
+        value={value}
         placeholder={placeholder}
         onChange={({ target: { value } }) => {
-          console.log('Test', value);
           setInput(value);
         }}></S.StyledInput>
     </>

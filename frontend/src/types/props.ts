@@ -30,6 +30,7 @@ export type InputProps = {
   size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;
+  value?: string;
   setInput: (value: string) => void;
 };
 
@@ -75,7 +76,7 @@ export type ChipProps = {
   title: string;
   size: 'small' | 'big';
   icon?: string;
-  onClick?: () => void;
+  setValue?: (value: string) => void;
 };
 
 export type RatingProps = {

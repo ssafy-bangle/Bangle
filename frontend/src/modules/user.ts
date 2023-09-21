@@ -12,7 +12,7 @@ export const UserInfoState = atom<UserInfo>({
     nickname: '',
     provider: 'KAKAO',
     public_key: new Uint8Array(),
-    role: 'ROLE_AUTHOR',
+    role: 'ROLE_USER',
     user_id: '',
   },
 });
