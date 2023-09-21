@@ -24,6 +24,7 @@ export const ImgContainer = styled.div<BookCoverProps>`
     }
   }};
   border-radius: ${({ size }) => (size === 'small' ? '0.2rem' : '1.2rem')};
+  cursor: pointer;
 `;
 
 export const Img = styled(Image)`

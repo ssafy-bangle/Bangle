@@ -13,10 +13,12 @@ export type ButtonProps = {
 export type BookCoverProps = {
   imgSrc: StaticImageData;
   size?: 'small' | 'big';
+  onClick?: () => void;
 };
 
 export type BookProps = {
   imgSrc: StaticImageData;
+  onClick?: () => void;
 };
 
 export type MenuProps = {
@@ -91,6 +93,7 @@ export type BooksContainerProps = {
   type: 'book' | 'author';
   page: 'bookShelf' | 'search';
   title: string;
+  onClick?: () => void;
 };
 
 export type CardProps = {
