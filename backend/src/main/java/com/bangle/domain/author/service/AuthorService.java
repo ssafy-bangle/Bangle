@@ -9,6 +9,9 @@ import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.repository.BookRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthorService {
 
 	private final AuthorRepository authorRepository;
-	private final AuthorRepositoryCustom authorRepositoryCustom;
 	private final BookRepository bookRepository;
+
+	public Page<String> searchByNicknameContainsKeyword(String keyword, Pageable pageable) {
+		return authorRepository.findAllByNicknameContainsKeywordForSearch(keyword, pageable);
+	}
 
 	public Author findById(long authorId) {
 		return authorRepository.findById(authorId)
@@ -26,7 +32,7 @@ public class AuthorService {
 	}
 
 	public AuthorResponse getAuthorInfo(Long memberId) {
-		return authorRepositoryCustom.getAuthorInfo(memberId);
+		return authorRepository.getAuthorInfo(memberId);
 	}
 
 
