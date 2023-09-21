@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import Button from '@src/components/atoms/button';
 import { CartBlackImg } from '@src/assets/imgs';
+import Checkbox from '@src/components/atoms/checkbox';
 
 export default function Cart() {
   const [open, setOpen] = useRecoilState(CartOpenState);
@@ -17,7 +18,9 @@ export default function Cart() {
           <S.Img src={CartBlackImg} width={20} alt="cartImg" />
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
-        <S.ListContainer></S.ListContainer>
+        <S.ListContainer>
+          <Checkbox content="전체 선택" setInput={() => {}} />
+        </S.ListContainer>
         <S.InfoContainer></S.InfoContainer>
         <Button length={'long'} content="결제하기" />
       </S.Container>

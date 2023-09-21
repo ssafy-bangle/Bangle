@@ -1,12 +1,31 @@
+import { Checkbox } from 'antd';
 import { styled } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  justify-content: center;
 `;
 
-export const StyledCheckBox = styled.input`
+export const StyledCheckBox = styled(Checkbox)`
   margin-right: 0.8rem;
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--BG_MAIN);
+    border-color: var(--BG_MAIN);
+
+    :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+      .ant-checkbox-checked:not(.ant-checkbox-disabled)
+      .ant-checkbox-inner {
+      background-color: var(--BG_MAIN);
+    }
+  }
+  :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+    .ant-checkbox-inner,
+  :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+    border-color: var(--BG_MAIN);
+  }
+  :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+    outline: none;
+    outline-offset: 0;
+  }
 `;
 
 export const Content = styled.span`
