@@ -67,10 +67,12 @@ export default function EPubViewer({
   }, [rendition]);
 
   return (
-    <S.Container
-      ref={areaElementRef}
-      onClick={() => {
-        side === 'left' ? setClickState(-1) : setClickState(1);
-      }}></S.Container>
+    <S.ModalContainer>
+      <S.Container
+        ref={areaElementRef}
+        onClick={() => {
+          side === 'left' ? setClickState(-1) : setClickState(1);
+        }}></S.Container>
+    </S.ModalContainer>
   );
 }

@@ -13,10 +13,12 @@ export type ButtonProps = {
 export type BookCoverProps = {
   imgSrc: StaticImageData;
   size?: 'small' | 'big';
+  onClick?: () => void;
 };
 
 export type BookProps = {
   imgSrc: StaticImageData;
+  onClick?: () => void;
 };
 
 export type MenuProps = {
@@ -28,6 +30,7 @@ export type InputProps = {
   size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;
+  value?: string;
   setInput: (value: string) => void;
 };
 
@@ -73,7 +76,7 @@ export type ChipProps = {
   title: string;
   size: 'small' | 'big';
   icon?: string;
-  onClick?: () => void;
+  setValue?: (value: string) => void;
 };
 
 export type RatingProps = {
@@ -91,6 +94,7 @@ export type BooksContainerProps = {
   type: 'book' | 'author';
   page: 'bookShelf' | 'search';
   title: string;
+  onClick?: () => void;
 };
 
 export type CardProps = {

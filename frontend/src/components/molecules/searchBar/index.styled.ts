@@ -28,7 +28,7 @@ export const SearchBtn = styled.button`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  &:hover{
+  &:hover {
     box-shadow: none;
     outline: none;
     color: var(--BG_MAIN);

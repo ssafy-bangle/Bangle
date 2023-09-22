@@ -73,6 +73,10 @@ button {
 a, a:visited {
   text-decoration: none;
 }
+
+a:hover{
+  color:  var(--BG_MAIN);
+}
 `;
 
 export default GlobalStyle;
