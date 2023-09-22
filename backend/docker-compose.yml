@@ -54,8 +54,9 @@ services:
     image: redis
     ports:
       - "0.0.0.0:6379:6379"
+    command: redis-server --requirepass ss501ss501
     volumes:
-      - redis_config:/usr/local/etc/redis/redis.conf
+      - redis_config:/usr/local/etc/redis
 
 volumes:
   book_volume:
