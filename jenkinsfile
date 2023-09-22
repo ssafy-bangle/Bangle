@@ -3,7 +3,7 @@ pipeline {
 	stages {
 		stage("Clone") {
 			steps {
-				git branch: 'develop',
+				git branch: 'feature/backend/redis/password/jenkins',
 					credentialsId: 'hunn2023', 
 					url: 'https://lab.ssafy.com/s09-blockchain-contract-sub2/S09P22A501.git'
 			}

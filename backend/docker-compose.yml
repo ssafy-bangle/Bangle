@@ -20,6 +20,7 @@ services:
       KUBO_GATEWAY_HOST: backend_kubo:8080
       REDIS_HOST: backend_redis
       REDIS_PORT: 6379
+      REDIS_PASSWORD: ss501ss501
     volumes:
       - book_volume:/back/books
 
@@ -52,10 +53,13 @@ services:
     container_name: backend_redis
     image: redis
     ports:
-      - "127.0.0.1:6379:6379"
+      - "0.0.0.0:6379:6379"
+    volumes:
+      - redis_config:/usr/local/etc/redis/redis.conf
 
 volumes:
   book_volume:
   #  db_volume:
   ipfs_data:
   ipfs_staging:
+  redis_config:
