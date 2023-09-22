@@ -103,3 +103,12 @@ export type CardProps = {
   onClick: (value: string) => void;
   isSelected: boolean;
 };
+
+export type CartBookProp = {
+  id: number;
+  image: StaticImageData;
+  title: string;
+  author: string;
+  price: number;
+  setInput?: (value: number) => void;
+};

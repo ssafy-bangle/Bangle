@@ -13,6 +13,7 @@ export const ContainerBox = styled.div`
 export const BookBox = styled.div`
   display: flex;
   flex-direction: column;
+  width: 36%;
 
   & > img {
     margin: auto;
