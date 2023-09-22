@@ -1,11 +1,13 @@
 package com.bangle.domain.order.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -50,31 +52,27 @@ public class OrderService {
 	@Value("${kubo.rpc.host}")
 	private String kuboRpcHost;
 
-	public IpfsResponse upload(RegisterRequest registerRequest, String publicKeyHex) {
+	public IpfsResponse upload(RegisterRequest registerRequest, String userPublicKeyHex) {
 		try {
+			// decode user public key
+			byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
+
+			// generate shared secret
+			String sharedSecret = CryptoUtil.generateSharedSecret(decodedUserPublicKey);
+
+			// generate AES key from shared secret by PK
+			byte[] salt = Arrays.copyOfRange(decodedUserPublicKey, 0, 16);
+			SecretKey secretAesKey = CryptoUtil.createSecretKeyFromSharedSecret(sharedSecret, salt, 1000);
+
 			// encrypt book
-			SecretKey secretAesKey = CryptoUtil.createSecretKey();
-			IvParameterSpec iv = CryptoUtil.generateIv();
 			byte[] encryptedBook = CryptoUtil
-				.encryptBook(secretAesKey, iv, registerRequest.getBook().getBytes());
-
-			// encrypt AES secretKey with member's public key
-			// not working yet
-			String encryptedKeyHex = CryptoUtil.encryptAesKey(publicKeyHex, secretAesKey);
-
-			// make encryptedBook to file, use docker volume to make spring & kubo use same file path
-			//      Path filepath = Paths.get("./books/testbook.epub"); // need to make path unique to file
-			//      Files.write(filepath, encryptedBook);
-			//      System.out.println("filepath: " + filepath);
+				.encryptBook(secretAesKey, CryptoUtil.generateIv(), registerRequest.getBook().getBytes());
 
 			// upload to IPFS
-			// header
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(MediaType.MULTIPART_FORM_DATA);
-			// body
 			LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 			body.add("file", encryptedBook);
-			// Uri
 			UriComponents uriComponents = UriComponentsBuilder.newInstance()
 				.scheme("http")
 				.host(kuboRpcHost)
@@ -82,14 +80,16 @@ public class OrderService {
 				.build();
 
 			KuboAddResponse kuboAddResponse = restTemplate.postForObject(
-				uriComponents.toString(), new HttpEntity<>(body, header), KuboAddResponse.class);
-			if (kuboAddResponse != null) {
-				return new IpfsResponse(encryptedKeyHex, kuboAddResponse.getHash());
-			} else {
-				return new IpfsResponse("", "");
+				uriComponents.toString(), new HttpEntity<>(body, header), KuboAddResponse.class
+			);
+
+			if (kuboAddResponse == null) {
+				throw new NullPointerException("ipfs address is null");
 			}
+			return new IpfsResponse(sharedSecret, kuboAddResponse.getHash());
 		} catch (Exception e) {
 			System.out.println(e);
+			e.printStackTrace();
 			return new IpfsResponse("", "");
 		}
 	}
