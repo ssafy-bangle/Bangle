@@ -32,9 +32,11 @@ public class CryptoUtil {
 
   private static PrivateKey getServerPrivateKey()
           throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+    // generate PrivateKey Object from hex string private key
     BigInteger s = new BigInteger(serverPrivateKey, 16);
     ECParameterSpec ecParameterSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
     ECPrivateKeySpec ecPrivateKeySpec = new ECPrivateKeySpec(s, ecParameterSpec);
+    // generate
     Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     KeyFactory keyFactory = KeyFactory.getInstance("ECDH", "BC");
     return keyFactory.generatePrivate(ecPrivateKeySpec);
@@ -43,9 +45,11 @@ public class CryptoUtil {
   private static PublicKey toPublicKey(byte[] userPublicKey)
           throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
     ECParameterSpec ecParameterSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
+    // add prefix to public key
     byte[] ecpoint = new byte[65];
     ecpoint[0] = 4;
     System.arraycopy(userPublicKey, 0, ecpoint, 1, 64);
+    // generate & return public key
     ECPublicKeySpec ecPublicKeySpec = new ECPublicKeySpec(
             ecParameterSpec.getCurve().decodePoint(ecpoint), ecParameterSpec);
     KeyFactory keyFactory = KeyFactory.getInstance("ECDH", "BC");
@@ -69,20 +73,7 @@ public class CryptoUtil {
           throws NoSuchAlgorithmException, InvalidKeySpecException {
     SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     KeySpec keySpec = new PBEKeySpec(sharedSecret.toCharArray(), salt, interationCount, 256);
-//    CharSequence charSequence = Arrays.toString(salt);
-//    Pbkdf2PasswordEncoder pbkdf2PasswordEncoder = new Pbkdf2PasswordEncoder(charSequence, 16, 1000,
-//            Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256);
-//    String encode = pbkdf2PasswordEncoder.encode(sharedSecret);
-//    System.out.println("=========================================================================================");
-//    System.out.println("NEW ENCODED ENCODE: " + encode);
-//    System.out.println("=========================================================================================");
     return new SecretKeySpec(secretKeyFactory.generateSecret(keySpec).getEncoded(), "AES");
-  }
-
-  public static SecretKey createSecretKey() throws NoSuchAlgorithmException {
-    KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-    keyGenerator.init(256);
-    return keyGenerator.generateKey();
   }
 
   public static IvParameterSpec generateIv() {
@@ -107,17 +98,6 @@ public class CryptoUtil {
     return cipher.doFinal(book);
   }
 
-//  public static PublicKey hexToPrvKey(String privateKeyHex) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
-//    ECParameterSpec params = ECNamedCurveTable.getParameterSpec("secp256k1");
-//    ECPrivateKeySpec prvKey = new ECPrivateKeySpec(privateKeyHex.getBytes(), params);
-////    ECPublicKeySpec prvKey = new ECPrivateKeySpec(
-////            params.getCurve().decodePoint(privateKeyHex.getBytes(), params));
-////    ECPublicKeySpec prvKey = new ECPublicKeySpec(
-////            params.getCurve().decodePoint(publicKeyHex.getBytes()), params);
-//    KeyFactory keyFactory = KeyFactory.getInstance("ECDH", "BC");
-//    return keyFactory.generatePublic(pubKey);
-//  }
-//
   public static String byteToHex(byte[] bytes) {
     StringBuilder stringBuilder = new StringBuilder();
     for (byte aByte : bytes) {

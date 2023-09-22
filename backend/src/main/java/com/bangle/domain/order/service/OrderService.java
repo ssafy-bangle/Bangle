@@ -64,13 +64,6 @@ public class OrderService {
 			byte[] salt = Arrays.copyOfRange(decodedUserPublicKey, 0, 16);
 			SecretKey secretAesKey = CryptoUtil.createSecretKeyFromSharedSecret(sharedSecret, salt, 1000);
 
-			System.out.println("==========================================================================");
-			System.out.println("secret AES key");
-			System.out.println(CryptoUtil.byteToHex(secretAesKey.getEncoded()));
-			System.out.println("shared secret");
-			System.out.println(sharedSecret);
-			System.out.println("==========================================================================");
-
 			// encrypt book
 			byte[] encryptedBook = CryptoUtil
 				.encryptBook(secretAesKey, CryptoUtil.generateIv(), registerRequest.getBook().getBytes());
