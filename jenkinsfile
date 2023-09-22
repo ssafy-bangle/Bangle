@@ -23,6 +23,10 @@ pipeline {
 					sh "rm ./src/main/resources/application-secret.yml || true"
 					sh "cp /var/jenkins_home/secrets/application-secret.yml ./src/main/resources/"
 
+					// copy .env file for docker compose to cloned repo
+					sh "rm ./.env || true"
+					sh "cp /var/jenkins_home/secrets/.env ./"
+
 					sh "docker compose up --build -d"
 				}
 			}
