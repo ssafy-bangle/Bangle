@@ -34,8 +34,8 @@ public class BookController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> searchBookAndAuthorByKeyword(@RequestParam(required = false) String keyword, Pageable pageable) {
-		Page<BookResponse> bookResponses = bookService.searchByTitleContainsKeyword(keyword, pageable);
+	public ResponseEntity<?> searchBookAndAuthorByKeyword(@RequestParam(required = false) String keyword,@RequestParam(required = false) String category, Pageable pageable) {
+		Page<BookResponse> bookResponses = bookService.searchByTitleContainsKeyword(keyword,category, pageable);
 		Page<String> authorNames = authorService.searchByNicknameContainsKeyword(keyword, pageable);
 		Map<String, Object> responseMap = new HashMap<>();
 		responseMap.put("books", bookResponses);

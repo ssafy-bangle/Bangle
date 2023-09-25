@@ -28,7 +28,7 @@ public class BookService {
 	}
 
 
-	public Page<BookResponse> searchByTitleContainsKeyword(String keyword, Pageable pageable) {
-		return bookRepository.findAllByTitleContainsKeywordForSearch(keyword, pageable);
+	public Page<BookResponse> searchByTitleContainsKeyword(String keyword,String category, Pageable pageable) {
+		return bookRepository.findAllByTitleContainsKeywordForSearch(keyword,category, pageable);
 	}
 }
