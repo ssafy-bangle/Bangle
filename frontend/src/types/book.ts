@@ -19,3 +19,10 @@ export type postBookReqProps = {
   file: string;
   introduce: string;
 };
+
+export type postBookReviewProps = {
+  bookId: number;
+  cover: string;
+  content: string;
+  score: number;
+};

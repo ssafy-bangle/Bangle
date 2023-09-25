@@ -11,7 +11,7 @@ export default function CartItem({ setInput, image, title, author, price }: Cart
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   return (
-    <S.TotalItemContainer onChange={() => setInput}>
+    <S.TotalItemContainer onChange={() => {}}>
       <Checkbox content="" setInput={() => setIsChecked((pre) => !pre)} />
       <S.CartItemContainer>
         <BookCover imgSrc={image} />

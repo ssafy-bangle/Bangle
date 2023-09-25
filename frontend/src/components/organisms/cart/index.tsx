@@ -55,18 +55,20 @@ export default function Cart() {
     e.preventDefault();
   };
 
+  const setListHandler = (book: CartBookProp) => {
+    console.log('setListHandler', book)
+    if (isChecked) {
+      const updatedList = [...selectedBookList, book];
+      setSelectedBookList(updatedList);
+    } else {
+      setSelectedBookList(selectedBookList.filter((el) => el !== book));
+    }
+  };
+
   useEffect(() => {
-    // console.log('check', isCheckedList);
-    // if (isChecked) {
-    //   selected 배열에 추가
-    //   const updatedList = [...selectedBookList, newItem];
-    //   setSelectedBookList(updatedList);
-    //   totalPrice += book.price
-    // } else {
-    //   selected 배열에서 삭제
-    //   setSelectedBookList(selectedBookList.filter((el) => el !== item));
-    // }
-  }, []);
+    console.log('check', isCheckedList);
+
+  }, [isChecked]);
 
   return (
     <S.StyledDrawer placement="right" onClose={onClose} open={open}>
@@ -80,7 +82,7 @@ export default function Cart() {
           <S.ListContainer>
             {/* 나중에 book prop 타입 생기면 적어야함 */}
             {onCartBooks.map((book, index) => (
-              <CartItem setInput={() => isChecked} key={index} id={book.id} title={book.title} author={book.author} price={book.price} image={book.image} />
+              <CartItem setInput={() => setListHandler(book)} key={index} id={book.id} title={book.title} author={book.author} price={book.price} image={book.image} />
             ))}
           </S.ListContainer>
           <S.InfoContainer>
