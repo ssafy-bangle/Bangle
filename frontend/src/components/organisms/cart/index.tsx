@@ -5,7 +5,7 @@ import { CartOpenState } from '@src/modules/state';
 import Button from '@src/components/atoms/button';
 import { CartBlackImg, DarkMunzi, TestBook } from '@src/assets/imgs';
 import Checkbox from '@src/components/atoms/checkbox';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { CartBookProp } from '@src/types/props';
 import CartItem from '@src/components/molecules/cartItem';
 
@@ -42,33 +42,32 @@ const onCartBooks: CartBookProp[] = [
 
 export default function Cart() {
   const [open, setOpen] = useRecoilState(CartOpenState);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isCheckedList, setIsCheckedList] = useState<boolean[]>([]);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [selectedBookList, setSelectedBookList] = useState<CartBookProp[]>([]);
-  const totalPrice = 0;
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const onClose = () => {
     setOpen(false);
   };
 
-  const handleOnCart = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
-  const setListHandler = (book: CartBookProp) => {
-    console.log('setListHandler', book)
-    if (isChecked) {
-      const updatedList = [...selectedBookList, book];
-      setSelectedBookList(updatedList);
+  const selectProductHandler = (book: CartBookProp, checked: boolean) => {
+    if (checked) {
+      setSelectedBookList((prev) => [...prev, book]);
+      setSelectedBookList((prev) => Array.from(new Set(prev)));
+      setTotalPrice((pre) => pre + book.price);
     } else {
-      setSelectedBookList(selectedBookList.filter((el) => el !== book));
+      setSelectedBookList((prev) => prev.filter((item) => item.id !== book.id));
+      setTotalPrice((pre) => pre - book.price);
     }
   };
 
   useEffect(() => {
-    console.log('check', isCheckedList);
+    console.log('list', selectedBookList);
+  });
 
-  }, [isChecked]);
+  const handleOnCart = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
   return (
     <S.StyledDrawer placement="right" onClose={onClose} open={open}>
@@ -78,20 +77,34 @@ export default function Cart() {
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
         <form onSubmit={handleOnCart}>
-          <Checkbox content="전체 선택" setInput={() => {}} />
+          <Checkbox content="전체 선택" setInput={() => setIsClicked((pre) => !pre)} />
           <S.ListContainer>
             {/* 나중에 book prop 타입 생기면 적어야함 */}
-            {onCartBooks.map((book, index) => (
-              <CartItem setInput={() => setListHandler(book)} key={index} id={book.id} title={book.title} author={book.author} price={book.price} image={book.image} />
+            {onCartBooks.map((book: CartBookProp, index) => (
+              <CartItem
+                setChecked={selectProductHandler}
+                key={index}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                price={book.price}
+                image={book.image}
+                checked={isClicked}
+              />
             ))}
           </S.ListContainer>
           <S.InfoContainer>
             선택된 책
-            {selectedBookList.length !== 0 ? (
-              selectedBookList.map((book: CartBookProp) => <S.SelectedBooks>{book.title} |</S.SelectedBooks>)
-            ) : (
-              <S.SelectedBooks>구매할 책을 선택해주세요</S.SelectedBooks>
-            )}
+            <S.SelectedBooks>
+              {selectedBookList.length > 0
+                ? selectedBookList.map((book: CartBookProp, index: number) => (
+                    <span key={index}>
+                      {book.title}
+                      {index < selectedBookList.length - 1 ? ' | ' : ''}
+                    </span>
+                  ))
+                : '구매할 책을 선택해주세요'}
+            </S.SelectedBooks>
             <S.TotalPrice>
               <span style={{ color: 'var(--BG_GRAY3)' }}>총</span> {totalPrice}{' '}
               <Image src={DarkMunzi} alt="munzi" width={26} />
