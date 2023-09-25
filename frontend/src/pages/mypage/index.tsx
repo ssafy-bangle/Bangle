@@ -1,35 +1,86 @@
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import * as S from '@src/styles/pageStyles/mypage/index.styled';
 import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState } from '@src/modules/user';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
+import Input from '@src/components/atoms/input';
+import { userApi } from '@src/apis';
 
 export default function Mypage() {
-  const { role } = useRecoilValue(UserInfoState);
+  const [user, setUser] = useRecoilState(UserInfoState);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>(user.nickname);
+
+  const setNicknameChange = (nickname: string) => {
+    if (isClicked) {
+      userApi.putMemberNickname(nickname);
+      userApi.getMemberInfo().then((res) => {
+        console.log(res.data);
+        setUser({ ...res.data });
+      });
+      setIsClicked((pre) => !pre);
+    } else {
+      setIsClicked((pre) => !pre);
+    }
+  };
+
+  const setRoleChange = () => {
+    if (user.role == 'ROLE_AUTHOR') {
+      setUser((pre) => ({
+        ...pre,
+        role: 'ROLE_USER',
+      }));
+    } else {
+      setUser((pre) => ({
+        ...pre,
+        role: 'ROLE_AUTHOR',
+      }));
+    }
+  };
+
+  useEffect(() => {
+    console.log('user', user.nickname);
+  }, [user]);
+
   return (
     <S.Container>
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
-          <S.PartTitle>{role === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
+          <S.PartTitle>{user.role === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
 
           <S.NicknamePart>
             <S.MainInfo>
-              <strong>방글이 님</strong>
+              {isClicked ? (
+                <Input
+                  size="short"
+                  state="default"
+                  placeholder={user.nickname}
+                  value={nickname}
+                  setInput={setNickname}
+                />
+              ) : (
+                <strong>{user.nickname} 님</strong>
+              )}
             </S.MainInfo>
-
-            <Button length={'short'} theme={'line'} content="수정하기" />
+            <Button
+              length={'short'}
+              theme={'line'}
+              content={isClicked ? '완료' : '수정하기'}
+              onClick={() => setNicknameChange(nickname)}
+            />
           </S.NicknamePart>
-          {role === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
-          {role === 'ROLE_USER' ? (
-            <Button length={'medium'} icon="mode" content="작가모드로 변경" />
+          {user.role === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {user.role === 'ROLE_USER' ? (
+            <Button length={'medium'} icon="mode" content="작가모드로 변경" onClick={setRoleChange} />
           ) : (
-            <Button length={'medium'} icon="mode" content="독자모드로 변경" />
+            <Button length={'medium'} icon="mode" content="독자모드로 변경" onClick={setRoleChange} />
           )}
-          <S.Logout href="/" />
+          <S.Logout onClick={() => {}}>로그아웃</S.Logout>
         </S.LeftSection>
         <S.RightSection>
           <S.RightTopSection>
@@ -38,7 +89,7 @@ export default function Mypage() {
               <S.MunziPartLeft>
                 <Image src={DarkMunzi} alt="다크먼지" />
                 <S.MainInfo>
-                  내 먼지 <strong>30</strong>개
+                  내 먼지 <strong>{user.dust}</strong>개
                 </S.MainInfo>
               </S.MunziPartLeft>
               <Button length={'short'} theme={'line'} content="내역보기" />
