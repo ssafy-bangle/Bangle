@@ -9,6 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import com.bangle.domain.book.dto.BookResponse;
+import com.bangle.domain.book.entity.QBook;
+import com.bangle.domain.member.entity.QMember;
+import com.bangle.domain.order.entity.QOrder;
+import com.bangle.domain.order.entity.QOrderBook;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 
 	private final JPAQueryFactory jpaQueryFactory;
+	QMember member = QMember.member;
+	QOrder order = QOrder.order;
+	QOrderBook orderBook = QOrderBook.orderBook;
 
 	@Override
 	public Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword,String category, Pageable pageable) {
@@ -39,6 +46,18 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 				book.genre.eq(category));
 
 		return PageableExecutionUtils.getPage(books, pageable, countQuery::fetchOne);
+	}
+
+	@Override
+	public List<String> getGenres(String userId) {
+		return jpaQueryFactory
+			.select(book.genre)
+			.from(member)
+			.join(order).on(member.id.eq(order.member.id))
+			.join(orderBook).on(order.id.eq(orderBook.order.id))
+			.join(book).on(orderBook.book.eq(book))
+			.where(member.userId.eq(userId))
+			.fetch();
 	}
 
 }
