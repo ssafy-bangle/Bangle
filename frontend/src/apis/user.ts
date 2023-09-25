@@ -35,5 +35,16 @@ const getMemberInfo = async () => {
   }
 };
 
-const user = { postPublicKey, postMemberInfo, getMemberInfo };
+const putMemberNickname = async (nickname: string) => {
+  console.log('Put member Nickname:', nickname);
+  try {
+    const res = await client.put('/members', { nickname });
+    return res.data;
+  } catch (e) {
+    console.log('Error at putMemberNickname: ', e);
+    throw new Error('');
+  }
+};
+
+const user = { postPublicKey, postMemberInfo, getMemberInfo, putMemberNickname };
 export default user;
