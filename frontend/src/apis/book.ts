@@ -23,7 +23,7 @@ const getBookShelf = async (): Promise<getBookshelfResProp> => {
 
 const postBook = async (body: postBookReqProps) => {
   try {
-    const res = await client.post(`/authors/register`, body);
+    const res = await client.post(`/order/register`, body);
     return res.data;
   } catch (e) {
     throw new Error('');

@@ -35,3 +35,8 @@ export const ListContainer = styled.div`
 export const InfoContainer = styled(ListContainer)`
   background-color: var(--test);
 `;
+
+export const CheckBoxContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;

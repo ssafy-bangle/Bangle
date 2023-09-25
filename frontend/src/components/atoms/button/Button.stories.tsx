@@ -13,7 +13,7 @@ const Template: Story = {
     length: {
       type: 'string',
       control: 'select',
-      options: ['long', 'short'],
+      options: ['long', 'short', 'medium'],
       description: '길이',
     },
     size: {

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Button = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
-  width: ${({ length }) => length == 'long' && '31.2rem'};
+  width: ${({ length }) => length == 'long' && '100%'};
   padding: ${({length, size}) => {
     const horizontalPadding = size === 'big' ? '1.6rem' : '1.1rem';
     const verticalPadding = length === 'short' ? '1.2rem' : '2.4rem';

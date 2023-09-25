@@ -28,3 +28,10 @@ export type getBookshelfResProp = {
   cover: FormData;
   progress: number;
 };
+
+export type postBookReviewProps = {
+  bookId: number;
+  cover: string;
+  content: string;
+  score: number;
+};

@@ -49,7 +49,7 @@ export default function BookId() {
           <Rating value={4} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
             {[1, 2, 3, 4, 5, 6, 7].map((card: number) => (
-              <ReviewCard imgsrc={TestBook} />
+              <ReviewCard imgsrc={TestBook} size="small" />
             ))}
           </S.CardContainer>
         </S.ReviewContainer>

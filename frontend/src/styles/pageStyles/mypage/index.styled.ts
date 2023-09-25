@@ -99,9 +99,10 @@ export const MainInfo = styled.div`
   }
 `;
 
-export const Logout = styled(Link)`
+export const Logout = styled.div`
   color: var(--BG_GRAY1, #e8e9e9);
-  font-size: 2rem;
+  font-size: 1.6rem;
+  margin-top: 8rem;
   font-weight: 700;
   text-decoration-line: underline;
 `;
