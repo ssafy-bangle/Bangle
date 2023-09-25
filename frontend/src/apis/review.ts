@@ -5,7 +5,7 @@ const client = apiInstance();
 
 const postReview = async (body: postBookReviewProps) => {
   try {
-    const res = await client.post(`/api/books/review`, body);
+    const res = await client.post(`/books/review`, body);
     return res.data;
   } catch (e) {
     throw new Error('');

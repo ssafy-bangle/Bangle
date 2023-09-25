@@ -65,9 +65,8 @@ export const ReviewContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.4rem;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.4rem 2rem;
   margin-top: 2.4rem;
-  justify-content: space-between;
 `;
