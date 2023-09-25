@@ -53,6 +53,8 @@ dependencies {
 
     implementation("com.auth0:java-jwt:3.10.3")
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1'
+
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.70'
 }
 
 tasks.named('test') {

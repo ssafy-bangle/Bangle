@@ -21,20 +21,22 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword, Pageable pageable) {
+	public Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword,String category, Pageable pageable) {
 
 		List<BookResponse> books = jpaQueryFactory.select(
 				Projections.constructor(BookResponse.class, book.title, book.genre, book.purchasePrice, book.rentalPrice,
 					book.averageScore, book.cover))
 			.from(book)
-			.where(book.title.contains(keyword))
+			.where(book.title.contains(keyword),
+				book.genre.eq(category))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(book.count())
 			.from(book)
-			.where(book.title.contains(keyword));
+			.where(book.title.contains(keyword),
+				book.genre.eq(category));
 
 		return PageableExecutionUtils.getPage(books, pageable, countQuery::fetchOne);
 	}

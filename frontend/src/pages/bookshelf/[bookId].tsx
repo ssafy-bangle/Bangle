@@ -1,5 +1,5 @@
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from './[bookId].styled';
+import * as S from '@src/styles/pageStyles/bookshelf/[bookId].styled'
 import BookCover from '@src/components/atoms/bookCover';
 import { TestBook } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
