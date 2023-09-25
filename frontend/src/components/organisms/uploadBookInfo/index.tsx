@@ -4,29 +4,30 @@ import * as S from './index.styled';
 import Input from '@src/components/atoms/input';
 import Dropdown from '@src/components/molecules/dropdown';
 
-const { Dragger } = Upload;
+export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFileData, items }: any) {
+  const { Dragger } = Upload;
 
-export const bookUploadeProps: UploadProps = {
-  name: 'file',
-  multiple: true,
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      //여기에 파일을 올렸을 때 어떻게 하는지 코드를 적으면 됩니다
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
-};
+  const bookUploadeProps: UploadProps = {
+    name: 'file',
+    multiple: true,
+    onChange(info) {
+      const { status } = info.file;
+      if (status === 'done') {
+        message.success(`${info.file.originFileObj} file uploaded successfully.`);
+        const file = info.file.originFileObj;
+        let formData = new FormData();
+        file && formData.append('file', file);
+        setFileData(formData);
+        // console.log('BBBB', formData.getAll('file'));
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
 
-export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, items }: any) {
   return (
     <S.Container>
       <S.InputContainer>

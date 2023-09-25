@@ -1,31 +1,44 @@
+import { UserInfo } from '@src/types/user';
 import apiInstance from './client';
+import axios from 'axios';
 
 const client = apiInstance();
-const postPublicKey = async (nickname: string, publicKey: string) => {
+
+const postLogin = async (idToken: string) => {
   try {
-    const res = await client.post('/users', { nickname, publicKey });
+    const res = await axios
+      .create({
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: 'Bearer ' + idToken,
+        },
+      })
+      .post(process.env.NEXT_PUBLIC_DOMAIN + 'api/members/login/kakao');
     return res.data;
   } catch (e) {
     throw new Error('');
   }
 };
 
-const postMemberInfo = async (nickname: string, publicKey: string, role: string) => {
-  console.log('Post member INfo:', nickname, publicKey, role);
+const postPublicKey = async (publicKey: string) => {
   try {
-    const res = await client.post('/members', {
-      nickname,
-      publicKey,
-      role,
-    });
+    const res = await client.post('/publickey', { publicKey });
     return res.data;
   } catch (e) {
-    console.log('Error at postMemberInfo: ', e);
     throw new Error('');
   }
 };
 
-const getMemberInfo = async () => {
+const postMemberInfo = async (body: UserInfo) => {
+  try {
+    const res = await client.post('/users', { ...body });
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getMemberInfo = async (): Promise<UserInfo> => {
   try {
     const res = await client.get('/members');
     return res.data;
@@ -35,5 +48,5 @@ const getMemberInfo = async () => {
   }
 };
 
-const user = { postPublicKey, postMemberInfo, getMemberInfo };
+const user = { postLogin, postPublicKey, postMemberInfo, getMemberInfo };
 export default user;

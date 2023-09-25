@@ -1,5 +1,5 @@
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from './[bookId].styled';
+import * as S from '@src/styles/pageStyles/bookshelf/[bookId].styled';
 import BookCover from '@src/components/atoms/bookCover';
 import { TestBook } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
@@ -22,7 +22,7 @@ export default function BookId() {
       <PageTitle>책장</PageTitle>
       <S.Container>
         <S.InfoContainer>
-          <BookCover size="big" imgSrc={TestBook} />
+          <BookCover size="big" imgsrc={TestBook} />
           <S.BookInfo>
             <S.BookTitle>어느날 싸피에 책 한 권이 날아왔다</S.BookTitle>
             <S.SmallInfo>방글이 · 2023.09.13 · 소설</S.SmallInfo>
@@ -49,7 +49,7 @@ export default function BookId() {
           <Rating value={4} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
             {[1, 2, 3, 4, 5, 6, 7].map((card: number) => (
-              <ReviewCard imgSrc={TestBook} />
+              <ReviewCard imgsrc={TestBook} />
             ))}
           </S.CardContainer>
         </S.ReviewContainer>

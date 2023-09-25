@@ -23,7 +23,7 @@ const dummyList = [
   TestBook,
 ];
 
-export default function BooksContainer({ title, type, page, onClick }: BooksContainerProps) {
+export default function BooksContainer({ title, type, page, bookList, onClick }: BooksContainerProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   // type == 'book'인 경우 검색된 책 목록을 불러오기
@@ -48,9 +48,9 @@ export default function BooksContainer({ title, type, page, onClick }: BooksCont
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
           {dummyList.map((img: StaticImageData) =>
             page === 'bookShelf' ? (
-              <Book imgSrc={img} onClick={onClick} />
+              <Book imgsrc={img} onClick={onClick} />
             ) : type == 'book' ? (
-              <BookCover imgSrc={img} />
+              <BookCover imgsrc={img} />
             ) : (
               <Card type="author" title="작가" onClick={() => {}} isSelected />
             ),

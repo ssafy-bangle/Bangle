@@ -6,25 +6,30 @@ import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState } from '@src/modules/user';
 import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
 
 export default function Mypage() {
-  const { role } = useRecoilValue(UserInfoState);
+  const userInfo = useRecoilValue(UserInfoState);
+  const { roles } = userInfo;
+  useEffect(() => {
+    console.log('useInfo', userInfo);
+  });
   return (
     <S.Container>
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
-          <S.PartTitle>{role === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
+          <S.PartTitle>{roles === 'ROLE_USER' ? '독자' : '작가'} 정보</S.PartTitle>
 
           <S.NicknamePart>
             <S.MainInfo>
-              <strong>방글이 님</strong>
+              <strong>{userInfo.nickname} 님</strong>
             </S.MainInfo>
 
             <Button length={'short'} theme={'line'} content="수정하기" />
           </S.NicknamePart>
-          {role === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
-          {role === 'ROLE_USER' ? (
+          {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {roles === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가모드로 변경" />
           ) : (
             <Button length={'medium'} icon="mode" content="독자모드로 변경" />
@@ -38,7 +43,7 @@ export default function Mypage() {
               <S.MunziPartLeft>
                 <Image src={DarkMunzi} alt="다크먼지" />
                 <S.MainInfo>
-                  내 먼지 <strong>30</strong>개
+                  내 먼지 <strong>{userInfo.dust}</strong>개
                 </S.MainInfo>
               </S.MunziPartLeft>
               <Button length={'short'} theme={'line'} content="내역보기" />

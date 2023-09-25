@@ -30,6 +30,8 @@ const items: DropdownItems[] = [
 export default function Write() {
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
+  const [cover, setCover] = useState<string>('');
+  const [fileData, setFileData] = useState<FormData>(new FormData());
   const [price, setPrice] = useState<number>(0);
   const [genre, setGenre] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
@@ -40,10 +42,11 @@ export default function Write() {
   const handlePostBook = async () => {
     await bookApi.postBook({
       title: title,
-      cover: '',
+      cover: new FormData(),
       price: 0,
-      file: '',
+      file: new FormData(),
       introduce: introduction,
+      genre: genre,
     });
   };
 
@@ -54,7 +57,6 @@ export default function Write() {
     console.log('isNft', isNft);
     console.log('introduction', introduction);
     console.log('imgUrl', imgUrl);
-    console.log('isNft', isNft);
   });
 
   return (
@@ -73,6 +75,7 @@ export default function Write() {
           setPrice={setPrice}
           setGenre={setGenre}
           setIntroduction={setIntroduction}
+          setFileData={setFileData}
           items={items}
         />
       </S.Content>

@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import { getBookshelfResProp } from './book';
 
 export type ButtonProps = {
   length: 'long' | 'short' | 'medium';
@@ -11,13 +12,13 @@ export type ButtonProps = {
 };
 
 export type BookCoverProps = {
-  imgSrc: StaticImageData;
+  imgsrc: StaticImageData;
   size?: 'small' | 'big';
   onClick?: () => void;
 };
 
 export type BookProps = {
-  imgSrc: StaticImageData;
+  imgsrc: StaticImageData;
   onClick?: () => void;
 };
 
@@ -93,6 +94,7 @@ export type NoValueProps = {
 export type BooksContainerProps = {
   type: 'book' | 'author';
   page: 'bookShelf' | 'search';
+  bookList?: getBookshelfResProp;
   title: string;
   onClick?: () => void;
 };

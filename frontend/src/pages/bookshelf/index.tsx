@@ -1,15 +1,23 @@
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from './index.styled';
+import * as S from '@src/styles/pageStyles/bookshelf/index.styled';
 import { TestBook } from '@src/assets/imgs';
 import BookCover from '@src/components/atoms/bookCover';
 import BooksContainer from '@src/components/organisms/booksContainer';
 import { useRouter } from 'next/router';
+import { getBookshelfResProp } from '@src/types/book';
+import { useEffect, useState } from 'react';
+import { bookApi } from '@src/apis';
 
 export default function Bookshelf() {
   const router = useRouter();
 
   // 책의 URL은 여기서 보내지 않는다 (주소에 노출되기때문 => ebook에서 fetch해오도록 한다)
   // TEST를 위한 임시 책 id
+  const [bookList, setBookList] = useState<getBookshelfResProp[]>();
+  useEffect(() => {
+    bookApi.getBookShelf().then((res) => {});
+  }, []);
+
   const testCurrentTitle = 'title';
   const testBookId = 4;
   const testDate = '2000.00.00';
@@ -33,10 +41,9 @@ export default function Bookshelf() {
             </S.Content>
           </S.Left>
           <S.CoverContainer>
-            <BookCover imgSrc={TestBook} onClick={handleBookClick} />
+            <BookCover imgsrc={TestBook} onClick={handleBookClick} />
           </S.CoverContainer>
         </S.Box>
-
         <BooksContainer type="book" page="bookShelf" title="모든 책" onClick={handleBookClick} />
       </S.Container>
     </>

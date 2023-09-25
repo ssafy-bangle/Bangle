@@ -1,8 +1,6 @@
 import * as S from './index.styled';
 import Menu from '@src/components/atoms/menu';
-import { CartImg, LogoImg } from '@src/assets/imgs';
-import Input from '@src/components/atoms/input';
-import Image from 'next/image';
+import { LogoImg } from '@src/assets/imgs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import { useRouter } from 'next/router';
@@ -11,7 +9,7 @@ import SearchBar from '../searchBar';
 import Icon from '@src/components/atoms/icon';
 
 export default function Nav() {
-  const { role } = useRecoilValue(UserInfoState);
+  const { roles } = useRecoilValue(UserInfoState);
   const router = useRouter();
   const setOpen = useSetRecoilState(CartOpenState);
 
@@ -34,7 +32,7 @@ export default function Nav() {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = role === 'ROLE_AUTHOR' ? authorList : userList;
+  const selectedList = roles === 'ROLE_AUTHOR' ? authorList : userList;
 
   return (
     <S.Container>
@@ -45,7 +43,7 @@ export default function Nav() {
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-        {role === 'ROLE_USER' ? (
+        {roles === 'ROLE_USER' ? (
           <SearchBar />
         ) : (
           <S.Info>
@@ -53,7 +51,7 @@ export default function Nav() {
           </S.Info>
         )}
       </S.NavContainer>
-      {role === 'ROLE_USER' && (
+      {roles === 'ROLE_USER' && (
         <S.CartBox onClick={showDrawer}>
           <Icon name="cart" />
         </S.CartBox>

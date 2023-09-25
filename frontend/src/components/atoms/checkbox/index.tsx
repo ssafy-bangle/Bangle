@@ -6,12 +6,7 @@ export default function Checkbox({ content, setInput }: CheckBoxProps) {
   return (
     <S.Container>
       <ConfigProvider>
-        <S.StyledCheckBox
-          type="checkbox"
-          name="checkbox"
-          id="checkbox"
-          onChange={({ target: { checked } }) => setInput(checked)}
-        />
+        <S.StyledCheckBox onChange={({ target: { checked } }) => setInput(checked)} />
       </ConfigProvider>
       <S.Content>{content}</S.Content>
     </S.Container>

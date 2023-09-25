@@ -19,20 +19,17 @@ export default function InfoContent() {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+
   const handleOnClick = () => {
-    const send = () => {
-      if (privateKey) {
-        const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
-          .map((b) => b.toString(16).padStart(2, '0'))
-          .join('');
-        setPrivateKey(undefined);
-        userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER').then((res) => {
-          setUserInfo({ ...res.data.memberInformation });
-        });
-        router.push('/home');
-      }
-    };
-    send();
+    //로그인
+    if (privateKey) {
+      const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+      setPrivateKey(undefined);
+      setUserInfo({ ...userInfo, nickname: nickname, roles: isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER' });
+      userApi.postPublicKey(publicKey).then(() => router.push('/home'));
+    }
   };
 
   const makeHash = async (password: string) => {
