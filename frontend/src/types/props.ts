@@ -112,5 +112,6 @@ export type CartBookProp = {
   title: string;
   author: string;
   price: number;
-  setInput?: (value: number) => void;
+  setChecked?: any;
+  checked?: boolean;
 };
