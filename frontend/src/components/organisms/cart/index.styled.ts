@@ -91,6 +91,8 @@ export const InfoContainer = styled.div`
 export const SelectedBooks = styled.div`
   margin: 0.8rem 0 3rem 0;
   font-size: 1.4rem;
+  max-width: 31rem;
+  line-height: 1.8;
   color: var(--BG_GRAY2);
   font-weight: 500;
 `;
