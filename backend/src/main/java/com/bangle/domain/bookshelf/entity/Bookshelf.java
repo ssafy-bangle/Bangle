@@ -62,6 +62,7 @@ public class Bookshelf {
 	// }
 
 	public static Bookshelf createBookShelf(Member member, Book book, OrderStatus orderStatus) {
+
 		return Bookshelf.builder()
 			.member(member)
 			.book(book)
