@@ -8,11 +8,10 @@ import { useRouter } from 'next/router';
 import paymentAPI from '@src/apis/payment';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
-import userApi from '@src/apis/user';
 
 export default function Modal({ type, title, publishPrice, onClick }: ModalProps) {
   // get user info
-  const [user, setUser] = useRecoilState(UserInfoState);
+  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -29,17 +28,14 @@ export default function Modal({ type, title, publishPrice, onClick }: ModalProps
   const chargeDustImmediately = () => {
     if (publishPrice) {
       paymentAPI.postPayment(publishPrice).then(() => {
-        userApi.getMemberInfo().then((res) => {
-          console.log(res.data);
-          setUser({ ...res.data });
-        });
+        setUserInfo({ ...userInfo })
       });
     }
   };
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    console.log(userInfo);
+  }, [userInfo]);
 
   return (
     <>
@@ -55,7 +51,7 @@ export default function Modal({ type, title, publishPrice, onClick }: ModalProps
                   보유먼지
                   <S.PriceContainer>
                     <Image src={DarkMunzi} alt="다크먼지" width={30} />
-                    <S.MunziPrice>{user.dust}</S.MunziPrice>
+                    <S.MunziPrice>{userInfo.dust}</S.MunziPrice>
                   </S.PriceContainer>
                 </S.FirstMunzi>
                 <S.FirstMunzi>
