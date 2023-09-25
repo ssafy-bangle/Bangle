@@ -1,5 +1,5 @@
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from '@src/styles/pageStyles/bookshelf/[bookId].styled'
+import * as S from '@src/styles/pageStyles/bookshelf/[bookId].styled';
 import BookCover from '@src/components/atoms/bookCover';
 import { TestBook } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
@@ -49,7 +49,7 @@ export default function BookId() {
           <Rating value={4} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
             {[1, 2, 3, 4, 5, 6, 7].map((card: number) => (
-              <ReviewCard imgSrc={TestBook} />
+              <ReviewCard imgSrc={TestBook} size="small" />
             ))}
           </S.CardContainer>
         </S.ReviewContainer>
