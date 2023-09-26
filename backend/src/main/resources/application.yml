@@ -34,6 +34,3 @@ kubo:
   rpc:
     host: 127.0.0.1:5001
 
-redis:
-  host: localhost
-  port: 6379
