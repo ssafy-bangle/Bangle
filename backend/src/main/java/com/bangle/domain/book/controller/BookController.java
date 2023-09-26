@@ -9,14 +9,19 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bangle.domain.author.service.AuthorService;
+import com.bangle.domain.book.dto.BookAndReviewResponse;
+import com.bangle.domain.book.dto.BookDetailResponse;
 import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.service.BookService;
+import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -41,5 +46,12 @@ public class BookController {
 		responseMap.put("books", bookResponses);
 		responseMap.put("authors", authorNames);
 		return BaseResponse.okWithData(HttpStatus.OK, "조회 완료", responseMap);
+	}
+
+	@GetMapping("/detail/{id}")
+	public ResponseEntity<?> getDetailBook(@AuthenticationPrincipal CustomMemberDetails member, @PathVariable long id) {
+
+		BookAndReviewResponse detail = bookService.getDetail(member, id);
+		return BaseResponse.okWithData(HttpStatus.OK, "책 상세 정보", detail);
 	}
 }
