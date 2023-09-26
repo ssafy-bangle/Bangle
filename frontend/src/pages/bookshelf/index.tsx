@@ -15,7 +15,9 @@ export default function Bookshelf() {
   // TEST를 위한 임시 책 id
   const [bookList, setBookList] = useState<getBookshelfResProp[]>();
   useEffect(() => {
-    bookApi.getBookShelf().then((res) => {});
+    bookApi.getBookShelf().then((res) => {
+      console.log('res', res);
+    });
   }, []);
 
   const testCurrentTitle = 'title';
