@@ -86,7 +86,7 @@ tasks.withType(JavaCompile) {
 
 // java source set 에 Querydsl Q Class 위치 추가
 sourceSets {
-    main.java.srcDirs += [ querydslDir ]\
+    main.java.srcDirs += [ querydslDir ]
 }
 
 // gradle clean 시, Q Class 디렉토리까지 삭제하도록 설정

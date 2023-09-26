@@ -29,7 +29,6 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 public class LoginController {
 
   private final LoginService loginService;
-  private final EthereumUtil ethereumUtil;
 
   @Value("${spring.frontend.scheme}")
   private String frontScheme;
@@ -54,18 +53,6 @@ public class LoginController {
     } catch (Exception e) {
       System.out.println(e);
       return BaseResponse.fail(HttpStatus.UNAUTHORIZED, "failure at kakao callback");
-    }
-  }
-
-
-  @GetMapping("")
-  public ResponseEntity<?> test() {
-    try {
-      TransactionReceipt transactionReceipt = ethereumUtil.savePublish();
-      System.out.println(transactionReceipt.getContractAddress());
-      return BaseResponse.ok(HttpStatus.OK, transactionReceipt.toString());
-    } catch (Exception e) {
-      return BaseResponse.fail(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
   }
 }
