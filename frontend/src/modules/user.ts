@@ -38,6 +38,6 @@ export const UserInfoSelector = selector({
 
     // UserInfo 타입인 경우에만 업데이트 및 API 호출 수행
     set(UserInfoState, newValue);
-    userApi.postMemberInfo(newValue);
+    // userApi.postMemberInfo(newValue);
   },
 });

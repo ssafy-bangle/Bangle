@@ -2,6 +2,7 @@ package com.bangle.domain.review.entity;
 
 import com.bangle.domain.book.entity.Book;
 import com.bangle.domain.member.entity.Member;
+import com.bangle.domain.review.dto.ReviewResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,5 +43,10 @@ public class Review {
 
 	private String cover;
 
-
+	public ReviewResponse toResponse() {
+		return ReviewResponse.builder()
+			.id(this.id)
+			.cover(this.cover)
+			.build();
+	}
 }
