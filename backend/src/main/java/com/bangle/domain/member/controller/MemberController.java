@@ -80,7 +80,7 @@ public class MemberController {
 		}
 	}
 
-	@PostMapping
+	@PostMapping()
 	public ResponseEntity<?> signUp(
 		@AuthenticationPrincipal CustomMemberDetails memberDetails,
 		@RequestBody JoinRequest joinForm) {

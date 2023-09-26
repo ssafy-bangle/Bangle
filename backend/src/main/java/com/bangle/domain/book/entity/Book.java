@@ -67,7 +67,9 @@ public class Book {
 		}
 		return purchasePrice;
 	}
-	public BookResponse toResponse(){
-		return new BookResponse(this.getTitle(), this.getGenre(), this.getPurchasePrice(), this.getRentalPrice(), this.getAverageScore(), this.getCover());
+
+	public BookResponse toResponse() {
+		return new BookResponse(this.getId(), this.getTitle(), this.getGenre(), this.getPurchasePrice(),
+			this.getRentalPrice(), this.getAverageScore(), this.getCover());
 	}
 }
