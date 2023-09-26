@@ -6,8 +6,10 @@ import com.bangle.domain.follow.entity.Follow;
 import com.bangle.domain.follow.repository.FollowRepository;
 import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.MemberService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +19,16 @@ public class FollowService {
 	private final AuthorService authorService;
 	private final MemberService memberService;
 
-	public boolean follow(String userId, long authorId) {
+	@Transactional
+	public boolean follow(Long memberId, long authorId) {
 		try {
+			Optional<Follow> follow = followRepository.findByMemberIdAndAuthorId(memberId, authorId);
+			if (follow.isPresent()){
+				follow.get().changeDelete();
+				return true;
+			}
 			Author findAuthor = authorService.findById(authorId);
-			Member findUser = memberService.findByUserId(userId);
+			Member findUser = memberService.findById(memberId);
 			followRepository.save(Follow.builder()
 					.author(findAuthor)
 					.member(findUser)

@@ -38,5 +38,9 @@ public class Follow {
 
 	@Column(name = "delete_follow", nullable = false, columnDefinition = "TINYINT(1)")
 	private Boolean delete;
+
+	public void changeDelete() {
+		this.delete = !delete;
+	}
 }
 
