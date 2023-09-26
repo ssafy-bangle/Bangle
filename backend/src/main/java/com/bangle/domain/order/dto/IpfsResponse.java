@@ -4,11 +4,9 @@ import lombok.Data;
 
 @Data
 public class IpfsResponse {
-  String key;
   String address;
 
-  public IpfsResponse(String key, String address) {
-    this.key = key;
+  public IpfsResponse(String address) {
     this.address = address;
   }
 }

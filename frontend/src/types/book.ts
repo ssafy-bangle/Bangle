@@ -14,10 +14,10 @@ export type BookInfo = {
 
 export type postBookReqProps = {
   title: string;
-  cover: string;
   price: number;
   introduce: string;
   genre: string;
+  cover?: File;
   file?: File;
 };
 

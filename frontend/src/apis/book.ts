@@ -27,9 +27,9 @@ const postBook = async (body: postBookReqProps) => {
     const formData = new FormData();
 
     body.file && formData.append("file", body.file);
+    body.cover && formData.append("cover", body.cover);
     formData.append("publishRequest", new Blob([JSON.stringify({
       title: body.title,
-      cover: body.cover,
       price: body.price,
       introduce: body.introduce,
       genre: body.genre

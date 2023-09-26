@@ -31,21 +31,22 @@ export default function Write() {
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
   const [fileData, setFileData] = useState<File>();
+  const [coverData, setCoverData] = useState<File>();
+  const [imgUrl, setImgUrl] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
-  const [genre, setGenre] = useState<string>('');
+  const [genre, setGenre] = useState<string>('일반');
   const [introduction, setIntroduction] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string>('');
   const [isNft, setIsNft] = useState<boolean>(false);
 
   const handlePostBook = async () => {
     await bookApi.postBook({
       title: title,
-      cover: imgUrl,
       price: 0,
       introduce: introduction,
       genre: genre,
-      file: fileData
+      file: fileData,
+      cover: coverData,
     }).then((res)=>console.log("HANDLE BOOK POSE RES: " + res));
   };
 
@@ -55,7 +56,6 @@ export default function Write() {
     console.log('genre', genre);
     console.log('isNft', isNft);
     console.log('introduction', introduction);
-    console.log('imgUrl', imgUrl);
   });
 
   return (
@@ -66,6 +66,7 @@ export default function Write() {
           imgUrl={imgUrl}
           loding={loading}
           setLoading={setLoading}
+          setCoverData={setCoverData}
           setImgUrl={setImgUrl}
           setIsNft={setIsNft}
         />

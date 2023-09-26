@@ -33,9 +33,9 @@ public class AuthorController {
     }
 
     @GetMapping("/{authorId}")
-    public ResponseEntity<?> getAuthorDetail(@PathVariable Long authorId) {
+    public ResponseEntity<?> getAuthorDetail(@AuthenticationPrincipal CustomMemberDetails member, @PathVariable Long authorId) {
         try {
-            AuthorDetailResponse authorDetailResponse = authorService.getAuthorDetail(authorId);
+            AuthorDetailResponse authorDetailResponse = authorService.getAuthorDetail(member, authorId);
             return BaseResponse.okWithData(HttpStatus.OK, "작가 조회 완료", authorDetailResponse);
         } catch(IllegalArgumentException e) {
             return BaseResponse.fail(HttpStatus.BAD_REQUEST, "작가가 존재하지 않습니다");
