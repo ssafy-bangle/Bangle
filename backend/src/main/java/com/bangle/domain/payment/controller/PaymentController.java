@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
   private final PaymentService paymentService;
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<?> getAllPayment(
       @AuthenticationPrincipal CustomMemberDetails customMemberDetails
   ) {
