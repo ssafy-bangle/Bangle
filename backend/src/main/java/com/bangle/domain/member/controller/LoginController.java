@@ -1,11 +1,8 @@
 package com.bangle.domain.member.controller;
 
-import com.bangle.domain.member.dto.MemberStatus;
 import com.bangle.domain.member.dto.OidcResponse;
-import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.LoginService;
 import com.bangle.global.response.BaseResponse;
-import com.bangle.global.util.EthereumUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 @RestController
 @RequiredArgsConstructor
