@@ -29,7 +29,7 @@ export default function InfoContent() {
       setPrivateKey(undefined);
       setUserInfo({ ...userInfo, nickname: nickname, roles: isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER' });
       setMode(isAuthor ? 'author' : 'user');
-      userApi.postPublicKey(publicKey).then(() => router.push('/home'));
+      userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER');
     }
   };
 
