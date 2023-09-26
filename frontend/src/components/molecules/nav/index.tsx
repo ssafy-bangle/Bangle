@@ -4,14 +4,15 @@ import { LogoImg } from '@src/assets/imgs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import { useRouter } from 'next/router';
-import { UserInfoState } from '@src/modules/user';
+import { UserInfoState, UserModeState } from '@src/modules/user';
 import SearchBar from '../searchBar';
 import Icon from '@src/components/atoms/icon';
 
 export default function Nav() {
-  const { roles } = useRecoilValue(UserInfoState);
+  const mode = useRecoilValue(UserModeState);
   const router = useRouter();
   const setOpen = useSetRecoilState(CartOpenState);
+  const { nickname } = useRecoilValue(UserInfoState);
 
   const showDrawer = () => {
     setOpen(true);
@@ -32,7 +33,7 @@ export default function Nav() {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = roles === 'ROLE_AUTHOR' ? authorList : userList;
+  const selectedList = mode === 'author' ? authorList : userList;
 
   return (
     <S.Container>
@@ -43,15 +44,15 @@ export default function Nav() {
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-        {roles === 'ROLE_USER' ? (
+        {mode === 'user' ? (
           <SearchBar />
         ) : (
           <S.Info>
-            안녕하세요. <strong>방글이 작가</strong>님
+            안녕하세요. <strong>{nickname} 작가</strong>님
           </S.Info>
         )}
       </S.NavContainer>
-      {roles === 'ROLE_USER' && (
+      {mode === 'user' && (
         <S.CartBox onClick={showDrawer}>
           <Icon name="cart" />
         </S.CartBox>

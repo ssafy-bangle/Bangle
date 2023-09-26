@@ -5,7 +5,7 @@ import { LogoBlackImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { UserInfoState } from '@src/modules/user';
+import { UserInfoState, UserModeState } from '@src/modules/user';
 import { userApi } from '@src/apis';
 
 export default function Info() {
@@ -13,6 +13,7 @@ export default function Info() {
   const id_token = router.query.id_token;
   const [showPage, setShowPage] = useState(false);
   const setUserInfo = useSetRecoilState(UserInfoState);
+  const setMode = useSetRecoilState(UserModeState);
 
   useEffect(() => {
     if (id_token) {
@@ -20,6 +21,7 @@ export default function Info() {
       userApi.postLogin(idToken).then((res) => {
         const data = res.data;
         setUserInfo({ ...data.memberInformation });
+        setMode(data.memberInformation.roles === 'ROLE_USER' ? 'user' : 'author');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         if (data.needPublicKey) {

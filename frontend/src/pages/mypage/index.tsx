@@ -5,27 +5,47 @@ import { DarkMunzi, Munzi1, Munzi2, Munzi3 } from '@src/assets/imgs';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
-import { UserInfoState } from '@src/modules/user';
+import { UserInfoState, UserModeState } from '@src/modules/user';
 import { useRecoilState } from 'recoil';
 import Input from '@src/components/atoms/input';
+import { userApi } from '@src/apis';
+import { useRouter } from 'next/router';
 
 export default function Mypage() {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const { roles } = userInfo;
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [mode, setMode] = useRecoilState(UserModeState);
 
   useEffect(() => {
     console.log('useInfo', userInfo);
-  });
+    console.log('mode', mode);
+  }, [userInfo, mode]);
 
   const setNicknameChange = (nickname: string) => {
-    isClicked && setUserInfo({ ...userInfo, nickname: nickname });
+    isClicked && (setUserInfo({ ...userInfo, nickname: nickname }), userApi.putMemberNickname(nickname));
     setIsClicked((pre) => !pre);
   };
 
   const setRoleChange = () => {
-    setUserInfo(roles === 'ROLE_AUTHOR' ? { ...userInfo, roles: 'ROLE_USER' } : { ...userInfo, roles: 'ROLE_AUTHOR' });
+    setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
+    userApi.putMemberRolesToAuthor();
+    setMode('author');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUserInfo({
+      nickname: '',
+      dust: 0,
+      email: '',
+      roles: 'ROLE_USER',
+      userId: '',
+    });
+    router.push('/');
   };
 
   return (
@@ -56,11 +76,13 @@ export default function Mypage() {
           </S.NicknamePart>
           {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
           {roles === 'ROLE_USER' ? (
-            <Button length={'medium'} icon="mode" content="작가모드로 변경" onClick={setRoleChange} />
+            <Button length={'medium'} icon="mode" content="작가되기 신청" onClick={setRoleChange} />
+          ) : mode === 'user' ? (
+            <Button length={'medium'} icon="mode" content="작가모드로 보기" onClick={() => setMode('author')} />
           ) : (
-            <Button length={'medium'} icon="mode" content="독자모드로 변경" onClick={setRoleChange} />
+            <Button length={'medium'} icon="mode" content="독자모드로 보기" onClick={() => setMode('user')} />
           )}
-          <S.Logout onClick={() => {}}>로그아웃</S.Logout>
+          <S.Logout onClick={handleLogout}>로그아웃</S.Logout>
         </S.LeftSection>
         <S.RightSection>
           <S.RightTopSection>
