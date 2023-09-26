@@ -24,9 +24,9 @@ public class FollowController {
 	@PostMapping("/{authorId}")
 	public ResponseEntity<?> follow(@AuthenticationPrincipal CustomMemberDetails member, @PathVariable long authorId) {
 
-		String userId = member.getUsername();
+		Long memberId = member.getPK();
 
-		if (followService.follow(userId, authorId)) {
+		if (followService.follow(memberId, authorId)) {
 			return BaseResponse.ok(HttpStatus.OK, "follow Success");
 		}
 
