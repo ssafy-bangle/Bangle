@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import type { DropdownItems } from '@src/types/props';
 import { bookApi } from '@src/apis';
 import { useRouter } from 'next/router';
+import Button from '@src/components/atoms/button';
 
 const items: DropdownItems[] = [
   {
@@ -38,6 +39,12 @@ export default function Write() {
   const [loading, setLoading] = useState(false);
   const [imgUrl, setImgUrl] = useState<string>('');
   const [isNft, setIsNft] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const showModal = () => {
+    setIsOpen(true);
+  };
 
   const handlePostBook = async () => {
     await bookApi.postBook({
@@ -80,7 +87,10 @@ export default function Write() {
         />
       </S.Content>
       <S.BtnContainer>
+        <Button length={'long'} content={'다음'} onClick={showModal} />
         <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           type="publish"
           title={'책제목'}
           publishPrice={10}

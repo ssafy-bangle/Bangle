@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
 export const BtnContainer = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: center;
+  width: 31.2rem;
+  margin: auto;
 `;
 
 export const Content = styled.div`

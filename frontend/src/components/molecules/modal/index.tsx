@@ -9,16 +9,11 @@ import paymentAPI from '@src/apis/payment';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 
-export default function Modal({ type, title, publishPrice, onClick }: ModalProps) {
+export default function Modal({ isOpen, setIsOpen, type, title, publishPrice, onClick }: ModalProps) {
   // get user info
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
 
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const showModal = () => {
-    setIsOpen(true);
-  };
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
@@ -28,7 +23,7 @@ export default function Modal({ type, title, publishPrice, onClick }: ModalProps
   const chargeDustImmediately = () => {
     if (publishPrice) {
       paymentAPI.postPayment(publishPrice).then(() => {
-        setUserInfo({ ...userInfo })
+        setUserInfo({ ...userInfo });
       });
     }
   };
@@ -40,7 +35,6 @@ export default function Modal({ type, title, publishPrice, onClick }: ModalProps
   return (
     <>
       <S.ModalContainer>
-        <Button length={'long'} content={'다음'} onClick={showModal} />
         {isOpen ? (
           <S.ModalBackDrop onClick={openModalHandler}>
             <S.StyledContainer onClick={(e) => e.stopPropagation()}>

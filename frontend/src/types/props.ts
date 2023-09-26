@@ -72,6 +72,8 @@ export type ModalProps = {
   type?: 'publish' | 'buy' | 'munzi';
   publishPrice?: number;
   onClick?: () => void;
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
 };
 
 export type ChipProps = {
