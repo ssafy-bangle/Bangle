@@ -35,17 +35,15 @@ public class BookService {
 
 	public Page<BookResponse> searchByTitleContainsKeyword(String keyword, String category, Pageable pageable) {
 		return bookRepository.findAllByTitleContainsKeywordForSearch(keyword, category, pageable);
-		public Page<BookResponse> searchByTitleContainsKeyword (String keyword, String category, Pageable pageable){
-			return bookRepository.findAllByTitleContainsKeywordForSearch(keyword, category, pageable);
-		}
-
-		@Transactional
-		public BookAndReviewResponse getDetail (CustomMemberDetails member,long id){
-
-			BookAndReviewResponse findBookDetail = bookRepository.findDetailBookByIdAndMember(member, id);
-			List<Review> review = reviewRepository.findAllByBookId(id);
-			findBookDetail.addReview(review);
-
-			return findBookDetail;
-		}
 	}
+
+	@Transactional
+	public BookAndReviewResponse getDetail(CustomMemberDetails member, long id) {
+
+		BookAndReviewResponse findBookDetail = bookRepository.findDetailBookByIdAndMember(member, id);
+		List<Review> review = reviewRepository.findAllByBookId(id);
+		findBookDetail.addReview(review);
+
+		return findBookDetail;
+	}
+}
