@@ -22,12 +22,11 @@ export default function Info() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 1000);
   });
 
   useEffect(() => {
-    !loading && showInfo && router.push('/info');
-    !loading && !showInfo && router.push('/home');
+    !loading && router.push(showInfo ? '/info' : '/home');
   }, [loading]);
 
   useEffect(() => {

@@ -9,11 +9,12 @@ export const Container = styled.span`
 export const StyledLoadingOutlined = styled(LoadingOutlined)`
   font-size: 44px !important;
   color: var(--BG_MAIN) !important;
-  margin: 10px auto 10px auto;
+  margin: 14px;
 `;
 
 export const Content = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: var(--BG_WHITE);
   margin: 10px;
+  letter-spacing: 1px;
 `;
