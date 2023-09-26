@@ -104,4 +104,5 @@ export const Logout = styled.div`
   margin-top: 8rem;
   font-weight: 700;
   text-decoration-line: underline;
+  cursor: pointer;
 `;

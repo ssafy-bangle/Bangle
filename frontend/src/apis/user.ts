@@ -20,19 +20,14 @@ const postLogin = async (idToken: string) => {
   }
 };
 
-const postPublicKey = async (publicKey: string) => {
+const postMemberInfo = async (nickname: string, publicKey: string, role: string) => {
+  console.log('Post member INfo:', nickname, publicKey, role);
   try {
-    const res = await client.post('/publickey', { publicKey });
-    return res.data;
-  } catch (e) {
-    throw new Error('');
-  }
-};
-
-const postMemberInfo = async (body: UserInfo) => {
-  try {
-    console.log('TEST', { ...body });
-    const res = await client.post('/members', { ...body });
+    const res = await client.post('/members', {
+      nickname,
+      publicKey,
+      role,
+    });
     return res.data;
   } catch (e) {
     throw new Error('');
@@ -44,18 +39,15 @@ const getMemberInfo = async (): Promise<UserInfo> => {
     const res = await client.get('/members');
     return res.data;
   } catch (e) {
-    console.log('Error at getMemberInfo: ', e);
     throw new Error('');
   }
 };
 
 const putMemberNickname = async (nickname: string) => {
-  console.log('Put member Nickname:', nickname);
   try {
     const res = await client.put('/members', { nickname });
     return res.data;
   } catch (e) {
-    console.log('Error at putMemberNickname: ', e);
     throw new Error('');
   }
 };
@@ -71,7 +63,6 @@ const putMemberRolesToAuthor = async () => {
 
 const user = {
   postLogin,
-  postPublicKey,
   postMemberInfo,
   getMemberInfo,
   putMemberNickname,

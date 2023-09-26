@@ -20,8 +20,8 @@ export default function InfoContent() {
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const setMode = useSetRecoilState(UserModeState);
-  const handleOnClick = () => {
-    //로그인
+  const handleOnClick = async () => {
+    //회원가입
     if (privateKey) {
       const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
         .map((b) => b.toString(16).padStart(2, '0'))
@@ -29,7 +29,8 @@ export default function InfoContent() {
       setPrivateKey(undefined);
       setUserInfo({ ...userInfo, nickname: nickname, roles: isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER' });
       setMode(isAuthor ? 'author' : 'user');
-      userApi.postPublicKey(publicKey).then(() => router.push('/home'));
+      await userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER');
+      router.push('/home');
     }
   };
 

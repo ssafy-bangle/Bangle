@@ -37,7 +37,7 @@ public class AwsS3Service {
 		return prefix + fileName;
 	}
 
-	public String uploadImage(MultipartFile cover){
+	private String uploadImage(MultipartFile cover){
 		String fileExtension = getFileExtension(cover.getOriginalFilename());
 		// 업로드된 파일의 MIME 타입
 		String mimeType = cover.getContentType();

@@ -14,11 +14,11 @@ export type BookInfo = {
 
 export type postBookReqProps = {
   title: string;
-  cover: FormData;
   price: number;
-  file: FormData;
   introduce: string;
   genre: string;
+  cover?: File;
+  file?: File;
 };
 
 export type getBookshelfResProp = {

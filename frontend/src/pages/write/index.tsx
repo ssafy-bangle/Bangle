@@ -31,13 +31,13 @@ const items: DropdownItems[] = [
 export default function Write() {
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
-  const [cover, setCover] = useState<string>('');
-  const [fileData, setFileData] = useState<FormData>(new FormData());
+  const [fileData, setFileData] = useState<File>();
+  const [coverData, setCoverData] = useState<File>();
+  const [imgUrl, setImgUrl] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
-  const [genre, setGenre] = useState<string>('');
+  const [genre, setGenre] = useState<string>('일반');
   const [introduction, setIntroduction] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string>('');
   const [isNft, setIsNft] = useState<boolean>(false);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -49,12 +49,12 @@ export default function Write() {
   const handlePostBook = async () => {
     await bookApi.postBook({
       title: title,
-      cover: new FormData(),
       price: 0,
-      file: new FormData(),
       introduce: introduction,
       genre: genre,
-    });
+      file: fileData,
+      cover: coverData,
+    }).then((res)=>console.log("HANDLE BOOK POSE RES: " + res));
   };
 
   useEffect(() => {
@@ -63,17 +63,17 @@ export default function Write() {
     console.log('genre', genre);
     console.log('isNft', isNft);
     console.log('introduction', introduction);
-    console.log('imgUrl', imgUrl);
   });
 
   return (
     <>
       <PageTitle>출판하기</PageTitle>
       <S.Content>
-        <UploadBookCover
+      <UploadBookCover
           imgUrl={imgUrl}
           loding={loading}
           setLoading={setLoading}
+          setCoverData={setCoverData}
           setImgUrl={setImgUrl}
           setIsNft={setIsNft}
         />

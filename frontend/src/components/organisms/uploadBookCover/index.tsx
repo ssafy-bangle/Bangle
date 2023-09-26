@@ -5,7 +5,7 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import Checkbox from '@src/components/atoms/checkbox';
 import { beforeImgUpload, getBase64 } from '@src/utils';
 
-export default function UploadBookCover({ imgUrl, loading, setLoading, setImgUrl, setIsNft }: any) {
+export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverData, setImgUrl, setIsNft }: any) {
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
       setLoading(true);
@@ -15,6 +15,8 @@ export default function UploadBookCover({ imgUrl, loading, setLoading, setImgUrl
       getBase64(info.file.originFileObj as RcFile, (url) => {
         setLoading(false);
         setImgUrl(url);
+        const coverData = info.file.originFileObj;
+        coverData && setCoverData(coverData);
       });
     }
   };
@@ -38,7 +40,8 @@ export default function UploadBookCover({ imgUrl, loading, setLoading, setImgUrl
         className="uploader"
         showUploadList={false}
         beforeUpload={beforeImgUpload}
-        onChange={handleChange}>
+        onChange={handleChange}
+        action={'/api/noop'}>
         {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </S.StyledUpload>
 

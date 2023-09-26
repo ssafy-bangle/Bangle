@@ -1,5 +1,5 @@
 import Epub, { Book, Rendition, Contents, EpubCFI } from 'epubjs';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import * as S from './index.styled';
 
 export default function EPubViewer({
@@ -33,6 +33,7 @@ export default function EPubViewer({
           });
           setRendition(epubRendition);
           epubRendition.display(side === 'left' ? 1 : 2);
+          // epubRendition.display(side === 'left' ? 3 : 4);
         }
       } catch (error) {
         console.error('Error loading EPUB:', error);
@@ -42,19 +43,19 @@ export default function EPubViewer({
   }, []);
 
   // 페이지 이벤트 감지 시, 페이지 변경
-  useEffect(() => {
+  useMemo(() => {
     clickState === 1 && setPage((cur) => cur + 2);
     clickState === -1 && page - 2 > 0 && setPage((cur) => cur - 2);
     setClickState(0);
   }, [clickState]);
 
   // 페이지 변경 감지 시, 책 화면 변경
-  useEffect(() => {
+  useMemo(() => {
     book && rendition && rendition.display(page);
   }, [page, book, rendition]);
 
   // 책 화면 변경 감지 시, 텍스트 색상 변경
-  useEffect(() => {
+  useMemo(() => {
     if (rendition) {
       rendition.hooks.content.register((content: Contents) => {
         const bookContainer = content.document.body;
@@ -68,11 +69,7 @@ export default function EPubViewer({
 
   return (
     <S.ModalContainer>
-      <S.Container
-        ref={areaElementRef}
-        onClick={() => {
-          side === 'left' ? setClickState(-1) : setClickState(1);
-        }}></S.Container>
+      <S.Container ref={areaElementRef}></S.Container>
     </S.ModalContainer>
   );
 }

@@ -76,18 +76,17 @@ public class CryptoUtil {
     return new SecretKeySpec(secretKeyFactory.generateSecret(keySpec).getEncoded(), "AES");
   }
 
-  public static IvParameterSpec generateIv() {
+  private static IvParameterSpec generateIv() {
     byte[] iv = new byte[16];
     new SecureRandom().nextBytes(iv);
     return new IvParameterSpec(iv);
   }
 
-  public static byte[] encryptBook(SecretKey secretKey, IvParameterSpec iv, byte[] book)
-      throws NoSuchPaddingException, NoSuchAlgorithmException,
-      InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-    Cipher ciper = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    ciper.init(Cipher.ENCRYPT_MODE, secretKey, iv);
-    return ciper.doFinal(book);
+  public static byte[] encryptBook(SecretKey secretKey, byte[] book)
+          throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+    return cipher.doFinal(book);
   }
 
   public static byte[] decryptBook(SecretKey secretKey, IvParameterSpec iv, byte[] book)
