@@ -34,7 +34,7 @@ export default function Write() {
   const [coverData, setCoverData] = useState<File>();
   const [imgUrl, setImgUrl] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
-  const [genre, setGenre] = useState<string>('');
+  const [genre, setGenre] = useState<string>('일반');
   const [introduction, setIntroduction] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [isNft, setIsNft] = useState<boolean>(false);
