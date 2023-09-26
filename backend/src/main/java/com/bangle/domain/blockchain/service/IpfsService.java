@@ -18,6 +18,10 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.crypto.SecretKey;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 @Service
@@ -30,21 +34,28 @@ public class IpfsService {
     @Value("${kubo.rpc.host}")
     private String kuboRpcHost;
 
-    public IpfsResponse upload(PublishRequest publishRequest, MultipartFile file, String userPublicKeyHex) {
+    private static SecretKey deriveAESbyPBKDF(String userPublicKeyHex)
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
+
+        // decode user public key
+        byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
+
+        // generate shared secret
+        String sharedSecret = CryptoUtil.generateSharedSecret(decodedUserPublicKey);
+
+        // generate AES key from shared secret by PK
+        byte[] salt = Arrays.copyOfRange(decodedUserPublicKey, 0, 16);
+        return CryptoUtil.createSecretKeyFromSharedSecret(sharedSecret, salt, 1000);
+    }
+
+    public IpfsResponse upload(MultipartFile file, String userPublicKeyHex) {
         try {
-            // decode user public key
-            byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
-
-            // generate shared secret
-            String sharedSecret = CryptoUtil.generateSharedSecret(decodedUserPublicKey);
-
-            // generate AES key from shared secret by PK
-            byte[] salt = Arrays.copyOfRange(decodedUserPublicKey, 0, 16);
-            SecretKey secretAesKey = CryptoUtil.createSecretKeyFromSharedSecret(sharedSecret, salt, 1000);
+            // derive key from user public key & server private key
+            SecretKey secretAesKey = deriveAESbyPBKDF(userPublicKeyHex);
 
             // encrypt book
             byte[] encryptedBook = CryptoUtil
-                    .encryptBook(secretAesKey, CryptoUtil.generateIv(), file.getBytes());
+                    .encryptBook(secretAesKey, file.getBytes());
 
             // upload to IPFS
             HttpHeaders header = new HttpHeaders();
@@ -56,19 +67,16 @@ public class IpfsService {
                     .host(kuboRpcHost)
                     .path("/api/v0/add")
                     .build();
-
             KuboAddResponse kuboAddResponse = restTemplate.postForObject(
                     uriComponents.toString(), new HttpEntity<>(body, header), KuboAddResponse.class
             );
 
-            if (kuboAddResponse == null) {
-                throw new NullPointerException("ipfs address is null");
-            }
-            return new IpfsResponse(sharedSecret, kuboAddResponse.getHash());
+            if (kuboAddResponse == null) { throw new NullPointerException("ipfs address is null"); }
+            return new IpfsResponse(kuboAddResponse.getHash());
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
-            return new IpfsResponse("", "");
+            return new IpfsResponse("");
         }
     }
 }

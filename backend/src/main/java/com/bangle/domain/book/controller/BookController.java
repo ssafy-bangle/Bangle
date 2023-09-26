@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -56,12 +57,16 @@ public class BookController {
 		return BaseResponse.okWithData(HttpStatus.OK, "조회 완료", responseMap);
 	}
 
+	@Value("${wallet.public}")
+	private String serverPubKey;
+
 	@PostMapping(value = "/publish", consumes = {
 		MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> publishBook(
 		@AuthenticationPrincipal CustomMemberDetails customMemberDetails,
 		@RequestPart(value = "publishRequest") PublishRequest publishRequest,
-		@RequestPart(value = "file") MultipartFile file) {
+		@RequestPart(value = "file") MultipartFile file,
+		@RequestPart(value = "cover") MultipartFile cover) {
 		try {
 			System.out.println(publishRequest.getTitle());
 			System.out.println(publishRequest.getIntroduce());
@@ -71,10 +76,17 @@ public class BookController {
 			if (extension != null && !extension.equals("epub")) {
 				throw new IllegalArgumentException("Not a EPUB file");
 			}
-			IpfsResponse ipfsResponse = ipfsService
-				.upload(publishRequest, file, customMemberDetails.getPublicKey());
-			System.out.println("IPFS RESPONSE: " + ipfsResponse.getKey() + " / " + ipfsResponse.getAddress());
-			return new ResponseEntity<>(ipfsResponse, HttpStatus.OK);
+			// upload SERVER's file to IPFS
+			IpfsResponse serverIpfsResponse = ipfsService.upload(file, serverPubKey);
+			// upload AUTHOR's file to IPFS
+			IpfsResponse authorIpfsResponse = ipfsService
+				.upload(file, customMemberDetails.getPublicKey());
+
+			// make book entity and save SERVER's file address
+			bookService.saveBook(customMemberDetails.getUser().getAuthor(),
+					publishRequest, cover, serverIpfsResponse.getAddress());
+			// return AUTHOR's file address
+			return new ResponseEntity<>(authorIpfsResponse, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
