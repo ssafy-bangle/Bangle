@@ -59,7 +59,7 @@ export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntrod
         <S.UploadTitle>
           파일 업로드 <strong>*</strong>
         </S.UploadTitle>
-        <Dragger {...bookUploadeProps}>
+        <Dragger {...bookUploadeProps} action={'/api/noop'}>
           <S.IconContainer>
             <UploadOutlined style={{ color: 'var(--BG_GRAY1)', marginRight: '1rem' }} />
             <p className="ant-upload-text">10 Mb 이하 EPUB 형식의 책 파일을 업로드해주세요.</p>

@@ -38,7 +38,8 @@ export default function UploadBookCover({ imgUrl, loading, setLoading, setImgUrl
         className="uploader"
         showUploadList={false}
         beforeUpload={beforeImgUpload}
-        onChange={handleChange}>
+        onChange={handleChange}
+        action={'/api/noop'}>
         {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </S.StyledUpload>
 

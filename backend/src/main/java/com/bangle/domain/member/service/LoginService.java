@@ -48,7 +48,7 @@ public class LoginService {
     MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
     body.add("grant_type", "authorization_code");
     body.add("client_id", kakaoClientId);
-    body.add("redirect_uri", backendHost + "/login/oauth2/code/kakao");
+    body.add("redirect_uri", backendHoscat apt + "/login/oauth2/code/kakao");
     body.add("code", code);
     body.add("client_secret", kakaoClientSecret);
 
