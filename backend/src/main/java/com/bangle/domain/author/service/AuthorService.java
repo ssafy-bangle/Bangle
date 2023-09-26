@@ -59,6 +59,6 @@ public class AuthorService {
 			return new AuthorDetailResponse(author, false, list);
 		}
 
-		return new AuthorDetailResponse(author, follow.get().getDelete(), list);
+		return new AuthorDetailResponse(author, !follow.get().getDelete(), list);
 	}
 }
