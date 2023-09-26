@@ -31,7 +31,7 @@ const postPublicKey = async (publicKey: string) => {
 
 const postMemberInfo = async (body: UserInfo) => {
   try {
-    const res = await client.post('/users', { ...body });
+    const res = await client.post('/members', { ...body });
     return res.data;
   } catch (e) {
     throw new Error('');
@@ -43,21 +43,34 @@ const getMemberInfo = async (): Promise<UserInfo> => {
     const res = await client.get('/members');
     return res.data;
   } catch (e) {
-    console.log('Error at getMemberInfo: ', e);
     throw new Error('');
   }
 };
 
 const putMemberNickname = async (nickname: string) => {
-  console.log('Put member Nickname:', nickname);
   try {
     const res = await client.put('/members', { nickname });
     return res.data;
   } catch (e) {
-    console.log('Error at putMemberNickname: ', e);
     throw new Error('');
   }
 };
 
-const user = { postLogin, postPublicKey, postMemberInfo, getMemberInfo, putMemberNickname };
+const putMemberRolesToAuthor = async () => {
+  try {
+    const res = await client.put(`/members/register`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const user = {
+  postLogin,
+  postPublicKey,
+  postMemberInfo,
+  getMemberInfo,
+  putMemberNickname,
+  putMemberRolesToAuthor,
+};
 export default user;

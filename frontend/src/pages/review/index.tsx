@@ -59,7 +59,6 @@ export default function Review() {
           <S.ReviewContainer>
             {/* imgSrc url 로 변경 필요함 */}
             {reviewImg ? (
-              // <ReviewCard imgSrc={TestBook} size="big" />
               <ReviewCard imgsrc={TestBook} size="big" />
             ) : (
               <S.NoReviewCard>

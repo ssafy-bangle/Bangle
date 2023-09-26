@@ -1,6 +1,10 @@
 import { StaticImageData } from 'next/image';
 import { getBookshelfResProp } from './book';
 
+export type LoadingProps = {
+  content?: string;
+};
+
 export type ButtonProps = {
   length: 'long' | 'short' | 'medium';
   theme?: 'default' | 'line' | 'text';

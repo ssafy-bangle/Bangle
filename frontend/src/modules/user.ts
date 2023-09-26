@@ -1,6 +1,6 @@
 import { userApi } from '@src/apis';
-import { UserInfo } from '@src/types/user';
-import { atom, selector } from 'recoil';
+import { UserInfo, UserMode } from '@src/types/user';
+import { DefaultValue, atom, selector } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 const KEY = 'USER';
@@ -18,10 +18,26 @@ export const UserInfoState = atom<UserInfo>({
   effects_UNSTABLE: [persistAtom],
 });
 
-const UserInfoSelector = selector({
-  key: `${KEY}/data/monthly`,
+export const UserModeState = atom<UserMode>({
+  key: `${KEY}/mode`,
+  default: 'user',
+});
+
+export const UserInfoSelector = selector({
+  key: `${KEY}/info/selector`,
   get: async ({ get }) => {
     const userInfo = get(UserInfoState);
-    userApi.postMemberInfo({ ...userInfo });
+    return userInfo;
+  },
+
+  set: ({ set }, newValue) => {
+    // DefaultValue일 경우 아무 작업도 하지 않음
+    if (newValue instanceof DefaultValue) {
+      return;
+    }
+
+    // UserInfo 타입인 경우에만 업데이트 및 API 호출 수행
+    set(UserInfoState, newValue);
+    userApi.postMemberInfo(newValue);
   },
 });
