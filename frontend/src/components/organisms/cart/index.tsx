@@ -54,17 +54,17 @@ export default function Cart() {
     if (checked) {
       setSelectedBookList((prev) => [...prev, book]);
       setSelectedBookList((prev) => Array.from(new Set(prev)));
-      setTotalPrice((pre) => pre + book.price);
-    } else {
+      setTotalPrice((prev) => prev + book.price);
+    } else if (totalPrice > 0) {
       setSelectedBookList((prev) => prev.filter((item) => item.id !== book.id));
-      setTotalPrice((pre) => pre - book.price);
+      setTotalPrice((prev) => prev - book.price);
     }
   };
 
-  useEffect(() => {
-    console.log('list', selectedBookList);
-  });
-
+  const totalCheckHandler = () => {
+    setIsClicked((pre) => !pre)
+  }
+  
   const handleOnCart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -77,10 +77,10 @@ export default function Cart() {
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
         <form onSubmit={handleOnCart}>
-          <Checkbox content="전체 선택" setInput={() => setIsClicked((pre) => !pre)} />
+          <Checkbox content="전체 선택" setInput={totalCheckHandler} isChecked={onCartBooks.length === selectedBookList.length ? true : false} />
           <S.ListContainer>
             {/* 나중에 book prop 타입 생기면 적어야함 */}
-            {onCartBooks.map((book: CartBookProp, index) => (
+            {onCartBooks.map((book: CartBookProp, index: number) => (
               <CartItem
                 setChecked={selectProductHandler}
                 key={index}

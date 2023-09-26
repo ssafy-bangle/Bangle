@@ -37,6 +37,7 @@ export type InputProps = {
 
 export type CheckBoxProps = {
   content: string;
+  isChecked?:  boolean;
   setInput: (value: boolean) => void;
 };
 
