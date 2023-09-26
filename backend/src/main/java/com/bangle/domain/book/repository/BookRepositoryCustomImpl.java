@@ -62,9 +62,9 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 	}
 
 	@Override
-	public List<String> getGenres(String userId) {
+	public List<String> getIntro(String userId) {
 		return jpaQueryFactory
-			.select(book.genre)
+			.select(book.introduction)
 			.from(member)
 			.join(order).on(member.id.eq(order.member.id))
 			.join(orderBook).on(order.id.eq(orderBook.order.id))

@@ -13,7 +13,7 @@ import com.bangle.global.auth.security.CustomMemberDetails;
 public interface BookRepositoryCustom {
 
 	Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword,String category, Pageable pageable);
-	List<String> getGenres(String userId);
+	List<String> getIntro(String userId);
 
 	BookAndReviewResponse findDetailBookByIdAndMember(CustomMemberDetails member, long id);
 }

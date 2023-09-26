@@ -1,21 +1,35 @@
 from django.db import models
-
-# DB 테이블 만드는곳 필요없을듯.
-"""
-class Nutrient(models.Model):
-    nutrient_id = models.BigIntegerField(primary_key = True)  # pk 라는 뜻
-    nutrient_name = models.TextField()
-    nutrient_image_url = models.TextField()
-    nutrient_brand = models.TextField()
-    nutrient_intake = models.TextField()
-    nutrient_caution = models.TextField()
-    nutrient_expiration = models.TextField()
-    nutrient_material = models.TextField()
-    nutrient_pregnant = models.BooleanField()
-    nutrient_child = models.BooleanField()
-    nutrient_gender = models.IntegerField()
-    nutrient_type = models.ForeignKey(Nutrient_type, on_delete=models.CASCADE)  # fk 설정
-
+class Member(models.Model):
+    member_id = models.BigIntegerField(primary_key=True)
+    private_key = models.CharField(max_length=256)
+    email = models.TextField()
+    nickname = models.TextField()
+    provider = models.TextField()
+    role = models.TextField()
+    dust = models.BigIntegerField()
+    user_id = models.TextField()
     class Meta:
-        db_table = 'nutrient' # db테이블 이름인듯?     
-"""
+        db_table = 'member'
+class Author(models.Model):
+    author_id = models.BigIntegerField(primary_key=True)
+    income = models.BigIntegerField()
+    introductions = models.TextField()
+    follower = models.BigIntegerField()
+    member_id = models.ForeignKey(Member, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'author'
+class Book(models.Model):
+    book_id = models.BigIntegerField(primary_key=True)
+    title = models.TextField()
+    genre = models.TextField()
+    introductions = models.TextField()
+    purchase_price = models.IntegerField()
+    rental_price = models.IntegerField()
+    address = models.TextField()
+    average_score = models.FloatField()
+    cover = models.TextField()
+    sale_count = models.BigIntegerField()
+    total_pages = models.IntegerField()
+    author_id = models.ForeignKey(Author, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'book'

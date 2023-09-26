@@ -5,15 +5,14 @@ from rest_framework import status
 
 from .serializers import StringSerializers
 
-
 # Create your views here.
 class StringListView(APIView):
     def post(self, request, format=None): # 잘됨
         serializer = StringSerializers(data=request.data)
-
         if serializer.is_valid():
             string_list = serializer.validated_data['string_list']
-
-            return Response({'message' : 'Data received success', 'data': string_list}, status=status.HTTP_200_OK)
+            for i in string_list:
+                print(i)
+            return Response({'recommendedIntroductions': string_list}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
