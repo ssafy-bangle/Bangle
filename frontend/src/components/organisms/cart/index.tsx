@@ -11,6 +11,7 @@ import CartItem from '@src/components/molecules/cartItem';
 import Modal from '@src/components/molecules/modal';
 import { bookApi } from '@src/apis';
 import { useRouter } from 'next/router';
+import { UserInfoState } from '@src/modules/user';
 
 const onCartBooks: CartBookProp[] = [
   {
@@ -49,6 +50,7 @@ export default function Cart() {
   const [selectedBookList, setSelectedBookList] = useState<CartBookProp[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const router = useRouter();
 
   const showModal = () => {
@@ -71,7 +73,8 @@ export default function Cart() {
     bookApi.buyBook(body).then(() => {
       onClose();
       showModal();
-      router.push('/bookshelf')
+      setUserInfo({ ...userInfo, dust: userInfo.dust - totalPrice });
+      router.push('/bookshelf');
     });
   };
 

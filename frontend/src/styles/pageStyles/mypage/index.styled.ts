@@ -44,7 +44,6 @@ export const RightBottomLeftSection = styled.div`
   width: max;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 `;
 
 export const RightBottomRightSection = styled.div`
