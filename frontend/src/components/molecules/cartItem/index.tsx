@@ -35,7 +35,8 @@ export default function CartItem({ setChecked, checked, id, image, title, author
     <S.TotalItemContainer>
       <Checkbox content={''} setInput={setIsChecked} />
       <S.CartItemContainer>
-        <BookCover imgSrc={image} />
+        {/* <BookCover imgSrc={image} /> */}
+        <BookCover imgsrc={image} />
         <S.TextItemContainer>
           <S.BookTitle>{title}</S.BookTitle>
           <S.Author>{author}</S.Author>

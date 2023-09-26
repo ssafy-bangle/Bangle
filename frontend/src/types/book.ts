@@ -18,7 +18,7 @@ export type postBookReqProps = {
   price: number;
   introduce: string;
   genre: string;
-  file: FormData;
+  file?: File;
 };
 
 export type getBookshelfResProp = {

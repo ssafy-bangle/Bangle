@@ -60,6 +60,7 @@ public class BookController {
 			System.out.println(publishRequest.getIntroduce());
 			// check if file is 'epub'
 			String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+			System.out.println(extension);
 			if (extension != null && !extension.equals("epub")) {
 				throw new IllegalArgumentException("Not a EPUB file");
 			}
