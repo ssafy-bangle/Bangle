@@ -1,8 +1,6 @@
 package com.bangle.domain.member.controller;
 
-import com.bangle.domain.member.dto.MemberStatus;
 import com.bangle.domain.member.dto.OidcResponse;
-import com.bangle.domain.member.entity.Member;
 import com.bangle.domain.member.service.LoginService;
 import com.bangle.global.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
