@@ -8,9 +8,10 @@ public record AuthorDetailResponse(
         String nickname,
         Long follower,
         String introduction,
+        Boolean isFollow,
         List<BookResponse> bookList
 ) {
-    public AuthorDetailResponse(Author author, List<BookResponse> bookList){
-        this(author.getNickname(), author.getFollower(), author.getIntroduction(),bookList);
+    public AuthorDetailResponse(Author author, Boolean isFollow, List<BookResponse> bookList){
+        this(author.getNickname(), author.getFollower(), author.getIntroduction(), isFollow, bookList);
     }
 }

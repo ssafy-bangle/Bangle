@@ -24,6 +24,11 @@ public class MemberService {
     public Member save(Member member) {
         return memberRepository.save(member);
     }
+    
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException(("멤버가 없습니다")));
+    }
 
     public Member findByUserId(String userId) {
         return memberRepository.findByUserId(userId)
