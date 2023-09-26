@@ -1,8 +1,8 @@
 package com.bangle.domain.stat.controller;
 
 import com.bangle.domain.member.repository.MemberRepository;
-import com.bangle.domain.stat.dto.StatResponse;
-import com.bangle.domain.stat.service.StatService;
+import com.bangle.domain.stat.dto.StatisticsResponse;
+import com.bangle.domain.stat.service.StatisticsService;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
 import java.util.List;
@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatisticsController {
 
   private final MemberRepository memberRepository;
-  private final StatService statService;
+  private final StatisticsService statisticsService;
 
   @GetMapping
   public ResponseEntity<?> getStat(@AuthenticationPrincipal CustomMemberDetails member) {
 
     try {
-      List<StatResponse> statResponses = statService.getStat(member.getPK());
+      List<StatisticsResponse> statisticsResponses = statisticsService.getStat(member.getPK());
 
-      return BaseResponse.okWithData(HttpStatus.OK, "통계 조회 성공", statResponses);
+      return BaseResponse.okWithData(HttpStatus.OK, "통계 조회 성공", statisticsResponses);
     } catch(Exception e) {
       e.printStackTrace();
       return BaseResponse.fail(HttpStatus.BAD_REQUEST, "통계 조회 실패");

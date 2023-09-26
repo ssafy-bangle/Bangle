@@ -4,7 +4,7 @@ import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.author.repository.AuthorRepository;
 import com.bangle.domain.book.entity.Book;
 import com.bangle.domain.book.repository.BookRepository;
-import com.bangle.domain.stat.dto.StatResponse;
+import com.bangle.domain.stat.dto.StatisticsResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class StatService {
+public class StatisticsService {
 
     private final RedisTemplate<String, String> template;
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
 
-    public List<StatResponse> getStat(Long memberId) {
+    public List<StatisticsResponse> getStat(Long memberId) {
         /*
             1. 멤버의 PK 얻기, 그걸로 authorId 얻기
             2. authorId로 bookId 리스트 얻어오기
@@ -31,7 +31,7 @@ public class StatService {
         List<Book> bookList = bookRepository.findAllByAuthorId(author.getId())
                 .orElseThrow(() -> new IllegalArgumentException("책이 없습니다"));
 
-        List<StatResponse> statResponses = new ArrayList<>();
+        List<StatisticsResponse> statResponses = new ArrayList<>();
         for (Book book:bookList) {
             Long bookId = book.getId();
             String today_views = template.opsForSet().size("bookId:" + bookId + ":today_views") + "";
@@ -47,8 +47,8 @@ public class StatService {
             if (total_purchases == null) {
                 total_purchases = "0";
             }
-            StatResponse statResponse = new StatResponse(book, today_views, today_purchases, today_reviews, total_purchases);
-            statResponses.add(statResponse);
+            StatisticsResponse statisticsResponse = new StatisticsResponse(book, today_views, today_purchases, today_reviews, total_purchases);
+            statResponses.add(statisticsResponse);
         }
         return statResponses;
     }
