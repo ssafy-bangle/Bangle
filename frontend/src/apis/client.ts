@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
-function apiInstance() {
+function apiInstance(contentType: string = 'application/json;charset=utf-8') {
   const client = axios.create({
     baseURL: process.env.NEXT_PUBLIC_DOMAIN + 'api',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8',
+      'Content-Type': contentType
     },
   });
 

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long>, AuthorRepositoryCustom {
     Optional<Author> findById(Long authorId);
+
+    Optional<Author> findByMemberId(Long memberId);
 }

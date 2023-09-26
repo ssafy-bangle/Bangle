@@ -23,9 +23,25 @@ const getBookShelf = async (): Promise<getBookshelfResProp> => {
 
 const postBook = async (body: postBookReqProps) => {
   try {
-    const res = await client.post(`/order/register`, body);
+    // fill form data to send
+    const formData = new FormData();
+
+    body.file && formData.append("file", body.file);
+    formData.append("publishRequest", new Blob([JSON.stringify({
+      title: body.title,
+      cover: body.cover,
+      price: body.price,
+      introduce: body.introduce,
+      genre: body.genre
+    })], { type: 'application/json' }));
+
+    const res = await apiInstance("multipart/form-data").post(
+      '/books/publish',
+      formData,
+    )
     return res.data;
   } catch (e) {
+    console.log("Error at postBook", e)
     throw new Error('');
   }
 };
