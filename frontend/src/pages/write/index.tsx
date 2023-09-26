@@ -30,8 +30,7 @@ const items: DropdownItems[] = [
 export default function Write() {
   const router = useRouter();
   const [title, setTitle] = useState<string>('');
-  const [cover, setCover] = useState<string>('');
-  const [fileData, setFileData] = useState<FormData>(new FormData());
+  const [fileData, setFileData] = useState<File>();
   const [price, setPrice] = useState<number>(0);
   const [genre, setGenre] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
@@ -42,12 +41,12 @@ export default function Write() {
   const handlePostBook = async () => {
     await bookApi.postBook({
       title: title,
-      cover: new FormData(),
+      cover: imgUrl,
       price: 0,
-      file: new FormData(),
       introduce: introduction,
       genre: genre,
-    });
+      file: fileData
+    }).then((res)=>console.log("HANDLE BOOK POSE RES: " + res));
   };
 
   useEffect(() => {

@@ -29,9 +29,9 @@ export default function Modal({ type, title, publishPrice, onClick }: ModalProps
   const chargeDustImmediately = () => {
     if (publishPrice) {
       paymentAPI.postPayment(publishPrice).then(() => {
-        userApi.getMemberInfo().then((res) => {
-          console.log(res.data);
-          setUser({ ...res.data });
+        userApi.getMemberInfo().then((userInfo) => {
+          console.log("userInfo: ", userInfo);
+          setUser({ ...userInfo });
         });
       });
     }
