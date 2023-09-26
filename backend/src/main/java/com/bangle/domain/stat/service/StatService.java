@@ -35,9 +35,6 @@ public class StatService {
         for (Book book:bookList) {
             Long bookId = book.getId();
             String today_views = template.opsForSet().size("bookId:" + bookId + ":today_views") + "";
-            if (today_views == null) {
-                today_views = "0";
-            }
             String today_purchases = template.opsForValue().get("bookId:" + bookId + ":today_purchases");
             if (today_purchases == null) {
                 today_purchases = "0";
