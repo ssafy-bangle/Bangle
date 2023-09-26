@@ -9,22 +9,22 @@ export default function Carousel() {
     <C autoplay>
       <div>
         <S.Section>
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
         </S.Section>
       </div>
       <div>
         <S.Section>
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
-          <BookCover imgSrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
+          <BookCover imgsrc={TestBook} />
         </S.Section>
       </div>
     </C>

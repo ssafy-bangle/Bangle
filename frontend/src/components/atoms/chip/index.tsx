@@ -20,7 +20,7 @@ export default function Chip({ size, title, icon, setValue }: ChipProps) {
             <Icon name={icon} />
           </S.IconContainer>
         ) : (
-          <BookCover imgSrc={TestBook} size="small" />
+          <BookCover imgsrc={TestBook} size="small" />
         )}
         <S.Title>{title}</S.Title>
       </S.ChipContainer>

@@ -2,6 +2,7 @@ import BarChart from '@src/components/atoms/barChart';
 import { LineChart } from '@src/components/atoms/lineChart';
 import * as S from './index.styled.';
 import Chip from '@src/components/atoms/chip';
+
 export default function AuthorHome() {
   return (
     <>

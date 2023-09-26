@@ -11,6 +11,8 @@ export default function NoValue({ type }: NoValueProps) {
         return '아직 리뷰가 없어요';
       case 'bookShelf':
         return '아직 구매한 책이 없어요';
+      case 'card':
+        return '아직 카드가 없어요';
       default:
         return '';
     }

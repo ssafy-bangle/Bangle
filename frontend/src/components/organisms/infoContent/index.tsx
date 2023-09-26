@@ -6,8 +6,8 @@ import userApi from '@src/apis/user';
 import { useEffect, useState } from 'react';
 import { privateToPublic } from '@ethereumjs/util';
 import { useRouter } from 'next/router';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { UserInfoState } from '@src/modules/user';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { UserInfoState, UserModeState } from '@src/modules/user';
 
 export default function InfoContent() {
   const router = useRouter();
@@ -19,20 +19,18 @@ export default function InfoContent() {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+  const setMode = useSetRecoilState(UserModeState);
   const handleOnClick = () => {
-    const send = () => {
-      if (privateKey) {
-        const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
-          .map((b) => b.toString(16).padStart(2, '0'))
-          .join('');
-        setPrivateKey(undefined);
-        userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER').then((res) => {
-          setUserInfo({ ...res.data.memberInformation });
-        });
-        router.push('/home');
-      }
-    };
-    send();
+    //로그인
+    if (privateKey) {
+      const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+      setPrivateKey(undefined);
+      setUserInfo({ ...userInfo, nickname: nickname, roles: isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER' });
+      setMode(isAuthor ? 'author' : 'user');
+      userApi.postPublicKey(publicKey).then(() => router.push('/home'));
+    }
   };
 
   const makeHash = async (password: string) => {
@@ -68,7 +66,9 @@ export default function InfoContent() {
         <Input size={'default'} state={'default'} placeholder={recoilNickname} setInput={setNickname} />
         <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호(8자 이상)'} setInput={setPassword} />
         <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호 확인'} setInput={setPasswordCheck} />
-        <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
+        <S.CheckBoxContainer>
+          <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
+        </S.CheckBoxContainer>
         <Button theme="default" length={'medium'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
       </S.Container>
     </>

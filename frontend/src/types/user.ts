@@ -1,10 +1,9 @@
 export type UserInfo = {
-  member_id: number;
+  nickname: string;
   dust: number;
   email: string;
-  nickname: string;
-  provider: 'KAKAO';
-  public_key: Uint8Array;
-  role: 'ROLE_USER' | 'ROLE_AUTHOR';
-  user_id: string;
+  roles: 'ROLE_USER' | 'ROLE_AUTHOR';
+  userId: string;
 };
+
+export type UserMode = 'user' | 'author';

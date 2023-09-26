@@ -14,6 +14,7 @@ export const BookContainer = styled.div`
 
 export const Title = styled(SubTitle)`
   padding: 2.4rem 0 0 3rem;
+  cursor: pointer;
 `;
 
 export const Container = styled.div`

@@ -9,7 +9,7 @@ import com.bangle.domain.book.dto.BookResponse;
 
 public interface BookRepositoryCustom {
 
-	Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword, Pageable pageable);
-
+	Page<BookResponse> findAllByTitleContainsKeywordForSearch(String keyword,String category, Pageable pageable);
+	List<String> getGenres(String userId);
 
 }
