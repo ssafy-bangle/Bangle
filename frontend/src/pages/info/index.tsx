@@ -8,12 +8,27 @@ import { useSetRecoilState } from 'recoil';
 import { UserInfoState, UserModeState } from '@src/modules/user';
 import { userApi } from '@src/apis';
 
+import React from 'react';
+import Loading from '@src/components/atoms/loading';
+
 export default function Info() {
   const router = useRouter();
   const id_token = router.query.id_token;
-  const [showPage, setShowPage] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   const setUserInfo = useSetRecoilState(UserInfoState);
   const setMode = useSetRecoilState(UserModeState);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  });
+
+  useEffect(() => {
+    !loading && showInfo && router.push('/info');
+    !loading && !showInfo && router.push('/home');
+  }, [loading]);
 
   useEffect(() => {
     if (id_token) {
@@ -24,33 +39,33 @@ export default function Info() {
         setMode(data.memberInformation.roles === 'ROLE_USER' ? 'user' : 'author');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
-        if (data.needPublicKey) {
-          router.push('/info');
-        } else {
-          router.push('/home');
-        }
+        setShowInfo(data.needPublicKey);
       });
-    } else {
-      setShowPage(true);
     }
   }, [id_token]);
 
   return (
     <>
-      {showPage && (
-        <S.BgContainer>
-          <S.Container>
-            <Image src={LogoBlackImg} alt="logoBlackImg" width={30} />
-            <S.Title>방글 시작하기</S.Title>
-            <S.Content>
-              방글에서 사용할 닉네임과, 비밀번호를 입력해주세요.
-              <br />
-              비밀번호를 저장하지 않으므로 분실시 찾을 수 없습니다.
-            </S.Content>
-            <InfoContent />
-          </S.Container>
-        </S.BgContainer>
-      )}
+      <S.BgContainer>
+        {loading ? (
+          <S.LoadingContainer>
+            <Loading content="회원 조회 중" />
+          </S.LoadingContainer>
+        ) : (
+          showInfo && (
+            <S.Container>
+              <Image src={LogoBlackImg} alt="logoBlackImg" width={30} />
+              <S.Title>방글 시작하기</S.Title>
+              <S.Content>
+                방글에서 사용할 닉네임과, 비밀번호를 입력해주세요.
+                <br />
+                비밀번호를 저장하지 않으므로 분실시 찾을 수 없습니다.
+              </S.Content>
+              <InfoContent />
+            </S.Container>
+          )
+        )}
+      </S.BgContainer>
     </>
   );
 }

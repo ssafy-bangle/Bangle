@@ -5,6 +5,11 @@ export const BgContainer = styled.div`
   height: 100vh;
 `;
 
+export const LoadingContainer = styled.div`
+  display: flex;
+  margin: auto;
+`;
+
 export const Container = styled.div`
   border-radius: 1.2rem;
   background: var(--BG_WHITE);
