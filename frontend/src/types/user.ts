@@ -5,3 +5,5 @@ export type UserInfo = {
   roles: 'ROLE_USER' | 'ROLE_AUTHOR';
   userId: string;
 };
+
+export type UserMode = 'user' | 'author';

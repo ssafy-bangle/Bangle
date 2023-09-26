@@ -31,7 +31,8 @@ const postPublicKey = async (publicKey: string) => {
 
 const postMemberInfo = async (body: UserInfo) => {
   try {
-    const res = await client.post('/users', { ...body });
+    console.log('TEST', { ...body });
+    const res = await client.post('/members', { ...body });
     return res.data;
   } catch (e) {
     throw new Error('');
@@ -59,5 +60,21 @@ const putMemberNickname = async (nickname: string) => {
   }
 };
 
-const user = { postLogin, postPublicKey, postMemberInfo, getMemberInfo, putMemberNickname };
+const putMemberRolesToAuthor = async () => {
+  try {
+    const res = await client.put(`/members/register`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const user = {
+  postLogin,
+  postPublicKey,
+  postMemberInfo,
+  getMemberInfo,
+  putMemberNickname,
+  putMemberRolesToAuthor,
+};
 export default user;
