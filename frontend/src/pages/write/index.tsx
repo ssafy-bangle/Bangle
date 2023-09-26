@@ -93,7 +93,7 @@ export default function Write() {
           setIsOpen={setIsOpen}
           type="publish"
           title={'책제목'}
-          publishPrice={10}
+          price={10}
           onClick={() => {
             console.log('Write TEST!');
             handlePostBook();

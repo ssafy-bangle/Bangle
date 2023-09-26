@@ -1,4 +1,4 @@
-import { getBookshelfResProp, postBookReqProps } from '@src/types/book';
+import { getBookshelfResProp, postBookReqProps, buyBookReqProps } from '@src/types/book';
 import apiInstance from './client';
 import axios from 'axios';
 
@@ -30,6 +30,15 @@ const postBook = async (body: postBookReqProps) => {
   }
 };
 
+const buyBook = async (body: buyBookReqProps) => {
+  try {
+    const res = await client.post(`/orders/book`, body);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 // const postBookImg = async (imgData: FormData) => {
 //   try {
 //     //Url 수정 해야함
@@ -51,5 +60,5 @@ const postBook = async (body: postBookReqProps) => {
 //   }
 // };
 
-const book = { getBookShelf, postBook };
+const book = { getBookShelf, postBook, buyBook };
 export default book;

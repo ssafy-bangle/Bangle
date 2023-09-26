@@ -8,6 +8,9 @@ import Checkbox from '@src/components/atoms/checkbox';
 import Image from 'next/image';
 import { CartBookProp } from '@src/types/props';
 import CartItem from '@src/components/molecules/cartItem';
+import Modal from '@src/components/molecules/modal';
+import { bookApi } from '@src/apis';
+import { useRouter } from 'next/router';
 
 const onCartBooks: CartBookProp[] = [
   {
@@ -45,9 +48,31 @@ export default function Cart() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [selectedBookList, setSelectedBookList] = useState<CartBookProp[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const router = useRouter();
+
+  const showModal = () => {
+    setIsOpen((pre) => !pre);
+  };
 
   const onClose = () => {
-    setOpen(false);
+    setOpen((pre) => !pre);
+  };
+
+  const buyBookRequest = (selectedBookList: CartBookProp[]) => {
+    const sortedSelectedBookList = selectedBookList.slice().sort((a, b) => a.id - b.id);
+    const books = sortedSelectedBookList.map((book: CartBookProp) => ({
+      bookId: book.id,
+      orderStatus: 'BUY',
+    }));
+    const body = {
+      books: books,
+    };
+    bookApi.buyBook(body).then(() => {
+      onClose();
+      showModal();
+      router.push('/bookshelf')
+    });
   };
 
   const selectProductHandler = (book: CartBookProp, checked: boolean) => {
@@ -62,9 +87,9 @@ export default function Cart() {
   };
 
   const totalCheckHandler = () => {
-    setIsClicked((pre) => !pre)
-  }
-  
+    setIsClicked((pre) => !pre);
+  };
+
   const handleOnCart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -77,7 +102,11 @@ export default function Cart() {
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
         <form onSubmit={handleOnCart}>
-          <Checkbox content="전체 선택" setInput={totalCheckHandler} isChecked={onCartBooks.length === selectedBookList.length ? true : false} />
+          <Checkbox
+            content="전체 선택"
+            setInput={totalCheckHandler}
+            isChecked={onCartBooks.length === selectedBookList.length ? true : false}
+          />
           <S.ListContainer>
             {/* 나중에 book prop 타입 생기면 적어야함 */}
             {onCartBooks.map((book: CartBookProp, index: number) => (
@@ -110,7 +139,29 @@ export default function Cart() {
               <Image src={DarkMunzi} alt="munzi" width={26} />
             </S.TotalPrice>
           </S.InfoContainer>
-          <Button length={'long'} content="구매하기" />
+          <Button
+            length={'long'}
+            active={totalPrice > 0 ? true : false}
+            content={`구매하기 (${totalPrice})`}
+            onClick={showModal}
+          />
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            type="buy"
+            title={
+              selectedBookList.length > 0
+                ? selectedBookList.length > 1
+                  ? `${selectedBookList[0].title} 외 ${selectedBookList.length - 1} 권`
+                  : selectedBookList[0].title
+                : ''
+            }
+            price={totalPrice}
+            onClick={() => {
+              buyBookRequest(selectedBookList);
+              console.log('Buy!');
+            }}
+          />
         </form>
       </S.Container>
     </S.StyledDrawer>

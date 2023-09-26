@@ -69,8 +69,8 @@ export type DropdownItems = {
 
 export type ModalProps = {
   title?: string;
-  type?: 'publish' | 'buy' | 'munzi';
-  publishPrice?: number;
+  type: 'publish' | 'buy' | 'munzi';
+  price: number;
   onClick?: () => void;
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
