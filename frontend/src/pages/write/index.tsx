@@ -42,12 +42,12 @@ export default function Write() {
   const handlePostBook = async () => {
     await bookApi.postBook({
       title: title,
-      cover: new FormData(),
+      cover: imgUrl,
       price: 0,
-      file: new FormData(),
       introduce: introduction,
       genre: genre,
-    });
+      file: fileData
+    }).then((res)=>console.log("HANDLE BOOK POSE RES: " + res));
   };
 
   useEffect(() => {

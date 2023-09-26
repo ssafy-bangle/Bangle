@@ -18,7 +18,9 @@ export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntrod
         let formData = new FormData();
         file && formData.append('file', file);
         setFileData(formData);
-        // console.log('BBBB', formData.getAll('file'));
+        // console.log("FORM DATA: ", formData)
+        console.log("FORM DATA: ", formData.get('file'))
+        // console.log('BOOK UPLOAD', formData.getAll('file'));
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }

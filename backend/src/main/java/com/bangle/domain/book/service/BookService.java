@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookService {
-	private final BookRepository bookRepository;
 
+	private final BookRepository bookRepository;
 	@Transactional
 	public List<BookResponse> getList(){
 		return bookRepository.findAll()
@@ -26,7 +26,6 @@ public class BookService {
 			.map(Book::toResponse)
 			.collect(Collectors.toList());
 	}
-
 
 	public Page<BookResponse> searchByTitleContainsKeyword(String keyword,String category, Pageable pageable) {
 		return bookRepository.findAllByTitleContainsKeywordForSearch(keyword,category, pageable);
