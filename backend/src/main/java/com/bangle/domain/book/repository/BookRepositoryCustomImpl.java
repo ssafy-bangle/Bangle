@@ -18,6 +18,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import com.bangle.domain.book.dto.BookAndReviewResponse;
 import com.bangle.domain.book.dto.BookDetailResponse;
 import com.bangle.domain.book.dto.BookResponse;
+import com.bangle.domain.book.entity.Book;
 import com.bangle.domain.book.entity.QBook;
 import com.bangle.domain.bookmark.entity.QBookmark;
 import com.bangle.domain.member.entity.QMember;
@@ -62,9 +63,21 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 	}
 
 	@Override
-	public List<String> getGenres(String userId) {
+	public List<String> getIntro(String userId) {
 		return jpaQueryFactory
-			.select(book.genre)
+			.select(book.introduction)
+			.from(member)
+			.join(order).on(member.id.eq(order.member.id))
+			.join(orderBook).on(order.id.eq(orderBook.order.id))
+			.join(book).on(orderBook.book.eq(book))
+			.where(member.userId.eq(userId))
+			.fetch();
+	}
+
+	@Override
+	public List<Book> getBooks(String userId) {
+		return jpaQueryFactory
+			.select(book)
 			.from(member)
 			.join(order).on(member.id.eq(order.member.id))
 			.join(orderBook).on(order.id.eq(orderBook.order.id))
