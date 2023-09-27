@@ -38,4 +38,16 @@ public class WishList {
 
 	@Column(name = "delete_wish", nullable = false, columnDefinition = "TINYINT(1)")
 	private Boolean delete;
+
+	public static WishList createWish(Member member, Book book) {
+		return WishList.builder()
+			.member(member)
+			.book(book)
+			.delete(false)
+			.build();
+	}
+
+	public void changeWish(){
+		this.delete = !this.delete;
+	}
 }
