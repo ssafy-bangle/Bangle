@@ -8,6 +8,7 @@ import com.bangle.domain.book.dto.PublishRequest;
 import com.bangle.domain.review.service.AwsS3Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.book.dto.BookAndReviewResponse;
@@ -29,6 +30,7 @@ public class BookService {
 	private final BookRepository bookRepository;
 	private final ReviewRepository reviewRepository;
 	private final AwsS3Service awsS3Service;
+	private final RedisTemplate<String, String> template;
 
 	@Transactional
 	public List<BookResponse> getList() {
@@ -44,6 +46,11 @@ public class BookService {
 
 	@Transactional
 	public BookAndReviewResponse getDetail(CustomMemberDetails member, long id) {
+
+		if (member != null) {
+			String key = "bookId:" + id + ":today_views";
+			template.opsForSet().add(key, member.getPK() + "");
+		}
 
 		BookAndReviewResponse findBookDetail = bookRepository.findDetailBookByIdAndMember(member, id);
 		List<Review> review = reviewRepository.findAllByBookId(id);

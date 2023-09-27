@@ -35,3 +35,12 @@ export type postBookReviewProps = {
   content: string;
   score: number;
 };
+
+export type buyBookProps = {
+  bookId: number;
+  orderStatus: string;
+};
+
+export type buyBookReqProps = {
+  books: buyBookProps[];
+};
