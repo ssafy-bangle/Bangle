@@ -3,6 +3,7 @@ package com.bangle.domain.book.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bangle.global.util.CryptoUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ import com.bangle.global.response.BaseResponse;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.crypto.SecretKey;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/books")
@@ -39,6 +42,9 @@ public class BookController {
 	private final BookService bookService;
 	private final AuthorService authorService;
 	private final IpfsService ipfsService;
+
+	@Value("${wallet.public}")
+	private String serverPubKey;
 
 	@GetMapping
 	public ResponseEntity<?> getList() {
@@ -56,9 +62,6 @@ public class BookController {
 		return BaseResponse.okWithData(HttpStatus.OK, "조회 완료", responseMap);
 	}
 
-	@Value("${wallet.public}")
-	private String serverPubKey;
-
 	@PostMapping(value = "/publish", consumes = {
 		MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> publishBook(
@@ -67,19 +70,23 @@ public class BookController {
 		@RequestPart(value = "file") MultipartFile file,
 		@RequestPart(value = "cover") MultipartFile cover) {
 		try {
-			System.out.println(publishRequest.getTitle());
-			System.out.println(publishRequest.getIntroduce());
 			// check if file is 'epub'
 			String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-			System.out.println(extension);
 			if (extension != null && !extension.equals("epub")) {
 				throw new IllegalArgumentException("Not a EPUB file");
 			}
+
+			// encrypt
+			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPubKey);
+			byte[] serverEncryptedBook = CryptoUtil.encryptBook(serverSecretKey, file.getBytes());
 			// upload SERVER's file to IPFS
-			IpfsResponse serverIpfsResponse = ipfsService.upload(file, serverPubKey);
+			IpfsResponse serverIpfsResponse = ipfsService.upload(serverEncryptedBook);
+
+			// encrypt
+			SecretKey userSecretKey = CryptoUtil.deriveAESbyPBKDF(customMemberDetails.getPublicKey());
+			byte[] userEncryptedBook = CryptoUtil.encryptBook(userSecretKey, file.getBytes());
 			// upload AUTHOR's file to IPFS
-			IpfsResponse authorIpfsResponse = ipfsService
-				.upload(file, customMemberDetails.getPublicKey());
+			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
 
 			// make book entity and save SERVER's file address
 			bookService.saveBook(customMemberDetails.getUser().getAuthor(),

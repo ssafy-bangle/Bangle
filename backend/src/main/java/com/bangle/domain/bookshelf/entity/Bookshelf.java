@@ -71,12 +71,16 @@ public class Bookshelf {
 			.orderStatus(orderStatus)
 			.createdTime(LocalDateTime.now())
 			.latestTime(LocalDateTime.now())
-			.address("어드레스 넣는 곳")
+			.address(null)
 			.build();
 	}
 
 	public void save(int currentPage) {
 		this.readPages = currentPage;
 		this.latestTime = LocalDateTime.now();
+	}
+
+	public void setIpfsAddress(String address) {
+		this.address = (this.address == null ? address : this.address);
 	}
 }

@@ -1,11 +1,21 @@
 package com.bangle.domain.order.service;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bangle.domain.blockchain.dto.IpfsResponse;
 import com.bangle.domain.blockchain.service.IpfsService;
+import com.bangle.domain.book.dto.BookIdAddressResponse;
 import com.bangle.global.util.CryptoUtil;
 import org.bouncycastle.util.encoders.Hex;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +33,11 @@ import com.bangle.domain.order.entity.OrderStatus;
 import com.bangle.domain.order.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 @Service
@@ -37,8 +51,14 @@ public class OrderService {
 	private final BookshelfRepository bookshelfRepository;
 	private final IpfsService ipfsService;
 
+	@Value("${wallet.public}")
+	private String serverPublicKey;
+
 	@Transactional
-	public void order(String userId, OrderRequest order) {
+	public List<BookIdAddressResponse> order(String userId, OrderRequest order)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException,
+			InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException, IOException {
 		Member member = memberRepository.findByUserId(userId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 		List<Book> books = bookRepository.findAllById(order.books().stream()
@@ -60,20 +80,26 @@ public class OrderService {
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
-		bookshelf.forEach((book -> {
-			// 서버용 파일 불러오기
-			ipfsService.downloadServerFile(book.getId());
-
-			SecretKey secretKey = CryptoUtil.deriveSecretKey(Hex.decode(member.getPublicKey()))
-			// 복호화
-
-			// 사용자 키로 암호화
-
-			// 저장
-		}));
+		for (Bookshelf book: bookshelf) {
+			// get SERVER's ipfs epub file
+			byte[] encryptedServerEpub = ipfsService.downloadServerFile(book.getId());
+			// derive AES key from SERVER's public key
+			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPublicKey);
+			// decrypt
+			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverSecretKey, encryptedServerEpub);
+			// derive AES key from MEMBER's public key
+			SecretKey memberSecretKey = CryptoUtil.deriveAESbyPBKDF(member.getPublicKey());
+			// re-encrypt with MEMBER's public key
+			byte[] encryptedMemberBook = CryptoUtil.encryptBook(memberSecretKey, decryptedServerEpub);
+			// upload to ipfs
+			IpfsResponse upload = ipfsService.upload(encryptedMemberBook);
+			// add address to bookshelf entity
+			book.setIpfsAddress(upload.getAddress());
+		}
 
 		orderRepository.save(newOrder);
 		bookshelfRepository.saveAll(bookshelf);
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
+		return bookshelf.stream().map(BookIdAddressResponse::new).toList();
 	}
 }

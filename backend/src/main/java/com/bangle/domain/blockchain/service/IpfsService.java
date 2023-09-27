@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.crypto.SecretKey;
 import java.io.File;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -38,15 +39,8 @@ public class IpfsService {
 
     @Value("${kubo.rpc.host}")
     private String kuboRpcHost;
-    public IpfsResponse upload(MultipartFile file, String userPublicKeyHex) {
+    public IpfsResponse upload(byte[] encryptedBook) {
         try {
-            // derive key from user public key & server private key
-            SecretKey secretAesKey = deriveAESbyPBKDF(userPublicKeyHex);
-
-            // encrypt book
-            byte[] encryptedBook = CryptoUtil
-                    .encryptBook(secretAesKey, file.getBytes());
-
             // upload to IPFS
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -70,14 +64,14 @@ public class IpfsService {
         }
     }
 
-    public MultipartFile downloadServerFile(Long bookId) {
+    public byte[] downloadServerFile(Long bookId) throws IOException {
         return getFileFromIPFS(bookRepository.findById(bookId)
                 .orElseThrow(NoSuchElementException::new)
                 .getAddress()
         );
     }
 
-    private MultipartFile getFileFromIPFS(String address) {
+    private byte[] getFileFromIPFS(String address) {
 
         // upload to IPFS
         HttpHeaders header = new HttpHeaders();
@@ -86,14 +80,13 @@ public class IpfsService {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host(kuboRpcHost)
-                .path("/api/v0/add")
+                .path("/api/v0/get")
                 .queryParam("arg", address)
                 .build();
         ResponseEntity<String> response = restTemplate.postForEntity(
                 uriComponents.toString(), new HttpEntity<>(body), String.class
         );
-        File file = new File(Objects.requireNonNull(response.getBody()));
-
-        return null;
+        // if response body is null ?
+        return response.getBody().getBytes();
     }
 }

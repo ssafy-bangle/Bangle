@@ -24,12 +24,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CryptoUtil {
 
-  private static String serverPrivateKey;
-
   @Value("${wallet.private}")
-  public void setServerPrivateKey(String spk) {
-    serverPrivateKey = spk;
-  }
+  private static String serverPrivateKey;
 
   private static IvParameterSpec generateIv() {
     byte[] iv = new byte[16];
@@ -86,7 +82,7 @@ public class CryptoUtil {
   }
 
 
-  public static SecretKey deriveSecretKey(byte[] userPublicKey)
+  private static SecretKey deriveSecretKey(byte[] userPublicKey)
           throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
 
     String sharedSecret = generateSharedSecret(userPublicKey);
@@ -103,11 +99,11 @@ public class CryptoUtil {
     return cipher.doFinal(book);
   }
 
-  public static byte[] decryptBook(SecretKey secretKey, IvParameterSpec iv, byte[] book)
+  public static byte[] decryptBook(SecretKey secretKey, byte[] book)
       throws NoSuchPaddingException, NoSuchAlgorithmException,
       InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
     return cipher.doFinal(book);
   }
 
