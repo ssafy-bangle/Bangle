@@ -22,18 +22,16 @@ export default function CartItem({ setChecked, checked, id, image, title, author
   }, [isChecked]);
 
   useEffect(() => {
-    console.log('aaa', checked)
     if (checked) {
       setIsChecked(true);
     } else {
       setIsChecked(false);
     }
-    console.log('check', isChecked)
   }, [checked]);
 
   return (
     <S.TotalItemContainer>
-      <Checkbox content={''} setInput={setIsChecked} />
+      <Checkbox content={''} setInput={setIsChecked} isChecked={isChecked} />
       <S.CartItemContainer>
         <BookCover imgsrc={image} />
         <S.TextItemContainer>

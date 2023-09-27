@@ -23,8 +23,8 @@ export { default as SearchImg } from './search.png';
 
 // purchase elements
 export { default as Munzi } from './munzi.png';
-export { default as Munzi1 } from './munzi_1.png';
-export { default as Munzi2 } from './munzi_2.png';
+export { default as Munzi1 } from './55.png';
+export { default as Munzi2 } from './110.png';
 export { default as Munzi3 } from './munzi_3.png';
 
 // genre elements
