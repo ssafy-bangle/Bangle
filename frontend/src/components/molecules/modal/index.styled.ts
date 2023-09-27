@@ -25,6 +25,7 @@ export const StyledContainer = styled.div.attrs((props) => ({
   role: 'dialog',
 }))`
   padding: 2.4rem 1.5rem 1.4rem 1.5rem;
+  width: 31.2rem;
   background: var(--BG_WHITE);
   border-radius: 2.4rem;
   border: 1px solid var(--BG_GRAY2);

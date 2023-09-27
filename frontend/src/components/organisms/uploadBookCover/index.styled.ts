@@ -25,6 +25,9 @@ export const StyledUpload = styled(Upload)`
     height: 37rem !important;
     color: var(--BG_GRAY2);
   }
+  &:hover {
+    color: var(--BG_MAIN);
+  }
 `;
 
 export const CheckboxContainer = styled.span`
