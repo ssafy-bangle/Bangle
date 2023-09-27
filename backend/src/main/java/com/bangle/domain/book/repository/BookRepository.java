@@ -9,5 +9,7 @@ import com.bangle.domain.book.entity.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long>,BookRepositoryCustom {
 	List<BookResponse> findByAuthorId(Long authorId);
+
+	List<Book> findByIntroductionIn(List<String> genres);
 	Optional<List<Book>> findAllByAuthorId(Long authorId);
 }
