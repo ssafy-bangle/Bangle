@@ -16,7 +16,7 @@ export type ButtonProps = {
 };
 
 export type BookCoverProps = {
-  imgsrc: StaticImageData;
+  imgsrc: StaticImageData | string;
   size?: 'small' | 'big';
   onClick?: () => void;
 };

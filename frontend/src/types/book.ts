@@ -31,9 +31,9 @@ export type getBookshelfResProp = {
 
 export type postBookReviewProps = {
   bookId: number;
-  cover: string;
   content: string;
   score: number;
+  cover: string;
 };
 
 export type buyBookProps = {
