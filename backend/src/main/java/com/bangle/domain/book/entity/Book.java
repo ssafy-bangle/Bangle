@@ -2,6 +2,7 @@ package com.bangle.domain.book.entity;
 
 import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.book.dto.BookResponse;
+import com.bangle.domain.book.dto.RestRequest;
 import com.bangle.domain.order.entity.OrderStatus;
 
 import jakarta.persistence.Column;
@@ -19,12 +20,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 @Table(indexes = {
 	@Index(name = "idx_search", columnList = "genre,title")
 })
@@ -71,5 +74,8 @@ public class Book {
 	public BookResponse toResponse() {
 		return new BookResponse(this.getId(), this.getTitle(), this.getGenre(), this.getPurchasePrice(),
 			this.getRentalPrice(), this.getAverageScore(), this.getCover());
+	}
+	public RestRequest toRequest(){
+		return new RestRequest(this.getId(),this.getTitle(), this.getIntroduction());
 	}
 }
