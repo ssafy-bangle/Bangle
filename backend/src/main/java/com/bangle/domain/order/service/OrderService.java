@@ -3,6 +3,9 @@ package com.bangle.domain.order.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bangle.domain.blockchain.service.IpfsService;
+import com.bangle.global.util.CryptoUtil;
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,8 @@ import com.bangle.domain.order.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.crypto.SecretKey;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,6 +35,7 @@ public class OrderService {
 	private final BookRepository bookRepository;
 	private final OrderRepository orderRepository;
 	private final BookshelfRepository bookshelfRepository;
+	private final IpfsService ipfsService;
 
 	@Transactional
 	public void order(String userId, OrderRequest order) {
@@ -54,7 +60,20 @@ public class OrderService {
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
+		bookshelf.forEach((book -> {
+			// 서버용 파일 불러오기
+			ipfsService.downloadServerFile(book.getId());
+
+			SecretKey secretKey = CryptoUtil.deriveSecretKey(Hex.decode(member.getPublicKey()))
+			// 복호화
+
+			// 사용자 키로 암호화
+
+			// 저장
+		}));
+
 		orderRepository.save(newOrder);
 		bookshelfRepository.saveAll(bookshelf);
+		// book id 오름차순으로 정렬하고 {bookid, address} 반환
 	}
 }

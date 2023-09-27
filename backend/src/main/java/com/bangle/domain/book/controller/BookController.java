@@ -1,6 +1,5 @@
 package com.bangle.domain.book.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ import com.bangle.domain.book.dto.BookAndReviewResponse;
 import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.dto.PublishRequest;
 import com.bangle.domain.book.service.BookService;
-import com.bangle.domain.order.dto.IpfsResponse;
+import com.bangle.domain.blockchain.dto.IpfsResponse;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
 

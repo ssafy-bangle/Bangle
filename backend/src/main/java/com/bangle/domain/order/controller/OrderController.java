@@ -22,7 +22,9 @@ public class OrderController {
   private final OrderService ordersService;
 
   @PostMapping("/book")
-  public ResponseEntity<?> orderBook(@AuthenticationPrincipal CustomMemberDetails member,@RequestBody OrderRequest orders) {
+  public ResponseEntity<?> orderBook(
+          @AuthenticationPrincipal CustomMemberDetails member,
+          @RequestBody OrderRequest orders) {
     ordersService.order(member.getUsername(), orders);
     return BaseResponse.ok(HttpStatus.OK,"주문 완료");
   }
