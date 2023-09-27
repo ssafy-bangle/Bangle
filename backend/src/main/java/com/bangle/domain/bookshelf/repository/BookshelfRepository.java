@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookshelfRepository extends JpaRepository<Bookshelf, Long>, BookshelfDetailRepositoryCustom {
 
+	Bookshelf findByMemberIdAndBookId(Long memberId, long bookId);
+
 }

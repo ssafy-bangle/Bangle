@@ -34,6 +34,7 @@ public class BookshelfDetailRepositoryCustomImpl implements BookshelfDetailRepos
 			.join(bookshelf.book, book)
 			.join(bookshelf.member, member)
 			.where(member.id.eq(memberId))
+			.orderBy(bookshelf.latestTime.desc())
 			.fetch();
 	}
 
