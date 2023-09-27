@@ -9,5 +9,7 @@ public record BookResponse(
 	float averageScore,
 	String cover
 ) {
-
+	public BookResponse(long id,String title, String cover) {
+		this(id, title, "", 0, 0, 0, cover);
+	}
 }
