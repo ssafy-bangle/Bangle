@@ -21,27 +21,41 @@ const getBookShelf = async (): Promise<getBookshelfResProp> => {
   }
 };
 
+const getBookDetail = async (bookId: number) => {
+  try {
+    const res = await client.get(`/books/detail/${bookId}`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 const postBook = async (body: postBookReqProps) => {
   try {
     // fill form data to send
     const formData = new FormData();
 
-    body.file && formData.append("file", body.file);
-    body.cover && formData.append("cover", body.cover);
-    formData.append("publishRequest", new Blob([JSON.stringify({
-      title: body.title,
-      price: body.price,
-      introduce: body.introduce,
-      genre: body.genre
-    })], { type: 'application/json' }));
+    body.file && formData.append('file', body.file);
+    body.cover && formData.append('cover', body.cover);
+    formData.append(
+      'publishRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            title: body.title,
+            price: body.price,
+            introduce: body.introduce,
+            genre: body.genre,
+          }),
+        ],
+        { type: 'application/json' },
+      ),
+    );
 
-    const res = await apiInstance("multipart/form-data").post(
-      '/books/publish',
-      formData,
-    )
+    const res = await apiInstance('multipart/form-data').post('/books/publish', formData);
     return res.data;
   } catch (e) {
-    console.log("Error at postBook", e)
+    console.log('Error at postBook', e);
     throw new Error('');
   }
 };
@@ -76,5 +90,5 @@ const buyBook = async (body: buyBookReqProps) => {
 //   }
 // };
 
-const book = { getBookShelf, postBook, buyBook };
+const book = { getBookShelf, getBookDetail, postBook, buyBook };
 export default book;

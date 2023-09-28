@@ -1,15 +1,16 @@
 export type BookInfo = {
+  bookId: number;
   address: string;
-  average_score: number;
+  averageScore: number;
   cover: string;
   genre: string;
   introduction: string;
-  purchase_price: number;
-  rental_price: number;
-  sale_count: number;
+  purchasePrice: number;
+  rentalPrice: number;
   title: string;
-  total_pages: number;
-  author_id: number;
+  nickname: string;
+  reviews: postBookReviewProps[];
+  buy: boolean;
 };
 
 export type postBookReqProps = {
