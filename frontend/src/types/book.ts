@@ -9,9 +9,15 @@ export type BookInfo = {
   rentalPrice: number;
   title: string;
   nickname: string;
-  reviews: postBookReviewProps[];
+  publicationDate: string;
+  reviews: reviewProps[];
   buy: boolean;
 };
+
+export type reviewProps = {
+  id: number;
+  cover: string;
+}
 
 export type postBookReqProps = {
   title: string;

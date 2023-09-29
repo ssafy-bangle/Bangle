@@ -1,3 +1,5 @@
+import Button from '@src/components/atoms/button';
+import ReviewCard from '@src/components/atoms/reviewCard';
 import styled from 'styled-components';
 
 export const Container = styled.div``;
@@ -65,6 +67,13 @@ export const ReviewContainer = styled.div`
 `;
 
 export const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.4rem 2rem;
+  margin-top: 2.4rem;
+`;
+
+export const ReviewCardItem = styled(ReviewCard)`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 2.4rem 2rem;
