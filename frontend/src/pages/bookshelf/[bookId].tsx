@@ -11,7 +11,7 @@ import { bookApi } from '@src/apis';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { useRouter } from 'next/router';
-import { BookInfo } from '@src/types/book';
+import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
 import { TestBook } from '@src/assets/imgs';
 
@@ -20,18 +20,23 @@ export default function BookId() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const [bookInfo, setBookInfo] = useRecoilState(BookInfoState);
+  const [priceType, setPriceType] = useState<number>(0);
   const router = useRouter();
   const bookId = Number(router.query.bookId);
 
-  const showModal = () => {
+  const showModal = (type?: number) => {
     setIsOpen((pre) => !pre);
+    if (type === 0) {
+      setPriceType(0);
+    } else if (type === 1) {
+      setPriceType(1);
+    }
   };
 
   const getBookInfoReq = (bookId: number) => {
     bookApi.getBookDetail(bookId).then((response) => {
       console.log('get Detail', response);
       const res = response.data.bookDetail;
-      console.log('data', res);
       const info: BookInfo = {
         bookId: res.id,
         address: res.address,
@@ -43,6 +48,7 @@ export default function BookId() {
         rentalPrice: res.rentalPrice,
         title: res.title,
         nickname: res.nickname,
+        publicationDate: res.publicationDate.substring(0, res.publicationDate.indexOf('T')),
         reviews: response.data.reviews,
         buy: response.data.buy,
       };
@@ -51,13 +57,15 @@ export default function BookId() {
   };
 
   useEffect(() => {
-    getBookInfoReq(bookId);
-  }, []);
+    if (!isNaN(bookId)) {
+      getBookInfoReq(bookId);
+    }
+  }, [bookId]);
 
   const buyBookRequest = (id: number) => {
     const book = {
       bookId: id,
-      orderStatus: 'BUY',
+      orderStatus: priceType === 0 ? 'BUY' : 'RENT',
     };
     const body = {
       books: [book],
@@ -67,6 +75,7 @@ export default function BookId() {
       setUserInfo({ ...userInfo, dust: userInfo.dust });
       router.push('/bookshelf');
     });
+    setIsOpen((pre) => !pre);
   };
 
   return (
@@ -78,17 +87,17 @@ export default function BookId() {
           <S.BookInfo>
             <S.BookTitle>{bookInfo.title}</S.BookTitle>
             <S.SmallInfo>
-              {bookInfo.nickname} · 2023.09.13 · {bookInfo.genre}
+              {bookInfo.nickname} · {bookInfo.publicationDate} · {bookInfo.genre}
             </S.SmallInfo>
             <S.PriceContainer>
-              <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={showModal} />
-              <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={showModal} />
+              <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={() => showModal(0)} />
+              <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={() => showModal(1)} />
               <Modal
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                type="buy"
+                type={priceType === 0 ? 'dirBuy' : 'dirRent'}
                 title={'제목'}
-                price={bookInfo.purchasePrice}
+                price={priceType === 0 ? bookInfo.purchasePrice : bookInfo.rentalPrice}
                 onClick={() => {
                   buyBookRequest(bookInfo.bookId);
                   console.log('clicked');
@@ -111,10 +120,17 @@ export default function BookId() {
         </S.InfoContainer>
         <S.ReviewContainer>
           <S.InfoTitle>리뷰</S.InfoTitle>
-          <Rating value={4} label={true} editable={false} setInput={() => {}} />
+          <Rating value={bookInfo.averageScore} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
-            {/* {bookInfo.reviews.map((card: number) => (
-              <ReviewCard imgsrc={TestBook} size="small" />
+            {bookInfo.reviews.map((card: reviewProps) => (
+              <>
+                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} />
+              </>
+            ))}
+            {/* {[1, 2, 3].map((card: number) => (
+              <>
+                <S.ReviewCardItem imgsrc={TestBook} size="small" key={card} />
+              </>
             ))} */}
           </S.CardContainer>
         </S.ReviewContainer>
