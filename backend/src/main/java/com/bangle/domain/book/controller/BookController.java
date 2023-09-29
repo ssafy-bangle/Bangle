@@ -96,7 +96,7 @@ public class BookController {
 	@GetMapping("/detail/{id}")
 	public ResponseEntity<?> getDetailBook(@AuthenticationPrincipal CustomMemberDetails member, @PathVariable long id) {
 
-		BookAndReviewResponse detail = bookService.getDetail(member, id);
+		BookAndReviewResponse detail = bookService.getgDetail(member, id);
 		return BaseResponse.okWithData(HttpStatus.OK, "책 상세 정보", detail);
 	}
 }
