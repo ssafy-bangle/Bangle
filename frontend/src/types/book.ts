@@ -23,9 +23,9 @@ export type postBookReqProps = {
 
 export type getBookshelfResProp = {
   bookId: number;
-  title: FormData;
+  title: string;
   address: string;
-  cover: FormData;
+  cover: string;
   progress: number;
 };
 

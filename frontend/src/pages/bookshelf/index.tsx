@@ -13,10 +13,10 @@ export default function Bookshelf() {
 
   // 책의 URL은 여기서 보내지 않는다 (주소에 노출되기때문 => ebook에서 fetch해오도록 한다)
   // TEST를 위한 임시 책 id
-  const [bookList, setBookList] = useState<getBookshelfResProp[]>();
+  const [bookList, setBookList] = useState<getBookshelfResProp[]>([]);
   useEffect(() => {
     bookApi.getBookShelf().then((res) => {
-      console.log('res', res);
+      // setBookList(res.d);
     });
   }, []);
 

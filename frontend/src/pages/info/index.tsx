@@ -1,4 +1,3 @@
-import InfoContent from '@src/components/organisms/infoContent';
 import * as S from '@src/styles/pageStyles/info/index.styled';
 import Image from 'next/image';
 import { LogoBlackImg } from '@src/assets/imgs';
@@ -10,6 +9,7 @@ import { userApi } from '@src/apis';
 
 import React from 'react';
 import Loading from '@src/components/atoms/loading';
+import InfoContent from '@src/components/organisms/infoContent';
 
 export default function Info() {
   const router = useRouter();

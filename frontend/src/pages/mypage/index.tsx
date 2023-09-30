@@ -6,11 +6,12 @@ import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState, UserModeState } from '@src/modules/user';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
 import { paymentApi, userApi } from '@src/apis';
 import { useRouter } from 'next/router';
+import { UserInfo } from '@src/types/user';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -19,9 +20,17 @@ export type munziLogReqProps = {
 
 export default function Mypage() {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+  const [recoilUserInfo, setRecoilUserInfo] = useRecoilState(UserInfoState);
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    nickname: '',
+    dust: 0,
+    email: '',
+    roles: 'ROLE_USER',
+    userId: '',
+  });
   const { roles } = userInfo;
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
+
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [mode, setMode] = useRecoilState(UserModeState);
   const [open, setOpen] = useState<boolean>(false);
@@ -30,6 +39,14 @@ export default function Mypage() {
   const hide = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setUserInfo(recoilUserInfo);
+  }, []);
+
+  useEffect(() => {
+    setRecoilUserInfo(userInfo);
+  }, [userInfo]);
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -137,7 +154,7 @@ export default function Mypage() {
               onClick={() => setNicknameChange(nickname)}
             />
           </S.NicknamePart>
-          {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {/* {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
           {roles === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가되기 신청" onClick={setRoleChange} />
           ) : mode === 'user' ? (
@@ -145,7 +162,7 @@ export default function Mypage() {
           ) : (
             <Button length={'medium'} icon="mode" content="독자모드로 보기" onClick={() => setMode('user')} />
           )}
-          <S.Logout onClick={handleLogout}>로그아웃</S.Logout>
+          <S.Logout onClick={handleLogout}>로그아웃</S.Logout> */}
         </S.LeftSection>
         <S.RightSection>
           <S.RightTopSection>

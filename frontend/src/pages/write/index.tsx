@@ -47,29 +47,27 @@ export default function Write() {
   };
 
   const handlePostBook = async () => {
-    await bookApi.postBook({
-      title: title,
-      price: 0,
-      introduce: introduction,
-      genre: genre,
-      file: fileData,
-      cover: coverData,
-    }).then((res)=>console.log("HANDLE BOOK POSE RES: " + res));
+    await bookApi
+      .postBook({
+        title: title,
+        price: 0,
+        introduce: introduction,
+        genre: genre,
+        file: fileData,
+        cover: coverData,
+      })
+      .then((res) => console.log('HANDLE BOOK POSE RES: ' + res));
   };
 
   useEffect(() => {
-    console.log('title', title);
-    console.log('price', price);
-    console.log('genre', genre);
-    console.log('isNft', isNft);
-    console.log('introduction', introduction);
-  });
+    console.log('UploadBookInfo의 Title 값 변경!', title);
+  }, [title]);
 
   return (
     <>
       <PageTitle>출판하기</PageTitle>
       <S.Content>
-      <UploadBookCover
+        <UploadBookCover
           imgUrl={imgUrl}
           loding={loading}
           setLoading={setLoading}
@@ -95,7 +93,6 @@ export default function Write() {
           title={'책제목'}
           price={10}
           onClick={() => {
-            console.log('Write TEST!');
             handlePostBook();
             router.push('/');
           }}
