@@ -12,6 +12,15 @@ const getBookShelf = async (): Promise<getBookshelfResProp> => {
   }
 };
 
+const getBookDetail = async (bookId: number) => {
+  try {
+    const res = await client.get(`/books/detail/${bookId}`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 const postBook = async (body: postBookReqProps) => {
   try {
     // fill form data to send
@@ -72,5 +81,5 @@ const buyBook = async (body: buyBookReqProps) => {
 //   }
 // };
 
-const book = { getBookShelf, postBook, buyBook };
+const book = { getBookShelf, getBookDetail, postBook, buyBook };
 export default book;

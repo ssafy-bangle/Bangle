@@ -3,6 +3,7 @@ package com.bangle.domain.book.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,6 +30,9 @@ public class BookRestTemplateService {
 
 	private final BookRepository bookRepository;
 
+	@Value("${django.url}")
+	private String djangoUrl;
+
 	public List<BookResponse> getRecommendBooks(String userId){
 		List<RestRequest> bookList = bookRepository.getBooks(userId)
 									.stream()
@@ -44,8 +48,9 @@ public class BookRestTemplateService {
 		HttpEntity<BookRequest> httpBook = new HttpEntity<>(request, headers);///////
 
 		// 장고 서버에 요청
-		ResponseEntity<testResponse> responseEntity = restTemplate.postForEntity("http://localhost:8080/api1/string-list/",
-			httpBook, testResponse.class);
+		System.out.println(djangoUrl);
+		ResponseEntity<testResponse> responseEntity = restTemplate
+				.postForEntity(djangoUrl, httpBook, testResponse.class);
 
 		// 장고서버에서 받은 객체 -> 아예 BOOK으로 받자.
 		testResponse response = responseEntity.getBody();

@@ -26,6 +26,13 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
         setUserInfo({ ...userInfo });
       });
     }
+    openModalHandler();
+  };
+
+  // 충전 먼지 즉시 이후 user 업데이트
+  const addBooksOnCart = () => {
+    console.log('add');
+    openModalHandler();
   };
 
   const buttonType = (type: string) => {
@@ -42,10 +49,23 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
         } else {
           return null;
         }
-      case 'munzi':
-        return <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={() => {}} />;
+      case 'dirBuy':
+        return <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={addBooksOnCart} />;
+      case 'dirRent':
+        return <Button theme="text" content="장바구니 담기" icon="cart" length="long" onClick={addBooksOnCart} />;
       default:
         return null;
+    }
+  };
+
+  const buttonContent = (type: string) => {
+    switch (type) {
+      case 'publish':
+        return `출판하기(${price}먼지)`;
+      case 'dirRent':
+        return `즉시대여(${price}먼지)`;
+      default:
+        return `즉시구매(${price}먼지)`;
     }
   };
 
@@ -83,7 +103,7 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
                 <Button
                   active={userInfo.dust >= price ? true : false}
                   theme="default"
-                  content={type == 'publish' ? `출판하기(${price}먼지)` : `즉시구매(${price}먼지)`}
+                  content={buttonContent(type)}
                   length="long"
                   onClick={onClick}
                 />
