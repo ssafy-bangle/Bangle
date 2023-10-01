@@ -4,7 +4,6 @@ import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import Checkbox from '@src/components/atoms/checkbox';
 import { beforeImgUpload, getBase64 } from '@src/utils';
-import { useEffect } from 'react';
 
 export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverData, setImgUrl, setIsNft }: any) {
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {

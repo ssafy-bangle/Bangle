@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export const Footer = styled.div`
+  height: 10rem;
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -28,7 +31,7 @@ export const SearchBtn = styled.button`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  &:hover{
+  &:hover {
     box-shadow: none;
     outline: none;
     color: var(--BG_MAIN);

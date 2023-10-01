@@ -17,7 +17,7 @@ export type BookInfo = {
 export type reviewProps = {
   id: number;
   cover: string;
-}
+};
 
 export type postBookReqProps = {
   title: string;

@@ -20,12 +20,6 @@ export default function Info() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  });
-
-  useEffect(() => {
     !loading && router.push(showInfo ? '/info' : '/home');
   }, [loading]);
 
@@ -38,6 +32,7 @@ export default function Info() {
         setMode(data.memberInformation.roles === 'ROLE_USER' ? 'user' : 'author');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        setLoading(false);
         setShowInfo(data.needPublicKey);
       });
     }

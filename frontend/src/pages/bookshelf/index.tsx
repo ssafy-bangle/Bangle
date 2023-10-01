@@ -16,7 +16,7 @@ export default function Bookshelf() {
   const [bookList, setBookList] = useState<getBookshelfResProp[]>([]);
   useEffect(() => {
     bookApi.getBookShelf().then((res) => {
-      // setBookList(res.d);
+      // setBookList(res);
     });
   }, []);
 
@@ -46,7 +46,7 @@ export default function Bookshelf() {
             <BookCover imgsrc={TestBook} onClick={handleBookClick} />
           </S.CoverContainer>
         </S.Box>
-        <BooksContainer type="book" page="bookShelf" title="모든 책" onClick={handleBookClick} />
+        <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
       </S.Container>
     </>
   );

@@ -154,7 +154,7 @@ export default function Mypage() {
               onClick={() => setNicknameChange(nickname)}
             />
           </S.NicknamePart>
-          {/* {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
           {roles === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가되기 신청" onClick={setRoleChange} />
           ) : mode === 'user' ? (
@@ -162,7 +162,7 @@ export default function Mypage() {
           ) : (
             <Button length={'medium'} icon="mode" content="독자모드로 보기" onClick={() => setMode('user')} />
           )}
-          <S.Logout onClick={handleLogout}>로그아웃</S.Logout> */}
+          <S.Logout onClick={handleLogout}>로그아웃</S.Logout>
         </S.LeftSection>
         <S.RightSection>
           <S.RightTopSection>

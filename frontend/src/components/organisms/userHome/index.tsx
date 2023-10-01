@@ -5,9 +5,14 @@ import Button from '@src/components/atoms/button';
 import Carousel from '@src/components/atoms/carousel';
 import { useRecoilValue } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
+import { useEffect, useState } from 'react';
 
 export default function UserHome() {
-  const { nickname } = useRecoilValue(UserInfoState);
+  const recoilUserInfo = useRecoilValue(UserInfoState);
+  const [nickname, setNickname] = useState<string>('');
+  useEffect(() => {
+    setNickname(recoilUserInfo.nickname);
+  }, []);
   return (
     <>
       <S.BannerSection>

@@ -4,11 +4,13 @@ import Input from '@src/components/atoms/input';
 import Icon from '@src/components/atoms/icon';
 import BooksContainer from '@src/components/organisms/booksContainer';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { searchApi } from '@src/apis';
+import { getSearchResProp } from '@src/types/search';
 
 export default function Search() {
   const router = useRouter();
-  const [keyword, setKeyWord] = useState<string>();
+  const [searchResult, setSearchResult] = useState<getSearchResProp>();
 
   type QueryParams = {
     keyword: string | undefined;
@@ -20,9 +22,24 @@ export default function Search() {
     category: router.query.category as string | undefined,
   };
 
+  const [keyword, setKeyWord] = useState<string | undefined>(queryParams.keyword);
+  const [category, setCategory] = useState<string | undefined>();
+
+  const getSearchResult = () => {
+    searchApi.getSearchResult(keyword, category).then((res) => {
+      setSearchResult(res);
+    });
+  };
+
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('keyword', keyword, 'category', category);
+    getSearchResult();
   };
+
+  useEffect(() => {
+    getSearchResult();
+  }, []);
 
   return (
     <>
@@ -33,7 +50,7 @@ export default function Search() {
             <Input
               size="long"
               state="default"
-              value={queryParams.keyword}
+              value={keyword}
               setInput={setKeyWord}
               placeholder={'검색어를 입력해주세요'}
             />
@@ -43,8 +60,9 @@ export default function Search() {
           </form>
         </S.SearchInput>
       </S.Container>
-      <BooksContainer type="book" page="search" title="도서" />
-      <BooksContainer type="author" page="search" title="작가" />
+      <BooksContainer type="book" page="search" title="도서" data={searchResult?.data.books.content} />
+      <BooksContainer type="author" page="search" title="작가" data={searchResult?.data.authors.content} />
+      <S.Footer />
     </>
   );
 }

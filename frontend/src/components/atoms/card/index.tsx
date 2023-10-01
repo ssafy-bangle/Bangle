@@ -17,40 +17,43 @@ import {
   genre11,
   genre12,
 } from '@src/assets/imgs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface GenreList {
   [key: string]: StaticImageData;
 }
 
-export default function Card({ title, type, onClick, isSelected = false }: CardProps) {
+export default function Card({ title, type, onClick, selected = false }: CardProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const router = useRouter();
-  const genreList: GenreList = {
-    SF: genre01,
-    인문: genre02,
-    자기계발: genre03,
-    로맨스: genre04,
-    소설: genre05,
-    건강: genre06,
-    경제: genre07,
-    무협: genre08,
-    취미: genre09,
-    어학: genre10,
-    여행: genre11,
-    금융: genre12,
-  };
+  const [genreImageSrc, setGenreImageSrc] = useState<StaticImageData | undefined>(undefined);
 
-  const genreImageSrc = genreList[title];
+  useEffect(() => {
+    const genreList: GenreList = {
+      SF: genre01,
+      인문: genre02,
+      자기계발: genre03,
+      로맨스: genre04,
+      소설: genre05,
+      건강: genre06,
+      경제: genre07,
+      무협: genre08,
+      취미: genre09,
+      어학: genre10,
+      여행: genre11,
+      금융: genre12,
+    };
+    title && setGenreImageSrc(genreList[title]);
+  }, [title]);
 
   const onClickHandler = () => {
     type == 'author' ? router.push('/mypage') : setIsClicked((pre) => !pre);
-    onClick(title);
+    onClick && onClick(title);
   };
   return (
     <>
-      <S.CardContainer type={type} title={title} onClick={onClickHandler} isSelected>
-        <S.GenreImage src={genreImageSrc} alt="장르" />
+      <S.CardContainer type={type} title={title} onClick={onClickHandler} selected>
+        {genreImageSrc && <S.GenreImage src={genreImageSrc} alt="장르" />}
         <S.BlackScreen isClicked={isClicked} />
         <S.Title>{isClicked ? <HeartFilled /> : title}</S.Title>
         {type == 'author' && (
