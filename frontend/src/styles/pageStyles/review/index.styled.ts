@@ -45,6 +45,29 @@ export const TextArea = styled.textarea`
   }
 `;
 
+export const BottomDiv = styled.div`
+  display: flex;
+  width: 88%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const BottomDotsDiv = styled.div`
+  
+`;
+
+export const Dots = styled.span`
+  font-size: 2rem;
+  margin: 0 0.4rem;
+  color: var(--BG_GRAY3);
+`;
+
+export const AnimationWrapper = styled.div<{isWhite : boolean}>`
+  display: inline-block;
+  animation: ${({ isWhite }) => (isWhite ? 'var(--BG_GRAY2)' : 'none')} 2.5s infinite alternate;
+  color: ${({ isWhite }) => (isWhite ? 'var(--BG_GRAY1)' : 'var(--BG_GRAY3)')};
+`;
+
 export const RightSection = styled.div`
   width: 55%;
 `;
