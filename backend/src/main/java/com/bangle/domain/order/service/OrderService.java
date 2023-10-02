@@ -1,5 +1,6 @@
 package com.bangle.domain.order.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +69,16 @@ public class OrderService {
 				template.opsForValue().set(total_key, "1");
 			} else {
 				template.opsForValue().set(total_key, Long.parseLong(total_purchases) + 1L + "");
+			}
+			// 이번달 판매량 증가
+			int currentMonth = LocalDate.now().getMonth().getValue();
+			System.out.println(currentMonth);
+			String month_key = "bookId:" + book.getId() + ":month_purchases:" + currentMonth;
+			String month_purchases = template.opsForValue().get(month_key);
+			if (month_purchases == null) {
+				template.opsForValue().set(month_key, "1");
+			} else {
+				template.opsForValue().set(month_key, Long.parseLong(month_purchases) + 1L + "");
 			}
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
