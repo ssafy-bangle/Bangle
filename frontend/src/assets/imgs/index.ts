@@ -1,6 +1,7 @@
 // index elements
 export { default as LightImg } from './light.png';
 export { default as ShineImg } from './shine.png';
+export { default as TotalImg } from './Group 75.png';
 
 // home elements
 export { default as BannerImg } from './banner.png';
