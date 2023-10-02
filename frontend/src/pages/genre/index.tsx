@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 export default function Genre() {
-  const { nickname } = useRecoilValue(UserInfoState);
+  const recoilUserInfo = useRecoilValue(UserInfoState);
+  const [nickname, setNickname] = useState<string>('');
   const router = useRouter();
   const [genreSelected, setGenreSelected] = useState<string[]>([]);
   const genreList = [
@@ -24,6 +25,9 @@ export default function Genre() {
     '여행',
     '금융',
   ];
+  useEffect(() => {
+    setNickname(recoilUserInfo.nickname);
+  }, []);
 
   useEffect(() => {
     console.log('genre', genreSelected);
@@ -48,7 +52,7 @@ export default function Genre() {
               key={genre}
               type="genre"
               title={genre}
-              isSelected={genreSelected.includes(genre)}
+              selected={genreSelected.includes(genre)}
               onClick={() => toggleGenre(genre)}
             />
           ))}

@@ -54,6 +54,8 @@ public class Bookshelf {
 
 	private LocalDateTime createdTime;
 
+	private LocalDateTime latestTime;
+
 	// public static List<Bookshelf> createBookShelfList(Member member, List<Book> books,
 	// 	List<OrderBookRequest> orderBooks) {
 	// 	List<Bookshelf> bookshelfList = new ArrayList<>();
@@ -68,7 +70,13 @@ public class Bookshelf {
 			.readPages(0)
 			.orderStatus(orderStatus)
 			.createdTime(LocalDateTime.now())
+			.latestTime(LocalDateTime.now())
 			.address("어드레스 넣는 곳")
 			.build();
+	}
+
+	public void save(int currentPage) {
+		this.readPages = currentPage;
+		this.latestTime = LocalDateTime.now();
 	}
 }

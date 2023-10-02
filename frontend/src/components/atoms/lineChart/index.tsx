@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +10,19 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { bookStatProp } from '@src/types/author';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
+type ChartData = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: (number | null)[];
+    borderColor: string;
+    backgroundColor: string;
+  }[];
+};
 
 export const options = {
   responsive: true,
@@ -22,26 +33,42 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+export const LineChart = React.memo(function LineChart({ book }: { book: bookStatProp[] }) {
+  const [data, setData] = useState<ChartData>({ labels: [], datasets: [] });
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => Math.floor(Math.random() * 1000)),
-      borderColor: '#FBE38E',
-      backgroundColor: '#FBE38E',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => Math.floor(Math.random() * 1000)),
-      borderColor: '#B1A5FF',
-      backgroundColor: '#B1A5FF',
-    },
-  ],
-};
+  let labels = [];
 
-export function LineChart() {
+  useEffect(() => {
+    labels = book?.map((item: bookStatProp) => {
+      return item.title;
+    });
+
+    labels = ['', ...labels, ''];
+
+    setData({
+      labels,
+      datasets: [
+        {
+          label: '조회수',
+          data: [null, ...book?.map((item: bookStatProp) => item.today_views)],
+          borderColor: '#FBE38E',
+          backgroundColor: '#FBE38E',
+        },
+        {
+          label: '구매수',
+          data: [null, ...book?.map((item: bookStatProp) => item.today_purchases)],
+          borderColor: '#B1A5FF',
+          backgroundColor: '#B1A5FF',
+        },
+        {
+          label: '리뷰수',
+          data: [null, ...book?.map((item: bookStatProp) => item.today_reviews)],
+          borderColor: '#D0E8FFD9',
+          backgroundColor: '#D0E8FFD9',
+        },
+      ],
+    });
+  }, [book]);
+
   return <Line options={options} data={data} width={800} />;
-}
+});

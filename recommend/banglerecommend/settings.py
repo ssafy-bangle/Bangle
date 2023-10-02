@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-5i%5a6#*gs*jt6u4kzc2^ojjxh3emokqd!1_h0nvn72(5j69yb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['recommend']
 
 import os, json
 from django.core.exceptions import ImproperlyConfigured

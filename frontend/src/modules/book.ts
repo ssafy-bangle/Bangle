@@ -1,21 +1,42 @@
 import { BookInfo } from '@src/types/book';
-import { atom } from 'recoil';
+import { DefaultValue, atom, selector } from 'recoil';
 
 const KEY = 'BOOK';
 
 export const BookInfoState = atom<BookInfo>({
   key: `${KEY}/info`,
   default: {
+    bookId: 0,
     address: '',
-    average_score: 0,
+    averageScore: 0,
     cover: '',
     genre: '',
     introduction: '',
-    purchase_price: 0,
-    rental_price: 0,
-    sale_count: 0,
+    purchasePrice: 0,
+    rentalPrice: 0,
     title: '',
-    total_pages: 0,
-    author_id: 0,
+    nickname: '',
+    publicationDate: '',
+    reviews: [],
+    buy: false,
+  },
+});
+
+export const BookInfoSelector = selector({
+  key: `${KEY}/info/selector`,
+  get: async ({ get }) => {
+    const bookInfo = get(BookInfoState);
+    return bookInfo;
+  },
+
+  set: ({ set }, newValue) => {
+    // DefaultValue일 경우 아무 작업도 하지 않음
+    if (newValue instanceof DefaultValue) {
+      return;
+    }
+
+    // UserInfo 타입인 경우에만 업데이트 및 API 호출 수행
+    set(BookInfoState, newValue);
+    // userApi.postMemberInfo(newValue);
   },
 });
