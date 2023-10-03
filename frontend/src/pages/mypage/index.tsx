@@ -133,6 +133,7 @@ export default function Mypage() {
       <PageTitle>마이페이지</PageTitle>
       <S.SectionContainer>
         <S.LeftSection>
+          <S.PartTitle>내 정보</S.PartTitle>
           <S.NicknamePart>
             <S.MainInfo>
               {isClicked ? (
