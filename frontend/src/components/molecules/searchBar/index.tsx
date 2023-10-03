@@ -58,7 +58,7 @@ export default function SearchBar() {
                         icon={Object.keys(item)[0]}
                         title={Object.values(item)[0]}
                         key={index}
-                        setValue={setCategory}
+                        setValue={() => setCategory}
                       />
                     ))}
                   </S.ChipsContainer>
