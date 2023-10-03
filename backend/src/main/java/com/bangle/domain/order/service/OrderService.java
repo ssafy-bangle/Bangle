@@ -84,14 +84,10 @@ public class OrderService {
 		for (Bookshelf book: bookshelf) {
 			// get SERVER's ipfs epub file
 			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(book.getBook().getId());
-			// derive AES key from SERVER's public key
-			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPublicKey);
-			// decrypt
-			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverSecretKey, encryptedServerEpub);
-			// derive AES key from MEMBER's public key
-			SecretKey memberSecretKey = CryptoUtil.deriveAESbyPBKDF(member.getPublicKey());
+			// decrypt SERVER's ipfs epub file
+			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverPublicKey, encryptedServerEpub);
 			// re-encrypt with MEMBER's public key
-			byte[] encryptedMemberBook = CryptoUtil.encryptBook(memberSecretKey, decryptedServerEpub);
+			byte[] encryptedMemberBook = CryptoUtil.encryptBook(member.getPublicKey(), decryptedServerEpub);
 			// upload to ipfs
 			IpfsResponse upload = ipfsService.upload(encryptedMemberBook);
 			// add address to bookshelf entity

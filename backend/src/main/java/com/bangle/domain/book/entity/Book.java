@@ -44,6 +44,7 @@ public class Book {
 
 	private String genre;
 
+	@Column(length = 1024)
 	private String introduction;
 
 	@Column(name = "purchase_price")

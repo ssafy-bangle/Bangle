@@ -30,8 +30,9 @@ public class CryptoUtil {
   private void setServerPrivateKey(String privateKey) { serverPrivateKey = privateKey; }
 
   private static IvParameterSpec generateIv() {
-    byte[] iv = new byte[16];
-    new SecureRandom().nextBytes(iv);
+//    byte[] iv = new byte[16];
+//    new SecureRandom().nextBytes(iv);
+    byte[] iv = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
     return new IvParameterSpec(iv);
   }
 
@@ -74,16 +75,6 @@ public class CryptoUtil {
     return byteToHex(sharedSecret);
   }
 
-  public  static SecretKey deriveAESbyPBKDF(String userPublicKeyHex)
-          throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
-
-    // decode user public key
-    byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
-    // derive AES key from userPublicKeyHex & serverPrivateKy using PBKDF2
-    return CryptoUtil.deriveSecretKey(decodedUserPublicKey);
-  }
-
-
   private static SecretKey deriveSecretKey(byte[] userPublicKey)
           throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
 
@@ -94,26 +85,39 @@ public class CryptoUtil {
     return new SecretKeySpec(secretKeyFactory.generateSecret(keySpec).getEncoded(), "AES");
   }
 
-  public static byte[] encryptBook(SecretKey secretKey, byte[] book)
-          throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
-    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
-    return cipher.doFinal(book);
+  private static SecretKey deriveAESbyPBKDF(String userPublicKeyHex)
+      throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
+    // decode user public key
+    byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
+    // derive AES key from userPublicKeyHex & serverPrivateKy using PBKDF2
+    return CryptoUtil.deriveSecretKey(decodedUserPublicKey);
   }
 
-  public static byte[] decryptBook(SecretKey secretKey, byte[] book)
-      throws NoSuchPaddingException, NoSuchAlgorithmException,
-      InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
-    return cipher.doFinal(book);
-  }
-
-  public static String byteToHex(byte[] bytes) {
+  private static String byteToHex(byte[] bytes) {
     StringBuilder stringBuilder = new StringBuilder();
     for (byte aByte : bytes) {
       stringBuilder.append(String.format("%02x", aByte));
     }
     return stringBuilder.toString();
+  }
+
+  public static byte[] encryptBook(String pubKey, byte[] book)
+      throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException,
+      BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException,
+      InvalidKeySpecException, NoSuchProviderException {
+    SecretKey secretKey = deriveAESbyPBKDF(pubKey);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+    return cipher.doFinal(book);
+  }
+
+  public static byte[] decryptBook(String pubKey, byte[] book)
+      throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+      InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
+      InvalidKeySpecException, NoSuchProviderException {
+    SecretKey secretKey = deriveAESbyPBKDF(pubKey);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
+    return cipher.doFinal(book);
   }
 }

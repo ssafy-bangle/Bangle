@@ -77,42 +77,30 @@ public class BookController {
 				throw new IllegalArgumentException("Not a EPUB file");
 			}
 
-			// encrypt
-			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPubKey);
-			byte[] serverEncryptedBook = CryptoUtil.encryptBook(serverSecretKey, file.getBytes());
-			System.out.println("server encrypted: " + serverEncryptedBook.length);
-			for (byte b:
-					Arrays.copyOfRange(serverEncryptedBook, 0, 10)) {
-				System.out.print(b + " ");
-			}
+			// encrypt file with server key
+			byte[] serverEncryptedBook = CryptoUtil.encryptBook(serverPubKey, file.getBytes());
 			// upload SERVER's file to IPFS
 			IpfsResponse serverIpfsResponse = ipfsService.upload(serverEncryptedBook);
-			System.out.println("SERVER ENCRYPTED: ");
-			System.out.println(serverIpfsResponse.getAddress());
-			// encrypt
-			SecretKey userSecretKey = CryptoUtil.deriveAESbyPBKDF(customMemberDetails.getPublicKey());
-			byte[] userEncryptedBook = CryptoUtil.encryptBook(userSecretKey, file.getBytes());
-			System.out.println("user encrypted: " + userEncryptedBook.length);
-			for (byte b:
-					Arrays.copyOfRange(userEncryptedBook, 0, 10)) {
-				System.out.print(b + " ");
-			}
 
+			// encrypt file with user key
+			byte[] userEncryptedBook = CryptoUtil.encryptBook(
+				customMemberDetails.getPublicKey(),
+				file.getBytes());
 			// upload AUTHOR's file to IPFS
 			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
-			System.out.println("USER ENCRYPTED: ");
-			System.out.println(authorIpfsResponse.getAddress());
 
 			// make book entity and save SERVER's file address
-			bookService.saveBook(customMemberDetails.getUser().getAuthor(),
-					publishRequest, cover, serverIpfsResponse.getAddress());
+			bookService.saveBook(
+				customMemberDetails.getUser().getAuthor(),
+				publishRequest,
+				cover,
+				serverIpfsResponse.getAddress());
 
 			// return AUTHOR's file address
-			return new ResponseEntity<>(authorIpfsResponse, HttpStatus.OK);
+			return BaseResponse.okWithData(HttpStatus.OK, "PUBLISH COMPLETE",authorIpfsResponse.getAddress());
 		} catch (Exception e) {
-			System.out.println(e);
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 
