@@ -14,13 +14,13 @@ function byteArrayToWordArray(ba: Uint8Array) {
 const downloadBookFile = (address: string) => {
 	axios({
 		// url: "http://j9a501.p.ssafy.io:8080/ipfs/" + address,
-		url: 'http://localhost:8080/ipfs/QmaJVBxw5CRFqieHhe4EUdt3FutiH154gNh3C5yRMxZuRY', 
+		url: 'http://localhost:8080/ipfs/' + address, 
 		method: "POST",
 		responseType: "blob"
 	})
 	.then((res) => {
 		const blob = new Blob([res.data])
-		console.log("blobSize: ",blob.size)
+		// need user input to pw
 		cryptography.deriveAESkey("bangle_user")
 			.then((aesKey) => {
 				const cryptoJsKey = byteArrayToWordArray(aesKey)
@@ -31,8 +31,7 @@ const downloadBookFile = (address: string) => {
 						const decoder = new TextDecoder()
 						const decrypted = CryptoJS.AES.decrypt(decoder.decode(ipfsUintArray), cryptoJsKey, 
 							{mode: CryptoJS.mode.CBC, iv: newIv, padding: CryptoJS.pad.Pkcs7})
-						localStorage.setItem("QmaJVBxw5CRFqieHhe4EUdt3FutiH154gNh3C5yRMxZuRY",
-							decrypted.toString(CryptoJS.enc.Base64))
+						localStorage.setItem(address, decrypted.toString(CryptoJS.enc.Base64))
 					})
 			})
 	})

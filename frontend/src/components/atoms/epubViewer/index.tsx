@@ -8,10 +8,12 @@ export default function EPubViewer({
   side,
   clickState,
   setClickState,
+  bookBinary
 }: {
   side: 'left' | 'right';
   clickState: -1 | 0 | 1;
   setClickState: (state: -1 | 0 | 1) => void;
+  bookBinary: ArrayBuffer
 }) {
   const [book, setBook] = useState<Book | null>(null);
   const [page, setPage] = useState<number>(side === 'left' ? 1 : 2);
@@ -21,20 +23,8 @@ export default function EPubViewer({
   useEffect(() => {
     const loadEpub = async () => {
       try {
-        // move to epub viewer or ebook/bookid
-        // bookApi.getBookDetail()
-        ipfs.downloadBookFile("")
-        // need to change address to something else
-        let local = localStorage.getItem("QmaJVBxw5CRFqieHhe4EUdt3FutiH154gNh3C5yRMxZuRY")
-        local = local === null ? "" : local
-        const binary = atob(local)
-        const uintArray = new Uint8Array(binary.length)
-        for (let i = 0; i < binary.length; i++) {
-          uintArray[i] = binary.charCodeAt(i);
-        }
-        const epubBlob = new Blob([uintArray], {type:'application/epub+zip'})
-        const epubData = await epubBlob.arrayBuffer()
-        const epubBook = Epub(epubData);
+        console.log(bookBinary)
+        const epubBook = Epub(bookBinary);
         await epubBook.ready;
         setBook(epubBook);
         
@@ -53,8 +43,10 @@ export default function EPubViewer({
         console.error('Error loading EPUB:', error);
       }
     };
-    loadEpub();
-  }, []);
+    if (bookBinary.byteLength) {
+      loadEpub();
+    }
+  }, [bookBinary]);
 
   // 페이지 이벤트 감지 시, 페이지 변경
   useEffect(() => {
