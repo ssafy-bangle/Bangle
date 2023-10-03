@@ -24,8 +24,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CryptoUtil {
 
-  @Value("${wallet.private}")
   private static String serverPrivateKey;
+
+  @Value("${wallet.private}")
+  private void setServerPrivateKey(String privateKey) { serverPrivateKey = privateKey; }
 
   private static IvParameterSpec generateIv() {
     byte[] iv = new byte[16];

@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.bangle.domain.blockchain.dto.IpfsResponse;
@@ -82,7 +83,7 @@ public class OrderService {
 
 		for (Bookshelf book: bookshelf) {
 			// get SERVER's ipfs epub file
-			byte[] encryptedServerEpub = ipfsService.downloadServerFile(book.getId());
+			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(book.getBook().getId());
 			// derive AES key from SERVER's public key
 			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPublicKey);
 			// decrypt
@@ -100,6 +101,6 @@ public class OrderService {
 		orderRepository.save(newOrder);
 		bookshelfRepository.saveAll(bookshelf);
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
-		return bookshelf.stream().map(BookIdAddressResponse::new).toList();
+		return bookshelf.stream().sorted().map(BookIdAddressResponse::new).toList();
 	}
 }

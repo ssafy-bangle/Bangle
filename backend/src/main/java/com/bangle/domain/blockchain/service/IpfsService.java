@@ -22,11 +22,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -64,29 +66,78 @@ public class IpfsService {
         }
     }
 
-    public byte[] downloadServerFile(Long bookId) throws IOException {
-        return getFileFromIPFS(bookRepository.findById(bookId)
+    public byte[] downloadServerFileOf(Long bookId) throws IOException {
+        String address = bookRepository.findById(bookId)
                 .orElseThrow(NoSuchElementException::new)
-                .getAddress()
-        );
+                .getAddress();
+        String text = getFileFromIPFS(bookRepository.findById(bookId)
+                .orElseThrow(NoSuchElementException::new)
+                .getAddress());
+
+        if (text == null) {
+            return null;
+        }
+        byte[] decoded = text.getBytes();
+        byte[] decodedUTF = text.getBytes(StandardCharsets.UTF_8);
+//        String copied = text.substring(0, 50);
+//        String star = text.substring(0, 1840);
+//        String temp = text.substring(1840, 1940);
+//        byte[] temp2 = Arrays.copyOfRange(text.getBytes(StandardCharsets.UTF_8), 0, 50);
+//        System.out.println("text: ");
+//        System.out.println(copied);
+//        System.out.println("download: ");
+//        System.out.println(temp.toString());
+//        System.out.println(temp2.toString());
+//        for (byte b : temp2) {
+//            System.out.print(b + " ");
+//        }
+//        System.out.println(star);
+//        System.out.println(temp);
+        System.out.println(address);
+        System.out.println(text.substring(0, 100));
+        System.out.println("address length: " + address.length());
+        System.out.println("address BYTE length: " + address.getBytes().length);
+        System.out.println("address BYTE UTF length: " + address.getBytes(StandardCharsets.UTF_8).length);
+        System.out.println("byte length: " + decoded.length);
+        System.out.println("byte length UTF: " + decodedUTF.length);
+        System.out.println("========================");
+        return text.getBytes(StandardCharsets.UTF_8);
     }
 
-    private byte[] getFileFromIPFS(String address) {
+    private String getFileFromIPFS(String address) {
 
-        // upload to IPFS
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(MediaType.MULTIPART_FORM_DATA);
+        System.out.println("Book Address: " + address);
+
+        // download from IPFS
         LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host(kuboRpcHost)
                 .path("/api/v0/get")
                 .queryParam("arg", address)
+                .queryParam("output", "data/books/")
                 .build();
         ResponseEntity<String> response = restTemplate.postForEntity(
                 uriComponents.toString(), new HttpEntity<>(body), String.class
         );
-        // if response body is null ?
-        return response.getBody().getBytes();
+        String responseBody = response.getBody().substring(0, 1840);
+        System.out.println("RESPONSE BODY-=========================================");
+        System.out.println(responseBody);
+        String after = response.getBody().substring(1840, 3680);
+        System.out.println("AFTER BODY -==========================================");
+        System.out.println(after);
+        System.out.println("string length: " + response.getBody().length());
+//        System.out.println("byted: " + response.getBody().getBytes());
+        System.out.println("byted length: " + response.getBody().getBytes().length);
+        System.out.println(response.getHeaders().keySet());
+        for (String key:
+        response.getHeaders().keySet()) {
+            System.out.println(key);
+            System.out.println(response.getHeaders().get(key));
+        }
+        String text = response.getBody();
+        int cl = Integer.parseInt(response.getHeaders().get("X-Content-Length").get(0));
+        System.out.println("cl: " + cl);
+        return text.substring(text.length() - cl);
     }
 }

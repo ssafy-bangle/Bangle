@@ -1,5 +1,6 @@
 package com.bangle.domain.book.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,22 +80,38 @@ public class BookController {
 			// encrypt
 			SecretKey serverSecretKey = CryptoUtil.deriveAESbyPBKDF(serverPubKey);
 			byte[] serverEncryptedBook = CryptoUtil.encryptBook(serverSecretKey, file.getBytes());
+			System.out.println("server encrypted: " + serverEncryptedBook.length);
+			for (byte b:
+					Arrays.copyOfRange(serverEncryptedBook, 0, 10)) {
+				System.out.print(b + " ");
+			}
 			// upload SERVER's file to IPFS
 			IpfsResponse serverIpfsResponse = ipfsService.upload(serverEncryptedBook);
-
+			System.out.println("SERVER ENCRYPTED: ");
+			System.out.println(serverIpfsResponse.getAddress());
 			// encrypt
 			SecretKey userSecretKey = CryptoUtil.deriveAESbyPBKDF(customMemberDetails.getPublicKey());
 			byte[] userEncryptedBook = CryptoUtil.encryptBook(userSecretKey, file.getBytes());
+			System.out.println("user encrypted: " + userEncryptedBook.length);
+			for (byte b:
+					Arrays.copyOfRange(userEncryptedBook, 0, 10)) {
+				System.out.print(b + " ");
+			}
+
 			// upload AUTHOR's file to IPFS
 			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
+			System.out.println("USER ENCRYPTED: ");
+			System.out.println(authorIpfsResponse.getAddress());
 
 			// make book entity and save SERVER's file address
 			bookService.saveBook(customMemberDetails.getUser().getAuthor(),
 					publishRequest, cover, serverIpfsResponse.getAddress());
+
 			// return AUTHOR's file address
 			return new ResponseEntity<>(authorIpfsResponse, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
