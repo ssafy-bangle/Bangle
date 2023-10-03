@@ -47,7 +47,17 @@ public class StatisticsService {
             if (total_purchases == null) {
                 total_purchases = "0";
             }
-            StatisticsResponse statisticsResponse = new StatisticsResponse(book, today_views, today_purchases, today_reviews, total_purchases);
+            Long[] month_purchases = new Long[12];
+            for (int i = 0; i < 12; i++) {
+                System.out.println("bookId:" + book.getId() + ":month_purchases" + (i + 1));
+                String month_purchase = template.opsForValue().get("bookId:" + book.getId() + ":month_purchases:" + (i + 1));
+                if (month_purchase == null) {
+                    month_purchases[i] = 0L;
+                    continue;
+                }
+                month_purchases[i] = Long.parseLong(month_purchase);
+            }
+            StatisticsResponse statisticsResponse = new StatisticsResponse(book, today_views, today_purchases, today_reviews, month_purchases, total_purchases);
             statResponses.add(statisticsResponse);
         }
         return statResponses;
