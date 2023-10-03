@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bangle.global.util.CryptoUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,11 +28,13 @@ import com.bangle.domain.book.dto.BookAndReviewResponse;
 import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.dto.PublishRequest;
 import com.bangle.domain.book.service.BookService;
-import com.bangle.domain.order.dto.IpfsResponse;
+import com.bangle.domain.blockchain.dto.IpfsResponse;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
 
 import lombok.RequiredArgsConstructor;
+
+import javax.crypto.SecretKey;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +43,9 @@ public class BookController {
 	private final BookService bookService;
 	private final AuthorService authorService;
 	private final IpfsService ipfsService;
+
+	@Value("${wallet.public}")
+	private String serverPubKey;
 
 	@GetMapping
 	public ResponseEntity<?> getList() {
@@ -57,9 +63,6 @@ public class BookController {
 		return BaseResponse.okWithData(HttpStatus.OK, "조회 완료", responseMap);
 	}
 
-	@Value("${wallet.public}")
-	private String serverPubKey;
-
 	@PostMapping(value = "/publish", consumes = {
 		MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> publishBook(
@@ -68,28 +71,36 @@ public class BookController {
 		@RequestPart(value = "file") MultipartFile file,
 		@RequestPart(value = "cover") MultipartFile cover) {
 		try {
-			System.out.println(publishRequest.getTitle());
-			System.out.println(publishRequest.getIntroduce());
 			// check if file is 'epub'
 			String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-			System.out.println(extension);
 			if (extension != null && !extension.equals("epub")) {
 				throw new IllegalArgumentException("Not a EPUB file");
 			}
+
+			// encrypt file with server key
+			byte[] serverEncryptedBook = CryptoUtil.encryptBook(serverPubKey, file.getBytes());
 			// upload SERVER's file to IPFS
-			IpfsResponse serverIpfsResponse = ipfsService.upload(file, serverPubKey);
+			IpfsResponse serverIpfsResponse = ipfsService.upload(serverEncryptedBook);
+
+			// encrypt file with user key
+			byte[] userEncryptedBook = CryptoUtil.encryptBook(
+				customMemberDetails.getPublicKey(),
+				file.getBytes());
 			// upload AUTHOR's file to IPFS
-			IpfsResponse authorIpfsResponse = ipfsService
-				.upload(file, customMemberDetails.getPublicKey());
+			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
 
 			// make book entity and save SERVER's file address
-			bookService.saveBook(customMemberDetails.getUser().getAuthor(),
-					publishRequest, cover, serverIpfsResponse.getAddress());
+			bookService.saveBook(
+				customMemberDetails.getUser().getAuthor(),
+				publishRequest,
+				cover,
+				serverIpfsResponse.getAddress());
+
 			// return AUTHOR's file address
-			return new ResponseEntity<>(authorIpfsResponse, HttpStatus.OK);
+			return BaseResponse.okWithData(HttpStatus.OK, "PUBLISH COMPLETE",authorIpfsResponse.getAddress());
 		} catch (Exception e) {
-			System.out.println(e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
 

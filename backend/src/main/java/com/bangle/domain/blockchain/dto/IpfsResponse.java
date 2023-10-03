@@ -1,4 +1,4 @@
-package com.bangle.domain.order.dto;
+package com.bangle.domain.blockchain.dto;
 
 import lombok.Data;
 

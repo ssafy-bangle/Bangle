@@ -15,6 +15,7 @@ import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,13 @@ public class CryptoUtil {
   private static String serverPrivateKey;
 
   @Value("${wallet.private}")
-  public void setServerPrivateKey(String spk) {
-    serverPrivateKey = spk;
+  private void setServerPrivateKey(String privateKey) { serverPrivateKey = privateKey; }
+
+  private static IvParameterSpec generateIv() {
+//    byte[] iv = new byte[16];
+//    new SecureRandom().nextBytes(iv);
+    byte[] iv = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+    return new IvParameterSpec(iv);
   }
 
   private static PrivateKey getServerPrivateKey()
@@ -56,7 +62,7 @@ public class CryptoUtil {
     return keyFactory.generatePublic(ecPublicKeySpec);
   }
 
-  public static String generateSharedSecret(byte[] userPublicKey)
+  private static String generateSharedSecret(byte[] userPublicKey)
           throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException {
 
     PrivateKey privateKey = getServerPrivateKey();
@@ -69,39 +75,49 @@ public class CryptoUtil {
     return byteToHex(sharedSecret);
   }
 
-  public static SecretKey createSecretKeyFromSharedSecret(String sharedSecret, byte[] salt, int interationCount)
-          throws NoSuchAlgorithmException, InvalidKeySpecException {
+  private static SecretKey deriveSecretKey(byte[] userPublicKey)
+          throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
+
+    String sharedSecret = generateSharedSecret(userPublicKey);
+    byte[] salt = Arrays.copyOfRange(userPublicKey, 0, 16);
     SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-    KeySpec keySpec = new PBEKeySpec(sharedSecret.toCharArray(), salt, interationCount, 256);
+    KeySpec keySpec = new PBEKeySpec(sharedSecret.toCharArray(), salt, 1000, 256);
     return new SecretKeySpec(secretKeyFactory.generateSecret(keySpec).getEncoded(), "AES");
   }
 
-  private static IvParameterSpec generateIv() {
-    byte[] iv = new byte[16];
-    new SecureRandom().nextBytes(iv);
-    return new IvParameterSpec(iv);
+  private static SecretKey deriveAESbyPBKDF(String userPublicKeyHex)
+      throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException, InvalidKeyException {
+    // decode user public key
+    byte[] decodedUserPublicKey = Hex.decode(userPublicKeyHex);
+    // derive AES key from userPublicKeyHex & serverPrivateKy using PBKDF2
+    return CryptoUtil.deriveSecretKey(decodedUserPublicKey);
   }
 
-  public static byte[] encryptBook(SecretKey secretKey, byte[] book)
-          throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
-    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
-    return cipher.doFinal(book);
-  }
-
-  public static byte[] decryptBook(SecretKey secretKey, IvParameterSpec iv, byte[] book)
-      throws NoSuchPaddingException, NoSuchAlgorithmException,
-      InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
-    return cipher.doFinal(book);
-  }
-
-  public static String byteToHex(byte[] bytes) {
+  private static String byteToHex(byte[] bytes) {
     StringBuilder stringBuilder = new StringBuilder();
     for (byte aByte : bytes) {
       stringBuilder.append(String.format("%02x", aByte));
     }
     return stringBuilder.toString();
+  }
+
+  public static byte[] encryptBook(String pubKey, byte[] book)
+      throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException,
+      BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException,
+      InvalidKeySpecException, NoSuchProviderException {
+    SecretKey secretKey = deriveAESbyPBKDF(pubKey);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+    return cipher.doFinal(book);
+  }
+
+  public static byte[] decryptBook(String pubKey, byte[] book)
+      throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
+      InvalidKeyException, IllegalBlockSizeException, BadPaddingException,
+      InvalidKeySpecException, NoSuchProviderException {
+    SecretKey secretKey = deriveAESbyPBKDF(pubKey);
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
+    return cipher.doFinal(book);
   }
 }
