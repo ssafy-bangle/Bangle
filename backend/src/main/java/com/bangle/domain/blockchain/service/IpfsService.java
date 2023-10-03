@@ -76,7 +76,11 @@ public class IpfsService {
         String text = getFileFromIPFS(bookRepository.findById(bookId)
             .orElseThrow(NoSuchElementException::new)
             .getAddress());
-        return text.getBytes(StandardCharsets.UTF_8);
+        ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
+        for (char c : text.toCharArray()) {
+            byteArrayBuilder.append(c);
+        }
+        return byteArrayBuilder.toByteArray();
     }
 
     private String getFileFromIPFS(String address) {
