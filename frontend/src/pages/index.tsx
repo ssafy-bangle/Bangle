@@ -1,10 +1,7 @@
 import Button from '@src/components/atoms/button';
 import * as S from '@src/styles/pageStyles/index/index.styled';
-import { LightImg, ShineImg, TotalImg } from '@src/assets/imgs';
+import { TotalImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import LightBulb from '@src/components/molecules/lightBulb';
 
 export default function Landing() {
   const router = useRouter();
@@ -17,18 +14,7 @@ export default function Landing() {
       <S.Container>
         <S.ImgBox>
           <S.Shine priority width={360} src={TotalImg} alt={'shine'} />
-          {/* <S.Shine priority width={360} src={ShineImg} alt={'shine'} />
-          <S.Light priority width={120} src={LightImg} alt={'light'} /> */}
         </S.ImgBox>
-        {/* Canvas == three.js 코드 수정 필요 */}
-        <Canvas style={{ height: '10px' }}>
-          <OrbitControls autoRotate={false} enableZoom={false} />
-          <LightBulb />
-        </Canvas>
-        {/* <S.TitleContainer>
-          <S.Title>방에서 쓴 글이</S.Title>
-          <S.Title>모두의 블록 안으로</S.Title>
-        </S.TitleContainer> */}
         <S.Content>
           혼자 가지고 있기엔 공유하고 싶고,
           <br />
