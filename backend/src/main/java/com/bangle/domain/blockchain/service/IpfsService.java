@@ -67,7 +67,6 @@ public class IpfsService {
             if (kuboAddResponse == null) { throw new NullPointerException("ipfs address is null"); }
             return new IpfsResponse(kuboAddResponse.getHash());
         } catch (Exception e) {
-            System.out.println(e);
             e.printStackTrace();
             return new IpfsResponse("");
         }
