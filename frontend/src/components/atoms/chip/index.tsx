@@ -4,7 +4,7 @@ import { ChipProps } from '@src/types/props';
 import BookCover from '../bookCover';
 import { TestBook } from '@src/assets/imgs';
 
-export default function Chip({ size, title, icon, setValue }: ChipProps) {
+export default function Chip({ size, title, icon, imgsrc, purchases, setValue }: ChipProps) {
   return (
     <>
       <S.ChipContainer
@@ -13,15 +13,14 @@ export default function Chip({ size, title, icon, setValue }: ChipProps) {
         icon={icon}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.preventDefault();
-          setValue && setValue(title);
+          purchases ? setValue && setValue(purchases) : setValue && setValue(title);
         }}>
-        {icon ? (
+        {icon && (
           <S.IconContainer>
             <Icon name={icon} />
           </S.IconContainer>
-        ) : (
-          <BookCover imgsrc={TestBook} size="small" />
         )}
+        {imgsrc && <BookCover imgsrc={imgsrc} size="small" />}
         <S.Title>{title}</S.Title>
       </S.ChipContainer>
     </>

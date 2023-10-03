@@ -1,4 +1,3 @@
-import InfoContent from '@src/components/organisms/infoContent';
 import * as S from '@src/styles/pageStyles/info/index.styled';
 import Image from 'next/image';
 import { LogoBlackImg } from '@src/assets/imgs';
@@ -10,6 +9,7 @@ import { userApi } from '@src/apis';
 
 import React from 'react';
 import Loading from '@src/components/atoms/loading';
+import InfoContent from '@src/components/organisms/infoContent';
 
 export default function Info() {
   const router = useRouter();
@@ -18,12 +18,6 @@ export default function Info() {
   const setUserInfo = useSetRecoilState(UserInfoState);
   const setMode = useSetRecoilState(UserModeState);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  });
 
   useEffect(() => {
     !loading && router.push(showInfo ? '/info' : '/home');
@@ -38,6 +32,7 @@ export default function Info() {
         setMode(data.memberInformation.roles === 'ROLE_USER' ? 'user' : 'author');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        setLoading(false);
         setShowInfo(data.needPublicKey);
       });
     }

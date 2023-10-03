@@ -69,4 +69,13 @@ export const Info = styled.div`
   color: var(--BG_GRAY1);
   font-size: 3.2rem;
   font-weight: 700;
+  margin-top: 0.5rem;
+`;
+
+export const Line = styled.div`
+  width: 23rem;
+  height: 0.1rem;
+  position: absolute;
+  top: 85.5rem;
+  background-color: var(--BG_GRAY2);
 `;

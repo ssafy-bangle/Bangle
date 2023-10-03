@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { getBookshelfResProp } from './book';
+import { SearchBook } from './search';
 
 export type LoadingProps = {
   content?: string;
@@ -16,13 +17,14 @@ export type ButtonProps = {
 };
 
 export type BookCoverProps = {
-  imgsrc: StaticImageData;
+  imgsrc: StaticImageData | string;
   size?: 'small' | 'big';
   onClick?: () => void;
 };
 
 export type BookProps = {
-  imgsrc: StaticImageData;
+  // imgsrc: StaticImageData;
+  imgsrc: string;
   onClick?: () => void;
 };
 
@@ -41,7 +43,7 @@ export type InputProps = {
 
 export type CheckBoxProps = {
   content: string;
-  isChecked?:  boolean;
+  isChecked?: boolean;
   setInput: (value: boolean) => void;
 };
 
@@ -73,7 +75,7 @@ export type DropdownItems = {
 
 export type ModalProps = {
   title?: string;
-  type: 'publish' | 'buy' | 'munzi';
+  type: 'publish' | 'buy' | 'dirBuy' | 'dirRent';
   price: number;
   onClick?: () => void;
   isOpen: boolean;
@@ -84,7 +86,9 @@ export type ChipProps = {
   title: string;
   size: 'small' | 'big';
   icon?: string;
-  setValue?: (value: string) => void;
+  imgsrc?: string;
+  purchases?: number;
+  setValue?: (value: string | number) => void;
 };
 
 export type RatingProps = {
@@ -99,9 +103,9 @@ export type NoValueProps = {
 };
 
 export type BooksContainerProps = {
-  type: 'book' | 'author';
+  type?: 'book' | 'author';
   page: 'bookShelf' | 'search';
-  bookList?: getBookshelfResProp;
+  data?: SearchBook | any; //작가의 content type이 api 명세서에 없는 이슈로 any로 임시 지정
   title: string;
   onClick?: () => void;
 };
@@ -109,8 +113,8 @@ export type BooksContainerProps = {
 export type CardProps = {
   type: 'author' | 'genre';
   title: string;
-  onClick: (value: string) => void;
-  isSelected: boolean;
+  onClick?: (value: string) => void;
+  selected: boolean;
 };
 
 export type CartBookProp = {

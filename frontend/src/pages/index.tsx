@@ -1,6 +1,6 @@
 import Button from '@src/components/atoms/button';
 import * as S from '@src/styles/pageStyles/index/index.styled';
-import { LightImg, ShineImg } from '@src/assets/imgs';
+import { TotalImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
 
 export default function Landing() {
@@ -13,13 +13,8 @@ export default function Landing() {
     <>
       <S.Container>
         <S.ImgBox>
-          <S.Light priority width={120} src={LightImg} alt={'light'} />
-          <S.Shine priority width={360} src={ShineImg} alt={'shine'} />
+          <S.Shine priority width={360} src={TotalImg} alt={'shine'} />
         </S.ImgBox>
-        <S.TitleContainer>
-          <S.Title>방에서 쓴 글이</S.Title>
-          <S.Title>모두의 블록 안으로</S.Title>
-        </S.TitleContainer>
         <S.Content>
           혼자 가지고 있기엔 공유하고 싶고,
           <br />

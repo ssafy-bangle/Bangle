@@ -1,9 +1,8 @@
 import * as S from '@src/styles/pageStyles/review/index.styled';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import PageTitle from '@src/components/atoms/pageTitle';
 import Button from '@src/components/atoms/button';
 import ReviewCard from '@src/components/atoms/reviewCard';
-import { TestBook } from '@src/assets/imgs';
 import NoValue from '@src/components/atoms/noValue';
 import Rating from '@src/components/atoms/rating';
 import { reviewApi } from '@src/apis';
@@ -14,34 +13,50 @@ export default function Review() {
   const [searchWord, setSearchWord] = useState<string>('');
   const [review, setReview] = useState<string>('');
   const [score, setScore] = useState<number>(5);
-  const testBookId = 0;
+  const testBookId = 4;
+  const [currentDot, setCurrentDot] = useState<number>(0);
+  const [isGenerate, setIsGenerate] = useState<boolean>(false);
 
   const router = useRouter();
 
-  const handlePostReview = async () => {
-    console.log('업로드', score)
-    await reviewApi.postReview({
+  const handlePostReview = () => {
+    reviewApi.postReview({
       bookId: testBookId,
+      content: review,
       cover: reviewImg,
       score: score,
-      content: review,
     });
-    alert('리뷰 등록이 완료되었습니다.')
-    router.push(`/bookshelf/${testBookId}`)
+    alert('리뷰 등록이 완료되었습니다.');
+    router.push(`/bookshelf/${testBookId}`);
   };
-  
-  const getCoverImg = () => {
-    // 이미지 api 연결 후 확인 필요함
-    reviewApi.getReviewImg().then((res) => {
-      console.log(res.data);
-      setReviewImg({ ...res.data });
-    });
+
+  const getCoverImg = (searchWord: string) => {
+    setIsGenerate((pre) => !pre);
+    reviewApi
+      .getReviewImg(searchWord)
+      .then((res) => {
+        setReviewImg(res.data.data[0].url);
+        setIsGenerate((pre) => !pre);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
     console.log(score);
-    setScore(score)
+    setScore(score);
   }, [score]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDot((prevDot) => (prevDot + 1) % 5);
+    }, 600);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <S.Container>
@@ -52,14 +67,34 @@ export default function Review() {
           <S.TextArea
             onChange={({ target: { value } }) => setSearchWord(value)}
             placeholder={`책과 관련한 단어 또는 문장을 입력하고 \n나만의 카드를 생성해보세요 \n\n<예시> \n뭉게 구름 속에서 방글 웃는 모습, 행복, 동심, 휴식`}></S.TextArea>
-          <Button length="medium" content="카드 생성하기" active={searchWord ? true : false} icon="mode" onClick={getCoverImg} />
+          <S.BottomDiv>
+            <Button
+              length="medium"
+              content="카드 생성하기"
+              active={searchWord ? true : false}
+              icon="mode"
+              onClick={() => getCoverImg(searchWord)}
+            />
+            {isGenerate && (
+              <S.BottomDotsDiv>
+                {Array.from('카드생성중').map((char, index) => (
+                  <S.Dots key={index}>
+                    {index === currentDot ? (
+                      <S.AnimationWrapper isWhite={index === currentDot}>{char}</S.AnimationWrapper>
+                    ) : (
+                      char
+                    )}
+                  </S.Dots>
+                ))}
+              </S.BottomDotsDiv>
+            )}
+          </S.BottomDiv>
         </S.LeftSection>
         <S.RightSection>
           <S.Title>책제목</S.Title>
           <S.ReviewContainer>
-            {/* imgSrc url 로 변경 필요함 */}
             {reviewImg ? (
-              <ReviewCard imgsrc={TestBook} size="big" />
+              <ReviewCard imgsrc={reviewImg} size="big" />
             ) : (
               <S.NoReviewCard>
                 <NoValue type="card" />
@@ -71,7 +106,12 @@ export default function Review() {
                 onChange={({ target: { value } }) => setReview(value)}></S.TextArea>
               <S.InfoBottom>
                 <Rating value={score} label={false} editable={true} setInput={setScore} />
-                <Button length="medium" content="작성완료" active={reviewImg && review ? true : false} onClick={handlePostReview} />
+                <Button
+                  length="medium"
+                  content="작성완료"
+                  active={reviewImg && review ? true : false}
+                  onClick={handlePostReview}
+                />
               </S.InfoBottom>
             </S.ReviewInfo>
           </S.ReviewContainer>

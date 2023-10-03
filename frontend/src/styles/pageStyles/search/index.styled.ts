@@ -1,21 +1,23 @@
+import Input from '@src/components/atoms/input';
 import styled from 'styled-components';
 
+export const Footer = styled.div`
+  height: 10rem;
+`;
 
 export const Container = styled.div`
   display: flex;
   justify-content: center;
+  ::placeholder {
+    color: var(--BG_GRAY3);
+  }
 `;
 
 export const SearchInput = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`;
-
-export const InputStyle = styled.div`
-  ::placeholder {
-    color: var(--BG_GRAY3);
-  }
+  color: var(--BG_GRAY2);
 `;
 
 export const SearchBtn = styled.button`
@@ -28,7 +30,7 @@ export const SearchBtn = styled.button`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  &:hover{
+  &:hover {
     box-shadow: none;
     outline: none;
     color: var(--BG_MAIN);

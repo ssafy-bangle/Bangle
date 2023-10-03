@@ -6,6 +6,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.bangle.global.util.CryptoUtil;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.parameters.P;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +53,7 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 	private final BookshelfRepository bookshelfRepository;
 	private final IpfsService ipfsService;
+	private final RedisTemplate<String, String> template;
 
 	@Value("${wallet.public}")
 	private String serverPublicKey;
@@ -78,6 +81,32 @@ public class OrderService {
 			totalDust += book.getPrice(orderStatus);
 			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
 			bookshelf.add(Bookshelf.createBookShelf(member, book, orderStatus));
+			// 오늘 구매수 증가
+			String key = "bookId:" + book.getId() + ":today_purchases";
+			String today_purchases = template.opsForValue().get(key);
+			if (today_purchases == null) {
+				template.opsForValue().set(key, "1");
+			} else {
+				template.opsForValue().set(key, Long.parseLong(today_purchases) + 1L + "");
+			}
+			// 누적 구매수 증가
+			String total_key = "bookId:" + book.getId() + ":total_purchases";
+			String total_purchases = template.opsForValue().get(total_key);
+			if (total_purchases == null) {
+				template.opsForValue().set(total_key, "1");
+			} else {
+				template.opsForValue().set(total_key, Long.parseLong(total_purchases) + 1L + "");
+			}
+			// 이번달 판매량 증가
+			int currentMonth = LocalDate.now().getMonth().getValue();
+			System.out.println(currentMonth);
+			String month_key = "bookId:" + book.getId() + ":month_purchases:" + currentMonth;
+			String month_purchases = template.opsForValue().get(month_key);
+			if (month_purchases == null) {
+				template.opsForValue().set(month_key, "1");
+			} else {
+				template.opsForValue().set(month_key, Long.parseLong(month_purchases) + 1L + "");
+			}
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 

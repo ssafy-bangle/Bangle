@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 
 export default function Layout(props: { children: React.ReactNode }) {
   const router = useRouter();
-  console.log('AAA', router.pathname);
   const checkPath = () => {
     switch (router.pathname) {
       case '/':

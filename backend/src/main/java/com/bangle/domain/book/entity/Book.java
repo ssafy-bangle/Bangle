@@ -1,5 +1,7 @@
 package com.bangle.domain.book.entity;
 
+import java.time.LocalDateTime;
+
 import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.dto.RestRequest;
@@ -65,13 +67,15 @@ public class Book {
 	@Column(name = "total_pages")
 	private int totalPages;
 
+	@Column(name = "publication_date")
+	private LocalDateTime publicationDate;
+
 	public int getPrice(OrderStatus orderStatus) {
 		if (orderStatus.equals(OrderStatus.RENT)) {
 			return rentalPrice;
 		}
 		return purchasePrice;
 	}
-
 	public BookResponse toResponse() {
 		return new BookResponse(this.getId(), this.getTitle(), this.getGenre(), this.getPurchasePrice(),
 			this.getRentalPrice(), this.getAverageScore(), this.getCover());

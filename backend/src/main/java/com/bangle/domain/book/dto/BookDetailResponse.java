@@ -1,5 +1,6 @@
 package com.bangle.domain.book.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,5 +28,6 @@ public class BookDetailResponse {
 	private String address;
 	private String genre;
 	private String nickname;
+	private LocalDateTime publicationDate;
 
 }

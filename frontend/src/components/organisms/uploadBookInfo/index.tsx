@@ -3,8 +3,9 @@ import { Upload, UploadProps, message } from 'antd';
 import * as S from './index.styled';
 import Input from '@src/components/atoms/input';
 import Dropdown from '@src/components/molecules/dropdown';
+import React from 'react';
 
-export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFileData, items }: any) {
+function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFileData, items }: any) {
   const { Dragger } = Upload;
 
   const bookUploadeProps: UploadProps = {
@@ -69,3 +70,5 @@ export default function UploadBookInfo({ setTitle, setPrice, setGenre, setIntrod
     </S.Container>
   );
 }
+
+export default React.memo(UploadBookInfo);

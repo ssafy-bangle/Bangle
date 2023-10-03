@@ -12,7 +12,7 @@ const postPayment = async (amount: number) => {
 
 const getPayment = async () => {
   try {
-    const res = await client.get('/payments/');
+    const res = await client.get('/payments');
     return res.data;
   } catch (e) {
     console.log('ERROR AT getPayment: ', e);
