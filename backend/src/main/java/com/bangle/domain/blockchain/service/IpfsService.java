@@ -102,11 +102,6 @@ public class IpfsService {
         try {
             int contentLength = Integer.parseInt(
                 Objects.requireNonNull(response.getHeaders().get("X-Content-Length")).get(0));
-            System.out.println("RESPONSE BODY: " + response.getBody().length());
-            System.out.println(response.getBody());
-            System.out.println(response.getBody().substring(64, 64 + contentLength));
-            System.out.println(response.getBody().substring(128, 128 + contentLength));
-            System.out.println(response.getBody().substring(256, 256 + contentLength));
             return Objects.requireNonNull(response.getBody()).substring(512, 512 + contentLength);
         } catch (NullPointerException e) {
             e.printStackTrace();
