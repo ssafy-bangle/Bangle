@@ -1,6 +1,8 @@
 import Epub, { Book, Rendition, Contents, EpubCFI } from 'epubjs';
 import { useEffect, useState, useRef, useMemo } from 'react';
 import * as S from './index.styled';
+import ipfs from '@src/utils/ipfs';
+import bookApi from '@src/apis/book';
 
 export default function EPubViewer({
   side,
@@ -19,6 +21,9 @@ export default function EPubViewer({
   useEffect(() => {
     const loadEpub = async () => {
       try {
+        // move to epub viewer or ebook/bookid
+        // bookApi.getBookDetail()
+        ipfs.downloadBookFile("")
         // need to change address to something else
         let local = localStorage.getItem("QmaJVBxw5CRFqieHhe4EUdt3FutiH154gNh3C5yRMxZuRY")
         local = local === null ? "" : local

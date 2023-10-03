@@ -82,5 +82,5 @@ const buyBook = async (body: buyBookReqProps) => {
 //   }
 // };
 
-const book = { getBookShelf, getBookDetail, postBook, buyBook };
-export default book;
+const bookApi = { getBookShelf, getBookDetail, postBook, buyBook };
+export default bookApi;

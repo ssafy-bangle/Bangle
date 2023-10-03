@@ -11,7 +11,6 @@ function byteArrayToWordArray(ba: Uint8Array) {
 	return CryptoJS.lib.WordArray.create(wa, ba.length);
 }
 
-
 const downloadBookFile = (address: string) => {
 	axios({
 		// url: "http://j9a501.p.ssafy.io:8080/ipfs/" + address,
