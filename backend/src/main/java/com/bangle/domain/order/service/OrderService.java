@@ -1,9 +1,23 @@
 package com.bangle.domain.order.service;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.bangle.domain.blockchain.dto.IpfsResponse;
+import com.bangle.domain.blockchain.service.IpfsService;
+import com.bangle.domain.book.dto.BookIdAddressResponse;
+import com.bangle.global.util.CryptoUtil;
+import org.bouncycastle.util.encoders.Hex;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +36,12 @@ import com.bangle.domain.order.entity.OrderStatus;
 import com.bangle.domain.order.repository.OrderRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 @Service
 @Transactional
@@ -32,10 +52,17 @@ public class OrderService {
 	private final BookRepository bookRepository;
 	private final OrderRepository orderRepository;
 	private final BookshelfRepository bookshelfRepository;
+	private final IpfsService ipfsService;
 	private final RedisTemplate<String, String> template;
 
+	@Value("${wallet.public}")
+	private String serverPublicKey;
+
 	@Transactional
-	public void order(String userId, OrderRequest order) {
+	public List<BookIdAddressResponse> order(String userId, OrderRequest order)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException,
+			InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException, IOException {
 		Member member = memberRepository.findByUserId(userId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 		List<Book> books = bookRepository.findAllById(order.books().stream()
@@ -83,7 +110,22 @@ public class OrderService {
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
+		for (Bookshelf book: bookshelf) {
+			// get SERVER's ipfs epub file
+			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(book.getBook().getId());
+			// decrypt SERVER's ipfs epub file
+			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverPublicKey, encryptedServerEpub);
+			// re-encrypt with MEMBER's public key
+			byte[] encryptedMemberBook = CryptoUtil.encryptBook(member.getPublicKey(), decryptedServerEpub);
+			// upload to ipfs
+			IpfsResponse upload = ipfsService.upload(encryptedMemberBook);
+			// add address to bookshelf entity
+			book.setIpfsAddress(upload.getAddress());
+		}
+
 		orderRepository.save(newOrder);
 		bookshelfRepository.saveAll(bookshelf);
+		// book id 오름차순으로 정렬하고 {bookid, address} 반환
+		return bookshelf.stream().sorted().map(BookIdAddressResponse::new).toList();
 	}
 }

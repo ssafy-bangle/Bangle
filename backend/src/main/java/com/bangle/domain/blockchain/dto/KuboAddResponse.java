@@ -1,4 +1,4 @@
-package com.bangle.domain.order.dto;
+package com.bangle.domain.blockchain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
