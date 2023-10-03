@@ -9,12 +9,13 @@ export const SearchInput = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-`;
-
-export const InputStyle = styled.div`
   ::placeholder {
     color: var(--BG_GRAY3);
   }
+`;
+
+export const InputStyle = styled.div`
+
 `;
 
 export const SearchBtn = styled.button`
