@@ -87,6 +87,7 @@ export default function BookId() {
           <S.BookInfo>
             <S.BookTitle>{bookInfo.title}</S.BookTitle>
             <S.SmallInfo>
+              {/* <span onClick={() => router.push(`/authorpage/${authorId}`)}>{bookInfo.nickname}</span> · {bookInfo.publicationDate} · {bookInfo.genre} */}
               {bookInfo.nickname} · {bookInfo.publicationDate} · {bookInfo.genre}
             </S.SmallInfo>
             <S.PriceContainer>
