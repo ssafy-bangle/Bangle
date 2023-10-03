@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 export const Container = styled.div`
   height: 100vh;
-  widht: 1280px;
-  margin: 0 250px 0 250px;
+  width: 100%;
+  margin: 0 8rem;
 `;
 
 export const ImgBox = styled.div`
@@ -16,7 +16,6 @@ export const Light = styled(Image)`
 `;
 
 export const Shine = styled(Image)`
-  position: absolute;
   top: 200px;
   left: 0;
   z-index: 100;
@@ -34,9 +33,10 @@ export const Title = styled.div`
 `;
 
 export const Content = styled.div`
-  color: var(--BG_GRAY2);
+  top: -8rem;
+  position: relative;
+  color: var(--BG_GRAY3);
   font-size: 2rem;
   font-weight: 400;
-  line-height: 24px;
-  margin-bottom: 40px;
+  line-height: 3rem;
 `;
