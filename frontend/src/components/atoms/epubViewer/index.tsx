@@ -17,13 +17,22 @@ export default function EPubViewer({
   const areaElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const epubFilePath = '/moby-dick.epub';
-
     const loadEpub = async () => {
       try {
-        const epubBook = Epub(epubFilePath);
+        // need to change address to something else
+        let local = localStorage.getItem("QmaJVBxw5CRFqieHhe4EUdt3FutiH154gNh3C5yRMxZuRY")
+        local = local === null ? "" : local
+        const binary = atob(local)
+        const uintArray = new Uint8Array(binary.length)
+        for (let i = 0; i < binary.length; i++) {
+          uintArray[i] = binary.charCodeAt(i);
+        }
+        const epubBlob = new Blob([uintArray], {type:'application/epub+zip'})
+        const epubData = await epubBlob.arrayBuffer()
+        const epubBook = Epub(epubData);
         await epubBook.ready;
         setBook(epubBook);
+        
 
         const areaElement = areaElementRef.current;
         if (areaElement) {
