@@ -42,7 +42,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 					book.averageScore, book.cover))
 			.from(book)
 			.where(book.title.contains(keyword),
-				book.genre.eq(category))
+				book.genre.contains(category))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
@@ -50,7 +50,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(book.count())
 			.from(book)
 			.where(book.title.contains(keyword),
-				book.genre.eq(category));
+				book.genre.contains(category));
 
 		return PageableExecutionUtils.getPage(books, pageable, countQuery::fetchOne);
 	}

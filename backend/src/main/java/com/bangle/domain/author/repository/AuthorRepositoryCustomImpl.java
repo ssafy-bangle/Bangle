@@ -8,8 +8,10 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.bangle.domain.author.dto.AuthorResponse;
+import com.bangle.domain.author.dto.AuthorSearchResponse;
 import com.bangle.domain.author.entity.QAuthor;
 import com.bangle.domain.member.entity.QMember;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -38,8 +40,8 @@ public class AuthorRepositoryCustomImpl implements AuthorRepositoryCustom {
 	}
 
 	@Override
-	public Page<String> findAllByNicknameContainsKeywordForSearch(String keyword, Pageable pageable) {
-		List<String> contents = jpaQueryFactory.select(member.nickname)
+	public Page<AuthorSearchResponse> findAllByNicknameContainsKeywordForSearch(String keyword, Pageable pageable) {
+		List<AuthorSearchResponse> contents = jpaQueryFactory.select(Projections.constructor(AuthorSearchResponse.class, author.id,member.nickname))
 			.from(author)
 			.join(author.member, member)
 			.where(member.nickname.contains(keyword))

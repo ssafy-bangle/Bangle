@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bangle.domain.author.dto.AuthorSearchResponse;
 import com.bangle.global.util.CryptoUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ import com.bangle.domain.book.service.BookService;
 import com.bangle.domain.blockchain.dto.IpfsResponse;
 import com.bangle.global.auth.security.CustomMemberDetails;
 import com.bangle.global.response.BaseResponse;
+import com.querydsl.core.Tuple;
 
 import lombok.RequiredArgsConstructor;
 
@@ -56,7 +58,7 @@ public class BookController {
 	public ResponseEntity<?> searchBookAndAuthorByKeyword(@RequestParam(required = false) String keyword,
 		@RequestParam(required = false) String category, Pageable pageable) {
 		Page<BookResponse> bookResponses = bookService.searchByTitleContainsKeyword(keyword, category, pageable);
-		Page<String> authorNames = authorService.searchByNicknameContainsKeyword(keyword, pageable);
+		Page<AuthorSearchResponse> authorNames = authorService.searchByNicknameContainsKeyword(keyword, pageable);
 		Map<String, Object> responseMap = new HashMap<>();
 		responseMap.put("books", bookResponses);
 		responseMap.put("authors", authorNames);
