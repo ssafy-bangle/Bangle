@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const BannerSection = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 6rem;
 `;
 
 export const ContainerBox = styled.div`
@@ -30,7 +30,7 @@ export const BooksBox = styled.div`
 
 export const Title = styled.div`
   color: var(--BG_WHITE);
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   font-weight: 700;
   padding: 0 0 3rem 0;
 

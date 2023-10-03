@@ -14,23 +14,31 @@ export const BookInfo = styled.div`
   width: 65%;
 `;
 
+export const TopInfoContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  font-size: 3.2rem;
+  margin-bottom: 1.6rem;
+`;
+
 export const BookTitle = styled.div`
   color: var(--BG_GRAY1);
   font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 1.6rem;
+  margin-right: 2rem;
 `;
 
 export const SmallInfo = styled.div`
   color: var(--BG_GRAY1);
   font-size: 2rem;
   font-weight: 700;
+  margin-bottom: 2.3rem;
 `;
 
 export const PriceContainer = styled.div`
   display: flex;
   gap: 1.2rem;
-  margin: 2.3rem 0;
+  margin-bottom: 2.3rem;
 `;
 export const InfoText = styled.div``;
 
