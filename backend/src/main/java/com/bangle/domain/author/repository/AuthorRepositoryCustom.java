@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.bangle.domain.author.dto.AuthorResponse;
+import com.bangle.domain.author.dto.AuthorSearchResponse;
+import com.querydsl.core.Tuple;
 
 public interface AuthorRepositoryCustom {
 
     AuthorResponse getAuthorInfo(Long memberId);
 
-	Page<String> findAllByNicknameContainsKeywordForSearch(String keyword, Pageable pageable);
+	Page<AuthorSearchResponse> findAllByNicknameContainsKeywordForSearch(String keyword, Pageable pageable);
 }

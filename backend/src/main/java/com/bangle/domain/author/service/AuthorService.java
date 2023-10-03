@@ -2,6 +2,7 @@ package com.bangle.domain.author.service;
 
 import com.bangle.domain.author.dto.AuthorDetailResponse;
 import com.bangle.domain.author.dto.AuthorResponse;
+import com.bangle.domain.author.dto.AuthorSearchResponse;
 import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.author.repository.AuthorRepository;
 import com.bangle.domain.book.dto.BookResponse;
@@ -9,6 +10,8 @@ import com.bangle.domain.book.repository.BookRepository;
 import com.bangle.domain.follow.entity.Follow;
 import com.bangle.domain.follow.repository.FollowRepository;
 import com.bangle.global.auth.security.CustomMemberDetails;
+import com.querydsl.core.Tuple;
+
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +30,7 @@ public class AuthorService {
 	private final BookRepository bookRepository;
 	private final FollowRepository followRepository;
 
-	public Page<String> searchByNicknameContainsKeyword(String keyword, Pageable pageable) {
+	public Page<AuthorSearchResponse> searchByNicknameContainsKeyword(String keyword, Pageable pageable) {
 		return authorRepository.findAllByNicknameContainsKeywordForSearch(keyword, pageable);
 	}
 
