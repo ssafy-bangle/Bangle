@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import { getBookshelfResProp } from './book';
+import { BookInfo, getBookshelfResProp } from './book';
 import { SearchBook } from './search';
 import { bookListProp } from './author';
 
@@ -77,6 +77,7 @@ export type DropdownItems = {
 
 export type ModalProps = {
   title?: string;
+  data?: BookInfo;
   type: 'publish' | 'buy' | 'dirBuy' | 'dirRent';
   price: number;
   onClick?: () => void;
@@ -121,7 +122,7 @@ export type CardProps = {
 
 export type CartBookProp = {
   id: number;
-  image: StaticImageData;
+  image: StaticImageData | string;
   title: string;
   author: string;
   price: number;

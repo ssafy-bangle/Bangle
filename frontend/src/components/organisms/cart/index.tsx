@@ -12,37 +12,8 @@ import Modal from '@src/components/molecules/modal';
 import { bookApi } from '@src/apis';
 import { useRouter } from 'next/router';
 import { UserInfoState } from '@src/modules/user';
-
-const onCartBooks: CartBookProp[] = [
-  {
-    id: 1,
-    image: TestBook,
-    title: '테스트 케이스',
-    author: '작가이름',
-    price: 5,
-  },
-  {
-    id: 2,
-    image: TestBook,
-    title: '테스트 케이스',
-    author: '작가이름',
-    price: 5,
-  },
-  {
-    id: 3,
-    image: TestBook,
-    title: '테스트 케이스',
-    author: '작가이름',
-    price: 5,
-  },
-  {
-    id: 4,
-    image: TestBook,
-    title: '테스트 케이스',
-    author: '작가이름',
-    price: 5,
-  },
-];
+import { cookie } from '@src/utils/cookie';
+import NoValue from '@src/components/atoms/noValue';
 
 export default function Cart() {
   const [open, setOpen] = useRecoilState(CartOpenState);
@@ -52,6 +23,11 @@ export default function Cart() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const router = useRouter();
+  const [cartItems, setCartItems] = useState<CartBookProp[]>(cookie.onGet('cartItems') || []);
+
+  useEffect(() => {
+    console.log('cartItem 있나', cartItems);
+  }, [cartItems]);
 
   const showModal = () => {
     setIsOpen((pre) => !pre);
@@ -108,22 +84,27 @@ export default function Cart() {
           <Checkbox
             content="전체 선택"
             setInput={totalCheckHandler}
-            isChecked={onCartBooks.length === selectedBookList.length ? true : false}
+            isChecked={cartItems.length === selectedBookList.length ? true : false}
           />
           <S.ListContainer>
-            {/* 나중에 book prop 타입 생기면 적어야함 */}
-            {onCartBooks.map((book: CartBookProp, index: number) => (
-              <CartItem
-                setChecked={selectProductHandler}
-                key={index}
-                id={book.id}
-                title={book.title}
-                author={book.author}
-                price={book.price}
-                image={book.image}
-                checked={isClicked}
-              />
-            ))}
+            {cartItems.length == 0 ? (
+              <S.ValueContainer>
+                <NoValue type="cart" />
+              </S.ValueContainer>
+            ) : (
+              cartItems.map((book: CartBookProp, index: number) => (
+                <CartItem
+                  setChecked={selectProductHandler}
+                  key={index}
+                  id={book.id}
+                  title={book.title}
+                  author={book.author}
+                  price={book.price}
+                  image={book.image}
+                  checked={isClicked}
+                />
+              ))
+            )}
           </S.ListContainer>
           <S.InfoContainer>
             선택된 책

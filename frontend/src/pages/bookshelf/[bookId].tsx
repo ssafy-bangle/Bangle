@@ -112,8 +112,9 @@ export default function BookId() {
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
                   type={priceType === 0 ? 'dirBuy' : 'dirRent'}
-                  title={'제목'}
+                  title={bookInfo.title}
                   price={priceType === 0 ? bookInfo.purchasePrice : bookInfo.rentalPrice}
+                  data={bookInfo}
                   onClick={() => {
                     buyBookRequest(bookInfo.bookId);
                     console.log('clicked');
