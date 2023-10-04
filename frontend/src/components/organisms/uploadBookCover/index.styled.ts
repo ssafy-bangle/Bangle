@@ -29,10 +29,3 @@ export const StyledUpload = styled(Upload)`
     color: var(--BG_MAIN);
   }
 `;
-
-export const CheckboxContainer = styled.span`
-  display: flex;
-  justify-content: center;
-  color: var(--BG_GRAY1);
-  font-size: 1.6rem;
-`;

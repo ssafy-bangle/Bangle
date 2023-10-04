@@ -1,10 +1,11 @@
 import { InputProps } from '@src/types/props';
 import * as S from './index.styled';
 
-export default function Input({ size, state, placeholder, value, setInput }: InputProps) {
+export default function Input({ size, state, placeholder, value, type = 'text', setInput }: InputProps) {
   return (
     <>
       <S.StyledInput
+        type={type}
         size={size}
         state={state}
         value={value}

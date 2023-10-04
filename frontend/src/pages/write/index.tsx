@@ -23,11 +23,11 @@ export default function Write() {
   const [fileData, setFileData] = useState<File>();
   const [coverData, setCoverData] = useState<File>();
   const [imgUrl, setImgUrl] = useState<string>('');
+  const [pageNum, setPageNum] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [genre, setGenre] = useState<string>('일반');
   const [introduction, setIntroduction] = useState<string>('');
   const [loading, setLoading] = useState(false);
-  const [isNft, setIsNft] = useState<boolean>(false);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -42,6 +42,7 @@ export default function Write() {
         price: 0,
         introduce: introduction,
         genre: genre,
+        pageNum: pageNum,
         file: fileData,
         cover: coverData,
       })
@@ -62,10 +63,10 @@ export default function Write() {
           setLoading={setLoading}
           setCoverData={setCoverData}
           setImgUrl={setImgUrl}
-          setIsNft={setIsNft}
         />
         <UploadBookInfo
           setTitle={setTitle}
+          setPageNum={setPageNum}
           setPrice={setPrice}
           setGenre={setGenre}
           setIntroduction={setIntroduction}

@@ -5,7 +5,7 @@ import Input from '@src/components/atoms/input';
 import Dropdown from '@src/components/molecules/dropdown';
 import React from 'react';
 
-function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFileData, items }: any) {
+function UploadBookInfo({ setTitle, setPageNum, setPrice, setGenre, setIntroduction, setFileData, items }: any) {
   const { Dragger } = Upload;
 
   const bookUploadeProps: UploadProps = {
@@ -29,10 +29,24 @@ function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFile
   return (
     <S.Container>
       <S.InputContainer>
-        <S.InputTitle>
-          제목 <strong>*</strong>
-        </S.InputTitle>
-        <Input placeholder={'30자 이내로 작성해주세요'} size={'long'} state={'default'} setInput={setTitle} />
+        <S.Price>
+          <S.InputTitle>
+            제목 <strong>*</strong>
+          </S.InputTitle>
+          <Input placeholder={'30자 이내로 작성해주세요'} size={'short'} state={'default'} setInput={setTitle} />
+        </S.Price>
+        <S.Genre>
+          <S.InputTitle>
+            장 수 <strong>*</strong>
+          </S.InputTitle>
+          <Input
+            type="number"
+            placeholder={'페이지 수를 입력하세요'}
+            size={'short'}
+            state={'default'}
+            setInput={setPageNum}
+          />
+        </S.Genre>
       </S.InputContainer>
 
       <S.InputContainer>
@@ -40,7 +54,7 @@ function UploadBookInfo({ setTitle, setPrice, setGenre, setIntroduction, setFile
           <S.InputTitle>
             가격 <strong>*</strong>
           </S.InputTitle>
-          <Input placeholder={'단위 : 먼지'} size={'short'} state={'default'} setInput={setPrice} />
+          <Input type="number" placeholder={'단위 : 먼지'} size={'short'} state={'default'} setInput={setPrice} />
         </S.Price>
         <S.Genre>
           <S.InputTitle>장르</S.InputTitle>
