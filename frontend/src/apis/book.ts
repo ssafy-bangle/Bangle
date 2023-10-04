@@ -81,7 +81,6 @@ const getWishList = async () => {
 const getGenre = async () => {
   try {
     const res = await client.post(`/books/recommend/genre`);
-    console.log('bbbb', res.data);
     return res.data;
   } catch (e) {
     throw new Error('');

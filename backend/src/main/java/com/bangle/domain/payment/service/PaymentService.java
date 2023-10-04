@@ -19,7 +19,7 @@ public class PaymentService {
   private final PaymentRepository paymentRepository;
 
   public List<PaymentResponse> readAllByMember(Member member) {
-    return paymentRepository.getAllPaymentByMemberId(member.getId())
+    return paymentRepository.getAllPaymentByMemberIdOrderByCreatedAtDesc(member.getId())
         .stream().map(PaymentResponse::new).toList();
   }
 

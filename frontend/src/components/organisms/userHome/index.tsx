@@ -13,7 +13,7 @@ export default function UserHome() {
   const [nickname, setNickname] = useState<string>('');
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
-    bookApi.getGenre();
+    // bookApi.getGenre();
   }, []);
   return (
     <>

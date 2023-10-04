@@ -1,6 +1,7 @@
 package com.bangle.global.config;
 
 import com.bangle.global.contracts.BangleLibrary;
+import com.bangle.global.contracts.BangleNFT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +30,27 @@ public class Web3jConfig {
     public Credentials credentials() {
         return Credentials.create(ECKeyPair.create(new BigInteger(walletPrivate, 16)));
     }
+
+    public StaticGasProvider staticGasProvider() {
+        return new StaticGasProvider(
+            BigInteger.valueOf(30_000_000_000L),
+            BigInteger.valueOf(30_000_000)
+        );
+    }
+
     @Bean
     public BangleLibrary bangleLibrary() {
         long chainId = 11155111;   // sepolia
         FastRawTransactionManager fastRawTransactionManager = new FastRawTransactionManager(web3j(), credentials(), chainId);
-        return BangleLibrary.load("0xA387E32C9CC2eaFC9ea99A9Da466756306e89010",
-                web3j(), fastRawTransactionManager, new DefaultGasProvider());
+        return BangleLibrary.load("0xf0550452370e7A9b8Af1ce5DB1a9DB8152D79734",
+                web3j(), fastRawTransactionManager, staticGasProvider());
+    }
+    @Bean
+    public BangleNFT bangleNFT() {
+        long chainId = 11155111;   // sepolia
+        FastRawTransactionManager fastRawTransactionManager = new FastRawTransactionManager(web3j(), credentials(), chainId);
+        return BangleNFT.load("0x5580417b7163d1fe40182b086593284fEd33de5F",
+            web3j(), fastRawTransactionManager, staticGasProvider());
     }
 
 }

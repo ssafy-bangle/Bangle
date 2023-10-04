@@ -1,5 +1,6 @@
 package com.bangle.domain.order.service;
 
+import com.bangle.domain.blockchain.service.EthereumService;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -53,6 +54,7 @@ public class OrderService {
 	private final OrderRepository orderRepository;
 	private final BookshelfRepository bookshelfRepository;
 	private final IpfsService ipfsService;
+	private final EthereumService ethereumService;
 	private final RedisTemplate<String, String> template;
 
 	@Value("${wallet.public}")
@@ -60,9 +62,7 @@ public class OrderService {
 
 	@Transactional
 	public List<BookIdAddressResponse> order(String userId, OrderRequest order)
-			throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException,
-			InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException,
-			IllegalBlockSizeException, BadPaddingException, IOException {
+		throws Exception {
 		Member member = memberRepository.findByUserId(userId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 		List<Book> books = bookRepository.findAllById(order.books().stream()
@@ -73,14 +73,14 @@ public class OrderService {
 		}
 
 		List<OrderBook> orderBooks = new ArrayList<>();
-		List<Bookshelf> bookshelf = new ArrayList<>();
+		List<Bookshelf> bookshelfList = new ArrayList<>();
 		int totalDust = 0;
 		for (int i = 0; i < books.size(); i++) {
 			Book book = books.get(i);
 			OrderStatus orderStatus = order.books().get(i).orderStatus();
 			totalDust += book.getPrice(orderStatus);
 			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
-			bookshelf.add(Bookshelf.createBookShelf(member, book, orderStatus));
+			bookshelfList.add(Bookshelf.createBookShelf(member, book, orderStatus));
 			// 오늘 구매수 증가
 			String key = "bookId:" + book.getId() + ":today_purchases";
 			String today_purchases = template.opsForValue().get(key);
@@ -110,9 +110,9 @@ public class OrderService {
 		}
 		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
-		for (Bookshelf book: bookshelf) {
+		for (Bookshelf bookshelf: bookshelfList) {
 			// get SERVER's ipfs epub file
-			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(book.getBook().getId());
+			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(bookshelf.getBook().getId());
 			// decrypt SERVER's ipfs epub file
 			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverPublicKey, encryptedServerEpub);
 			// re-encrypt with MEMBER's public key
@@ -120,12 +120,16 @@ public class OrderService {
 			// upload to ipfs
 			IpfsResponse upload = ipfsService.upload(encryptedMemberBook);
 			// add address to bookshelf entity
-			book.setIpfsAddress(upload.getAddress());
+			bookshelf.setIpfsAddress(upload.getAddress());
+			// save address to Sepolia network
+			ethereumService.savePurchase(
+				upload.getAddress(), member.getPublicKey(), bookshelf.getMember().getPublicKey(),
+				bookshelf.getBook().getPrice(OrderStatus.BUY));
 		}
 
 		orderRepository.save(newOrder);
-		bookshelfRepository.saveAll(bookshelf);
+		bookshelfRepository.saveAll(bookshelfList);
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
-		return bookshelf.stream().sorted().map(BookIdAddressResponse::new).toList();
+		return bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList();
 	}
 }

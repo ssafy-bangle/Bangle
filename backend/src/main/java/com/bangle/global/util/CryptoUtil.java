@@ -29,11 +29,11 @@ public class CryptoUtil {
   @Value("${wallet.private}")
   private void setServerPrivateKey(String privateKey) { serverPrivateKey = privateKey; }
 
-  private static IvParameterSpec generateIv() {
+  private static IvParameterSpec generateIv(byte[] secretKey) {
 //    byte[] iv = new byte[16];
 //    new SecureRandom().nextBytes(iv);
-    byte[] iv = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
-    return new IvParameterSpec(iv);
+//    byte[] iv = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+    return new IvParameterSpec(Arrays.copyOf(secretKey, 16));
   }
 
   private static PrivateKey getServerPrivateKey()
@@ -107,7 +107,7 @@ public class CryptoUtil {
       InvalidKeySpecException, NoSuchProviderException {
     SecretKey secretKey = deriveAESbyPBKDF(pubKey);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv());
+    cipher.init(Cipher.ENCRYPT_MODE, secretKey, generateIv(secretKey.getEncoded()));
     return cipher.doFinal(book);
   }
 
@@ -117,7 +117,7 @@ public class CryptoUtil {
       InvalidKeySpecException, NoSuchProviderException {
     SecretKey secretKey = deriveAESbyPBKDF(pubKey);
     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv());
+    cipher.init(Cipher.DECRYPT_MODE, secretKey, generateIv(secretKey.getEncoded()));
     return cipher.doFinal(book);
   }
 }
