@@ -1,9 +1,8 @@
 import { authorApi } from '@src/apis';
-import { TestBook } from '@src/assets/imgs';
 import BookCover from '@src/components/atoms/bookCover';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from '@src/styles/pageStyles/authorpage/[authorId].styled';
+import * as S from '@src/styles/pageStyles/author/[authorId].styled';
 import { authorInfo, bookListProp } from '@src/types/author';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

@@ -68,6 +68,9 @@ export default function Bookshelf() {
       setWishList(res.data);
     });
   }, []);
+    
+  const handlePageClick = () => {
+  };
 
   return (
     <>
@@ -91,8 +94,7 @@ export default function Bookshelf() {
         </S.Box>
         <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
         {wishList?.length && wishList?.length > 0 && (
-          // book detail page 로 router push path 수정 필요
-          <BooksContainer page="bookShelf" title="관심있는 책" data={wishList} onClick={() => router.push(`/`)} />
+          <BooksContainer page="wishList" title="관심있는 책" data={wishList} onClick={handlePageClick} />
         )}
       </S.Container>
     </>

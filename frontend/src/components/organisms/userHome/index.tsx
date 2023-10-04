@@ -6,12 +6,14 @@ import Carousel from '@src/components/atoms/carousel';
 import { useRecoilValue } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { useEffect, useState } from 'react';
+import { bookApi } from '@src/apis';
 
 export default function UserHome() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
   const [nickname, setNickname] = useState<string>('');
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
+    // bookApi.getGenre();
   }, []);
   return (
     <>

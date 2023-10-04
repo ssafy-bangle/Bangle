@@ -51,12 +51,12 @@ const postBook = async (body: postBookReqProps) => {
   }
 };
 
-
 const buyBook = async (body: buyBookReqProps) => {
   try {
     const res = await client.post(`/orders/book`, body);
     return res.data;
   } catch (e) {
+    console.log('error at buybook', e)
     throw new Error('');
   }
 };
@@ -73,6 +73,15 @@ const wishBook = async (bookId: number) => {
 const getWishList = async () => {
   try {
     const res = await client.get(`/wishlist`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getGenre = async () => {
+  try {
+    const res = await client.post(`/books/recommend/genre`);
     return res.data;
   } catch (e) {
     throw new Error('');
@@ -100,5 +109,5 @@ const getWishList = async () => {
 //   }
 // };
 
-const bookApi = { getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
-export default bookApi;
+const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+export default book;

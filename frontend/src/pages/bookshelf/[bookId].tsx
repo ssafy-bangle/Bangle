@@ -48,10 +48,9 @@ export default function BookId() {
         purchasePrice: res.purchasePrice,
         rentalPrice: res.rentalPrice,
         title: res.title,
-        // authorId res 에서 어떻게 들어오는지 확인 필요
-        authorId: res.id,
+        authorId: res.authorId,
         nickname: res.nickname,
-        publicationDate: res.publicationDate.substring(0, res.publicationDate.indexOf('T')),
+        publicationDate: res.publicationDate?.substring(0, res.publicationDate.indexOf('T')),
         reviews: response.data.reviews,
         buy: response.data.buy,
       };
@@ -93,15 +92,17 @@ export default function BookId() {
       <PageTitle>책장</PageTitle>
       <S.Container>
         <S.InfoContainer>
-          <BookCover size="big" imgsrc={TestBook} />
+          <BookCover size="big" imgsrc={bookInfo.cover} />
           <S.BookInfo>
             <S.TopInfoContainer>
               <S.BookTitle>{bookInfo.title}</S.BookTitle>
               {isWish ? <BookFilled onClick={setWishListHandler} /> : <BookOutlined onClick={setWishListHandler} />}
             </S.TopInfoContainer>
             <S.SmallInfo>
-              {/* <span onClick={() => router.push(`/authorpage/${authorId}`)}>{bookInfo.nickname}</span> · {bookInfo.publicationDate} · {bookInfo.genre} */}
-              {bookInfo.nickname} · {bookInfo.publicationDate} · {bookInfo.genre}
+              <span onClick={() => router.push(`/authorpage/${bookInfo.authorId}`)} style={{ cursor: 'pointer' }}>
+                {bookInfo.nickname}
+              </span>{' '}
+              · {bookInfo.publicationDate} · {bookInfo.genre}
             </S.SmallInfo>
             {bookInfo.buy == false && (
               <S.PriceContainer>
@@ -111,8 +112,9 @@ export default function BookId() {
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
                   type={priceType === 0 ? 'dirBuy' : 'dirRent'}
-                  title={'제목'}
+                  title={bookInfo.title}
                   price={priceType === 0 ? bookInfo.purchasePrice : bookInfo.rentalPrice}
+                  data={bookInfo}
                   onClick={() => {
                     buyBookRequest(bookInfo.bookId);
                     console.log('clicked');

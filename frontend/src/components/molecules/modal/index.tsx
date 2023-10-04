@@ -1,6 +1,6 @@
 import * as S from './index.styled';
 import { useState, useEffect } from 'react';
-import { ModalProps } from '@src/types/props';
+import { CartBookProp, ModalProps } from '@src/types/props';
 import Image from 'next/image';
 import { DarkMunzi } from '@src/assets/imgs';
 import Button from '@src/components/atoms/button';
@@ -8,11 +8,13 @@ import { useRouter } from 'next/router';
 import paymentAPI from '@src/apis/payment';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
+import { cookie } from '@src/utils/cookie';
+import { BookInfo } from '@src/types/book';
 
-export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }: ModalProps) {
+export default function Modal({ data, isOpen, setIsOpen, type, title, price, onClick }: ModalProps) {
   // get user info
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
-
+  const [cartItem, setCartItem] = useState<CartBookProp[]>(cookie.onGet('cartItems') || []);
   const router = useRouter();
 
   const openModalHandler = () => {
@@ -23,7 +25,7 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
   const chargeDustImmediately = () => {
     if (price) {
       paymentAPI.postPayment(price).then(() => {
-        setUserInfo({ ...userInfo });
+        setUserInfo({ ...userInfo, dust: userInfo.dust + price });
       });
     }
     openModalHandler();
@@ -31,9 +33,28 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
 
   // 충전 먼지 즉시 이후 user 업데이트
   const addBooksOnCart = () => {
-    console.log('add');
+    if (data) {
+      const cartData: CartBookProp = {
+        id: data.bookId,
+        image: data.cover,
+        title: data.title,
+        author: data.nickname,
+        price: data.purchasePrice,
+        checked: false,
+      }
+      setCartItem((pre) => [...pre, cartData])
+    }
     openModalHandler();
+    alert('장바구니에 책이 담겼습니다');
+    router.push('/home')
   };
+
+  useEffect(() => {
+    if (cartItem) {
+      cookie.onSet('cartItems', [...cartItem]);
+    }
+    console.log('cookie', cartItem)
+  }, [cartItem])
 
   const buttonType = (type: string) => {
     switch (type) {

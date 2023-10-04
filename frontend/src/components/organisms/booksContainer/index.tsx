@@ -1,9 +1,7 @@
-import { StaticImageData } from 'next/image';
 import * as S from './index.styled';
 import BookCover from '@src/components/atoms/bookCover';
-import { TestBook } from '@src/assets/imgs';
 import { BooksContainerProps } from '@src/types/props';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Book from '@src/components/molecules/book';
 import Card from '@src/components/atoms/card';
 import NoValue from '@src/components/atoms/noValue';
@@ -14,10 +12,15 @@ import { useRouter } from 'next/router';
 export default function BooksContainer({ title, type, page, data, onClick }: BooksContainerProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const router = useRouter();
-  // type == 'book'인 경우 검색된 책 목록을 불러오기
-  // type == 'author'인 경우 검색된 작가 목록 불러오기
+
   // page == 'bookShelf'인 경우 Book 컴포넌트 불러오기
   // page == 'search'인 경우 BookCover 컴포넌트 불러오기
+  // type == 'book'인 경우 검색된 책 목록을 불러오기
+  // type == 'author'인 경우 검색된 작가 목록 불러오기
+
+  const pageOnclickHandler = (bookId: number) => {
+    router.push(`/bookshelf/${bookId}`);
+  };
 
   return (
     <>
@@ -37,18 +40,24 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
           {page === 'bookShelf' &&
             data?.map((item: getBookshelfResProp, idx: number) => (
-              <Book key={idx} address={item.address} title={item.title} imgsrc={item.cover} onClick={onClick} />
+              <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
             ))}
-          {type === 'book' && data?.map((item: SearchBook, idx: number) => <BookCover key={idx} imgsrc={item.cover} />)}
+
+          {type === 'book' &&
+            data?.map((item: SearchBook, idx: number) => (
+              <BookCover key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
+            ))}
+
           {type === 'author' &&
-            data?.map(
-              (
-                item: any,
-                idx: number, //작가 type이 명세서에 없는 이슈로 임시 any로 지정
-              ) => (
-                <Card key={idx} type="author" title={item} selected onClick={() => router.push(`/authorpage/${idx}`)} />
-              ),
-            )}
+            data?.map((item: { id: number; nickname: string }, idx: number) => (
+              <Card
+                key={idx}
+                type="author"
+                title={item.nickname}
+                selected
+                onClick={() => router.push(`/author/${item.id}`)}
+              />
+            ))}
         </S.BookContainer>
       )}
     </>

@@ -7,6 +7,8 @@ export default function NoValue({ type }: NoValueProps) {
     switch (type) {
       case 'search':
         return '검색 결과가 없어요';
+      case 'cart':
+        return '아직 담긴 책이 없어요';
       case 'bookDetail':
         return '아직 리뷰가 없어요';
       case 'bookShelf':

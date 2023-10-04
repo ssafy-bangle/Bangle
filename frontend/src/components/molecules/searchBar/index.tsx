@@ -2,21 +2,22 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import * as S from './index.styled';
 import Input from '@src/components/atoms/input';
 import Icon from '@src/components/atoms/icon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Chip from '@src/components/atoms/chip';
 import { useRouter } from 'next/router';
+import { cookie } from '@src/utils/cookie';
 
-// 최신순으로 3개만 불러오기
-const recentLog = ['어느 날 싸피에 책 한 권이 날아왔다', '평범한 학생인', '상일이삼'];
 const genreCategory = [{ '👻': '스릴러' }, { '💖': '로맨스' }, { '🎠': '판타지' }];
 
 export default function SearchBar() {
+  const [recentSearch, setRecentSearch] = useState<string[]>(cookie.onGet('recentSearch') || []);
   const [isHover, setIsHover] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const router = useRouter();
   const handleOnSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setRecentSearch((pre) => [...pre, keyword]);
     router.push({
       pathname: '/search',
       query: {
@@ -24,7 +25,15 @@ export default function SearchBar() {
         category: category,
       },
     });
+    setKeyword('');
   };
+
+  useEffect(() => {
+    if (recentSearch) {
+      cookie.onSet('recentSearch', [...recentSearch]);
+    }
+  }, [recentSearch]);
+
   return (
     <>
       <S.Container>
@@ -41,8 +50,8 @@ export default function SearchBar() {
                 <S.RecentContainer>
                   최근 검색
                   <S.RecentItemContainer>
-                    {recentLog.map((content: string) => (
-                      <S.RecentItem>
+                    {recentSearch.slice(-3).map((content: string, idx: number) => (
+                      <S.RecentItem key={idx}>
                         <CloseCircleOutlined /> {content}
                       </S.RecentItem>
                     ))}
@@ -52,12 +61,12 @@ export default function SearchBar() {
                 <S.GenreContainer>
                   카테고리
                   <S.ChipsContainer>
-                    {genreCategory.map((item: object, index: number) => (
+                    {genreCategory.map((item: object, idx: number) => (
                       <Chip
                         size="small"
                         icon={Object.keys(item)[0]}
                         title={Object.values(item)[0]}
-                        key={index}
+                        key={idx}
                         setValue={() => setCategory}
                       />
                     ))}
