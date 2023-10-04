@@ -1,14 +1,19 @@
 package com.bangle.domain.member.service;
 
 import com.bangle.domain.author.repository.AuthorRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.author.entity.Author;
+import com.bangle.domain.member.dto.InterestRequest;
 import com.bangle.domain.member.dto.JoinRequest;
 import com.bangle.domain.member.dto.MemberResponse;
+import com.bangle.domain.member.entity.Interest;
 import com.bangle.domain.member.entity.Member;
+import com.bangle.domain.member.repository.InterestRepository;
 import com.bangle.domain.member.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,6 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AuthorRepository authorRepository;
+    private final InterestRepository interestRepository;
 
     public Member save(Member member) {
         return memberRepository.save(member);
@@ -82,5 +88,13 @@ public class MemberService {
         authorRepository.save(author);
         member.upgradeAuthor();
 		return true;
+    }
+
+    @Transactional
+    public void saveInterest(Long memberId, InterestRequest interestRequest) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        List<Interest> interests = Interest.makeInterests(member, interestRequest.interests());
+        interestRepository.saveAll(interests);
     }
 }

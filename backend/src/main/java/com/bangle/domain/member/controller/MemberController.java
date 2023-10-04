@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bangle.domain.member.dto.InterestRequest;
 import com.bangle.domain.member.dto.JoinRequest;
 import com.bangle.domain.member.dto.MemberResponse;
 import com.bangle.domain.member.entity.Member;
@@ -124,5 +125,13 @@ public class MemberController {
 			e.printStackTrace();
 			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "작가 전환 실패");
 		}
+	}
+
+	@PostMapping("/interest")
+	public ResponseEntity<?> saveInterestGenre(@AuthenticationPrincipal CustomMemberDetails memberDetails, @RequestBody
+	InterestRequest interestRequest) {
+		System.out.println("들어오는지 체크");
+		memberService.saveInterest(memberDetails.getPK(),interestRequest);
+		return BaseResponse.ok(HttpStatus.OK, "추천 정보 저장 완료");
 	}
 }
