@@ -16,11 +16,11 @@ export default function Landing() {
           <S.Shine priority width={360} src={TotalImg} alt={'shine'} />
         </S.ImgBox>
         <S.Content>
-          혼자 가지고 있기엔 공유하고 싶고,
+          독립출판물을 위한 전자 서점 방글에서는
           <br />
-          공유하기엔 과정이 부담스러웠던 원고.
+          방에서 쓴 내 글을 독자의 방으로 쉽게 공유할 수 있습니다.
           <br />
-          작가와 독자가 직접 만날 수 있는 공간 '방글'
+          작가와 독자가 직접 만날 수 있는 방글을 시작해보세요.
         </S.Content>
         <Button length="medium" size="big" content="시작하기" onClick={() => router.push(kakao_redirect_url)} />
       </S.Container>

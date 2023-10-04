@@ -35,8 +35,8 @@ export const Title = styled.div`
 export const Content = styled.div`
   top: -8rem;
   position: relative;
-  color: var(--BG_GRAY3);
+  color: var(--BG_GRAY2);
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 3rem;
 `;
