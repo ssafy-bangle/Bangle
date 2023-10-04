@@ -13,7 +13,6 @@ import { UserInfoState } from '@src/modules/user';
 import { useRouter } from 'next/router';
 import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
-import { TestBook } from '@src/assets/imgs';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -53,6 +52,7 @@ export default function BookId() {
         publicationDate: res.publicationDate?.substring(0, res.publicationDate.indexOf('T')),
         reviews: response.data.reviews,
         buy: response.data.buy,
+        wish: res.wish,
       };
       setBookInfo({ ...bookInfo, ...info });
     });

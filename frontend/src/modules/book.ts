@@ -20,6 +20,7 @@ export const BookInfoState = atom<BookInfo>({
     publicationDate: '',
     reviews: [],
     buy: false,
+    wish: false,
   },
 });
 
