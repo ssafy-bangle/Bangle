@@ -3,7 +3,7 @@ import apiInstance from './client';
 
 const client = apiInstance();
 
-const getBookShelf = async (): Promise<getBookshelfResProp> => {
+const getBookShelf = async () => {
   try {
     const res = await client.get(`/bookshelf/list`);
     return res.data;
