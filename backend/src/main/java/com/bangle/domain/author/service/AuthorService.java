@@ -1,6 +1,7 @@
 package com.bangle.domain.author.service;
 
 import com.bangle.domain.author.dto.AuthorDetailResponse;
+import com.bangle.domain.author.dto.AuthorIntroductionRequest;
 import com.bangle.domain.author.dto.AuthorResponse;
 import com.bangle.domain.author.dto.AuthorSearchResponse;
 import com.bangle.domain.author.entity.Author;
@@ -10,7 +11,6 @@ import com.bangle.domain.book.repository.BookRepository;
 import com.bangle.domain.follow.entity.Follow;
 import com.bangle.domain.follow.repository.FollowRepository;
 import com.bangle.global.auth.security.CustomMemberDetails;
-import com.querydsl.core.Tuple;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,5 +63,12 @@ public class AuthorService {
 		}
 
 		return new AuthorDetailResponse(author, !follow.get().getDelete(), list);
+	}
+
+	@Transactional
+	public void updateIntroduce(Long memberId, AuthorIntroductionRequest introductionRequest) {
+		Author author = authorRepository.findByMemberId(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		author.updateIntroduction(introductionRequest.introduction());
 	}
 }

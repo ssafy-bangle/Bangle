@@ -2,6 +2,7 @@ package com.bangle.domain.author.entity;
 
 import com.bangle.domain.member.entity.Member;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,7 @@ public class Author {
 
 	private Long income;
 
+	@Column(length = 1024)
 	private String introduction;
 
 	private Long follower;
@@ -47,5 +49,9 @@ public class Author {
 
 	public String getNickname() {
 		return member.getNickname();
+	}
+
+	public void updateIntroduction(String introduce) {
+		this.introduction = introduce;
 	}
 }
