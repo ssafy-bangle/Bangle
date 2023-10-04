@@ -4,8 +4,9 @@ import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import Checkbox from '@src/components/atoms/checkbox';
 import { beforeImgUpload, getBase64 } from '@src/utils';
+import Input from '@src/components/atoms/input';
 
-export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverData, setImgUrl, setIsNft }: any) {
+export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverData, setImgUrl }: any) {
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
       setLoading(true);
@@ -44,10 +45,6 @@ export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverD
         action={'/api/noop'}>
         {imgUrl ? <img src={imgUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </S.StyledUpload>
-
-      <S.CheckboxContainer>
-        <Checkbox content={'NFT 책으로 발행하기'} setInput={setIsNft} />
-      </S.CheckboxContainer>
     </S.Container>
   );
 }

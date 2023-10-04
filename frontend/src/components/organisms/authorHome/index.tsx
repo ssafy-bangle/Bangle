@@ -67,7 +67,7 @@ export default function AuthorHome() {
         <S.Box>
           <LineChart book={book} />
         </S.Box>
-        <S.Title2>누적 데이터</S.Title2>
+        <S.Title2>월별 분석</S.Title2>
         <S.ChipSection>
           {book?.map((item: bookStatProp) => (
             <S.ChipBox>

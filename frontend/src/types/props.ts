@@ -35,6 +35,7 @@ export type MenuProps = {
 };
 
 export type InputProps = {
+  type?: 'text' | 'number';
   size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;
