@@ -19,7 +19,7 @@ export default function UserHome() {
     <>
       <S.BannerSection>
         <S.Title>
-          오늘의 <strong>NFT</strong>
+          오늘의 <strong>책</strong>
         </S.Title>
         <S.ContainerBox>
           <Image width={550} src={BannerImg} alt="bannerImg" />
@@ -31,7 +31,7 @@ export default function UserHome() {
       </S.BannerSection>
       <S.RecommendSection>
         <S.Title>
-          <strong>{nickname}</strong>님을 위한 <strong>책</strong>추천
+          <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
         </S.Title>
         <Carousel />
       </S.RecommendSection>

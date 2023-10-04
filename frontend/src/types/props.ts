@@ -26,7 +26,7 @@ export type BookCoverProps = {
 export type BookProps = {
   data?: bookListProp | getBookshelfResProp;
   imgsrc: string;
-  onClick?: (address:string | undefined) => void;
+  onClick?: (address: string | undefined) => void;
 };
 
 export type MenuProps = {
@@ -35,6 +35,7 @@ export type MenuProps = {
 };
 
 export type InputProps = {
+  type?: 'text' | 'number';
   size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;
@@ -84,13 +85,21 @@ export type ModalProps = {
   setIsOpen: (value: boolean) => void;
 };
 
+export type selectedBook = {
+  purchases: number | '-';
+  price: number | '-';
+  month_purchases: number[];
+};
+
 export type ChipProps = {
   title: string;
   size: 'small' | 'big';
   icon?: string;
   imgsrc?: string;
   purchases?: number;
-  setValue?: (value: string | number) => void;
+  price?: number;
+  month_purchases?: number[];
+  setValue?: (value: string | number | selectedBook) => void;
 };
 
 export type RatingProps = {
@@ -109,7 +118,7 @@ export type BooksContainerProps = {
   page: 'bookShelf' | 'search' | 'wishList';
   data?: SearchBook | any; //작가의 content type이 api 명세서에 없는 이슈로 any로 임시 지정
   title: string;
-  onClick?: (address:string | undefined) => void;
+  onClick?: (address: string | undefined) => void;
 };
 
 export type CardProps = {

@@ -23,7 +23,7 @@ const getAuthorInfo = async (authorId: number) => {
   }
 };
 
-const subscribeAuthor = async (authorId:number) => {
+const subscribeAuthor = async (authorId: number) => {
   try {
     const res = await client.post(`/readers/subscribe/${authorId}`);
     return res.data;

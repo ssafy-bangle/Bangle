@@ -2,9 +2,8 @@ import * as S from './index.styled';
 import Icon from '@src/components/atoms/icon';
 import { ChipProps } from '@src/types/props';
 import BookCover from '../bookCover';
-import { TestBook } from '@src/assets/imgs';
 
-export default function Chip({ size, title, icon, imgsrc, purchases, setValue }: ChipProps) {
+export default function Chip({ size, title, icon, imgsrc, purchases, price, month_purchases, setValue }: ChipProps) {
   return (
     <>
       <S.ChipContainer
@@ -13,7 +12,11 @@ export default function Chip({ size, title, icon, imgsrc, purchases, setValue }:
         icon={icon}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.preventDefault();
-          purchases ? setValue && setValue(purchases) : setValue && setValue(title);
+          purchases !== undefined && price !== undefined && month_purchases !== undefined
+            ? (setValue != undefined &&
+                setValue({ price: price, purchases: purchases, month_purchases: month_purchases }),
+              console.log(price, purchases))
+            : setValue != undefined && setValue(title);
         }}>
         {icon && (
           <S.IconContainer>

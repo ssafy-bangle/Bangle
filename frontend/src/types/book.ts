@@ -25,6 +25,7 @@ export type postBookReqProps = {
   price: number;
   introduce: string;
   genre: string;
+  pageNum: number;
   cover?: File;
   file?: File;
 };
