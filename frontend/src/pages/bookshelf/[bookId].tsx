@@ -92,7 +92,7 @@ export default function BookId() {
       <PageTitle>책장</PageTitle>
       <S.Container>
         <S.InfoContainer>
-          <BookCover size="big" imgsrc={TestBook} />
+          <BookCover size="big" imgsrc={bookInfo.cover} />
           <S.BookInfo>
             <S.TopInfoContainer>
               <S.BookTitle>{bookInfo.title}</S.BookTitle>
