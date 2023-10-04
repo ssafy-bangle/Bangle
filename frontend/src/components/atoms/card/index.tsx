@@ -11,11 +11,9 @@ import {
   genre05,
   genre06,
   genre07,
-  genre08,
   genre09,
   genre10,
   genre11,
-  genre12,
 } from '@src/assets/imgs';
 import { useEffect, useState } from 'react';
 
@@ -37,11 +35,9 @@ export default function Card({ title, type, onClick, selected = false }: CardPro
       소설: genre05,
       건강: genre06,
       경제: genre07,
-      무협: genre08,
       취미: genre09,
       어학: genre10,
       여행: genre11,
-      금융: genre12,
     };
     title && setGenreImageSrc(genreList[title]);
   }, [title]);

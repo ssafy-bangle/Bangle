@@ -20,14 +20,16 @@ public class BookAndReviewResponse {
 	private BookDetailResponse bookDetail;
 	private boolean isBuy;
 	private List<ReviewResponse> reviews;
+	private boolean isWish;
 
-	public static BookAndReviewResponse create(BookDetailResponse bookDetailResponse, Long countQuery, ArrayList<ReviewResponse> reviews) {
+	public static BookAndReviewResponse create(BookDetailResponse bookDetailResponse, Long countQuery,
+		Long wishCountQuery, ArrayList<ReviewResponse> reviews) {
 		return BookAndReviewResponse.builder()
 			.bookDetail(bookDetailResponse)
 			.isBuy(countQuery != null && countQuery > 0)
+			.isWish(wishCountQuery != null && wishCountQuery > 0)
 			.reviews(reviews)
 			.build();
-
 	}
 
 	public void addReview(List<Review> reviews) {

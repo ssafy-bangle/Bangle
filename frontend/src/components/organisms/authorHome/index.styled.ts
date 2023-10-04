@@ -4,6 +4,10 @@ export const Container = styled.div`
   width: 98.4rem;
   margin: auto;
 `;
+export const ChipSection = styled.div`
+  width: inherit;
+  overflow-x: scroll;
+`;
 
 export const Title = styled.div`
   color: var(--BG_GRAY1);

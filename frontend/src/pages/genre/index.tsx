@@ -19,11 +19,9 @@ export default function Genre() {
     '소설',
     '건강',
     '경제',
-    '무협',
     '취미',
     '어학',
     '여행',
-    '금융',
   ];
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
