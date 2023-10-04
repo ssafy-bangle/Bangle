@@ -7,6 +7,7 @@ import com.bangle.domain.blockchain.dto.KuboAddResponse;
 import com.bangle.global.util.CryptoUtil;
 import com.fasterxml.jackson.core.util.ByteArrayBuilder;
 import java.security.InvalidAlgorithmParameterException;
+import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -53,7 +54,7 @@ public class IpfsService {
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.MULTIPART_FORM_DATA);
             LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("file", encryptedBook);
+            body.add("file", Base64.getEncoder().encode(encryptedBook));
             UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host(kuboRpcHost)
@@ -66,7 +67,6 @@ public class IpfsService {
             if (kuboAddResponse == null) { throw new NullPointerException("ipfs address is null"); }
             return new IpfsResponse(kuboAddResponse.getHash());
         } catch (Exception e) {
-            System.out.println(e);
             e.printStackTrace();
             return new IpfsResponse("");
         }
@@ -76,11 +76,12 @@ public class IpfsService {
         String text = getFileFromIPFS(bookRepository.findById(bookId)
             .orElseThrow(NoSuchElementException::new)
             .getAddress());
-        ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
-        for (char c : text.toCharArray()) {
-            byteArrayBuilder.append(c);
-        }
-        return byteArrayBuilder.toByteArray();
+//        ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
+//        for (char c : text.toCharArray()) {
+//            byteArrayBuilder.append(c);
+//        }
+//        return byteArrayBuilder.toByteArray();
+        return Base64.getDecoder().decode(text);
     }
 
     private String getFileFromIPFS(String address) {

@@ -1,5 +1,6 @@
 package com.bangle.domain.book.controller;
 
+import com.bangle.domain.blockchain.service.EthereumService;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class BookController {
 	private final BookService bookService;
 	private final AuthorService authorService;
 	private final IpfsService ipfsService;
+	private final EthereumService ethereumService;
 
 	@Value("${wallet.public}")
 	private String serverPubKey;
@@ -90,6 +92,8 @@ public class BookController {
 				file.getBytes());
 			// upload AUTHOR's file to IPFS
 			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
+			// save ipfs address to Sepolia network
+			ethereumService.savePublish(authorIpfsResponse.getAddress());
 
 			// make book entity and save SERVER's file address
 			bookService.saveBook(
