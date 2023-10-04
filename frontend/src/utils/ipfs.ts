@@ -13,8 +13,8 @@ function byteArrayToWordArray(ba: Uint8Array) {
 
 const downloadBookFile = (address: string) => {
 	axios({
-		url: "http://j9a501.p.ssafy.io:8080/ipfs/" + address,
-		// url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
+		// url: "http://j9a501.p.ssafy.io:8080/ipfs/" + address,
+		url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
 		// url: 'http://localhost:8080/ipfs/' + address, 
 		method: "GET",
 		responseType: "blob"
