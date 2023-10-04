@@ -50,8 +50,8 @@ export default function SearchBar() {
                 <S.RecentContainer>
                   최근 검색
                   <S.RecentItemContainer>
-                    {recentSearch.slice(-3).map((content: string) => (
-                      <S.RecentItem>
+                    {recentSearch.slice(-3).map((content: string, idx: number) => (
+                      <S.RecentItem key={idx}>
                         <CloseCircleOutlined /> {content}
                       </S.RecentItem>
                     ))}
@@ -61,12 +61,12 @@ export default function SearchBar() {
                 <S.GenreContainer>
                   카테고리
                   <S.ChipsContainer>
-                    {genreCategory.map((item: object, index: number) => (
+                    {genreCategory.map((item: object, idx: number) => (
                       <Chip
                         size="small"
                         icon={Object.keys(item)[0]}
                         title={Object.values(item)[0]}
-                        key={index}
+                        key={idx}
                         setValue={() => setCategory}
                       />
                     ))}

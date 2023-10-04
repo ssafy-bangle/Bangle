@@ -9,8 +9,8 @@ import SearchBar from '../searchBar';
 import Icon from '@src/components/atoms/icon';
 
 export default function Nav() {
-  const mode = useRecoilValue(UserModeState);
   const router = useRouter();
+  const mode = useRecoilValue(UserModeState);
   const setOpen = useSetRecoilState(CartOpenState);
   const { nickname } = useRecoilValue(UserInfoState);
 
@@ -45,7 +45,9 @@ export default function Nav() {
           ))}
         </S.MenuContainer>
         {mode === 'user' ? (
-          <SearchBar />
+          router.pathname !== '/search' ? (
+            <SearchBar />
+          ) : null
         ) : (
           <S.Info>
             안녕하세요. <strong>{nickname} 작가</strong>님

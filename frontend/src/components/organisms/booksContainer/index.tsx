@@ -21,8 +21,8 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
   // page == 'search'인 경우 BookCover 컴포넌트 불러오기
 
   const pageOnclickHandler = (bookId: number) => {
-    router.push(`/bookshelf/${bookId}`)
-  }
+    router.push(`/bookshelf/${bookId}`);
+  };
 
   return (
     <>
@@ -54,7 +54,13 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
                 item: any,
                 idx: number, //작가 type이 명세서에 없는 이슈로 임시 any로 지정
               ) => (
-                <Card key={idx} type="author" title={item} selected onClick={() => router.push(`/authorpage/${idx}`)} />
+                <Card
+                  key={idx}
+                  type="author"
+                  title={item.nickname}
+                  selected
+                  onClick={() => router.push(`/authorpage/${item.id}`)}
+                />
               ),
             )}
         </S.BookContainer>

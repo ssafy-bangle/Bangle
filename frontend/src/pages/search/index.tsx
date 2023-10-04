@@ -28,6 +28,7 @@ export default function Search() {
   const getSearchResult = () => {
     searchApi.getSearchResult(keyword, category).then((res) => {
       setSearchResult(res);
+      console.log('검색!', res);
     });
   };
 
