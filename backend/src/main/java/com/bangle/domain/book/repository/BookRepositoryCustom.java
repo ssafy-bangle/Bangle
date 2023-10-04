@@ -17,4 +17,6 @@ public interface BookRepositoryCustom {
 	List<String> getIntro(String userId);
 	List<Book> getBooks(String userId);
 	BookAndReviewResponse findDetailBookByIdAndMember(CustomMemberDetails member, long id);
+
+	List<BookResponse> findAllByGenre(String interest);
 }
