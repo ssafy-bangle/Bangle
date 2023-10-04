@@ -3,7 +3,7 @@ import { TestBook } from '@src/assets/imgs';
 import BookCover from '@src/components/atoms/bookCover';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
-import * as S from '@src/styles/pageStyles/authorpage/[authorId].styled';
+import * as S from '@src/styles/pageStyles/author/[authorId].styled';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -28,9 +28,9 @@ export default function AuthorId() {
 
   const subscribeHandler = () => {
     authorApi.subscribeAuthor(authorId).then((res) => {
-      console.log('subscribe', res)
+      console.log('subscribe', res);
       setIsClicked((pre) => !pre);
-    })
+    });
   };
 
   return (

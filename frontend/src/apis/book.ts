@@ -51,7 +51,6 @@ const postBook = async (body: postBookReqProps) => {
   }
 };
 
-
 const buyBook = async (body: buyBookReqProps) => {
   try {
     const res = await client.post(`/orders/book`, body);
@@ -79,6 +78,16 @@ const getWishList = async () => {
   }
 };
 
+const getGenre = async () => {
+  try {
+    const res = await client.post(`/books/recommend/genre`);
+    console.log('bbbb', res.data);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 // const postBookImg = async (imgData: FormData) => {
 //   try {
 //     //Url 수정 해야함
@@ -100,5 +109,5 @@ const getWishList = async () => {
 //   }
 // };
 
-const book = { getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
 export default book;

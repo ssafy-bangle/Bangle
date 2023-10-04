@@ -33,7 +33,6 @@ export default function Search() {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('keyword', keyword, 'category', category);
     getSearchResult();
   };
 
