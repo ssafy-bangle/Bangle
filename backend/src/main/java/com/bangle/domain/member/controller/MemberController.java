@@ -55,13 +55,13 @@ public class MemberController {
 			log.info("kakao login data = {}", memberData);
 			Optional<Member> optionalMember = memberService.getOptionalByUserId(memberData.getSub());
 			Member member = optionalMember.orElse(Member.builder()
-					.userId(memberData.getSub())
-					.nickname(memberData.getNickname())
-					.email(memberData.getEmail())
-					.dust(0)
-					.roles("ROLE_USER")
-					.provider("KAKAO")
-					.build());
+				.userId(memberData.getSub())
+				.nickname(memberData.getNickname())
+				.email(memberData.getEmail())
+				.dust(0)
+				.roles("ROLE_USER")
+				.provider("KAKAO")
+				.build());
 
 			boolean isNewMember = optionalMember.isEmpty();
 			if (isNewMember) {
@@ -73,7 +73,8 @@ public class MemberController {
 			tokens.put("refreshToken", JwtTokenUtil.getRefreshToken(member.getUserId()));
 			tokens.put("needPublicKey", isNewMember || member.getPublicKey() == null);
 			//Redis에 20일 동안 저장
-			template.opsForValue().set("refresh " + member.getUserId(), (String)tokens.get("refreshToken"), Duration.ofDays(20));
+			template.opsForValue()
+				.set("refresh " + member.getUserId(), (String)tokens.get("refreshToken"), Duration.ofDays(20));
 			return BaseResponse.okWithData(HttpStatus.OK, "login Success", tokens);
 
 		} catch (JsonProcessingException e) {
@@ -92,7 +93,7 @@ public class MemberController {
 	@PutMapping
 	public ResponseEntity<?> changeNickname(
 		@AuthenticationPrincipal CustomMemberDetails memberDetails,
-		@RequestBody HashMap<String,String> map) {
+		@RequestBody HashMap<String, String> map) {
 		if (!map.containsKey("nickname")) {
 			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
 		}
@@ -107,7 +108,7 @@ public class MemberController {
 		try {
 			MemberResponse memberResponse = memberService.memberInfo(member.getUsername());
 			return BaseResponse.okWithData(HttpStatus.OK, "회원정보 조회 완료", memberResponse);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return BaseResponse.fail(HttpStatus.UNAUTHORIZED, "회원정보 조회 실패");
 		}
@@ -121,17 +122,22 @@ public class MemberController {
 				return BaseResponse.ok(HttpStatus.OK, "작가 전환 완료");
 			}
 			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "이미 전환된 작가");
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return BaseResponse.fail(HttpStatus.BAD_REQUEST, "작가 전환 실패");
 		}
 	}
 
-	@PostMapping("/interest")
+	@PostMapping("/interests")
 	public ResponseEntity<?> saveInterestGenre(@AuthenticationPrincipal CustomMemberDetails memberDetails, @RequestBody
 	InterestRequest interestRequest) {
-		System.out.println("들어오는지 체크");
-		memberService.saveInterest(memberDetails.getPK(),interestRequest);
+		memberService.saveInterest(memberDetails.getPK(), interestRequest);
 		return BaseResponse.ok(HttpStatus.OK, "추천 정보 저장 완료");
+	}
+
+	@GetMapping("/interests")
+	public ResponseEntity<?> getInterests(@AuthenticationPrincipal CustomMemberDetails memberDetails){
+		Map<?, ?> bookByInterest = memberService.getBookByInterest(memberDetails.getPK());
+		return BaseResponse.okWithData(HttpStatus.OK,"장르 별 추천 조회",bookByInterest);
 	}
 }

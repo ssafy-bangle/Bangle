@@ -102,4 +102,18 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 		return BookAndReviewResponse.create(bookDetailResponse,countQuery,new ArrayList<>());
 	}
 
+	@Override
+	public List<BookResponse> findAllByGenre(String interest) {
+		return jpaQueryFactory.select(
+				Projections.constructor(BookResponse.class, book.id, book.title, book.genre, book.purchasePrice,
+					book.rentalPrice,
+					book.averageScore, book.cover))
+			.from(book)
+			.join(book.author, author)
+			.join(author.member, member)
+			.where(book.genre.eq(interest))
+			.limit(12)
+			.fetch();
+	}
+
 }
