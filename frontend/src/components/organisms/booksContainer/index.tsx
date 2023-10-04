@@ -55,7 +55,7 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
                 type="author"
                 title={item.nickname}
                 selected
-                onClick={() => router.push(`/authorpage/${item.id}`)}
+                onClick={() => router.push(`/author/${item.id}`)}
               />
             ))}
         </S.BookContainer>
