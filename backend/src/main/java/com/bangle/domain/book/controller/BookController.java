@@ -93,7 +93,7 @@ public class BookController {
 			// upload AUTHOR's file to IPFS
 			IpfsResponse authorIpfsResponse = ipfsService.upload(userEncryptedBook);
 			// save ipfs address to Sepolia network
-			ethereumService.savePublish(authorIpfsResponse.getAddress());
+//			ethereumService.savePublish(authorIpfsResponse.getAddress());
 
 			// make book entity and save SERVER's file address
 			bookService.saveBook(
