@@ -17,3 +17,21 @@ export type bookStatProp = {
   today_reviews: number;
   total_purchases: number;
 };
+
+export type authorInfo = {
+  bookList: bookListProp[];
+  follower: number;
+  introduction: string;
+  isFollow: boolean;
+  nickname: string;
+};
+
+export type bookListProp = {
+  id: number;
+  title: string;
+  genre: string;
+  purchasePrice: number;
+  rentalPrice: number;
+  averageScore: number;
+  cover: string;
+};
