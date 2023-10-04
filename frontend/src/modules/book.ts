@@ -15,6 +15,7 @@ export const BookInfoState = atom<BookInfo>({
     purchasePrice: 0,
     rentalPrice: 0,
     title: '',
+    authorId: 0,
     nickname: '',
     publicationDate: '',
     reviews: [],

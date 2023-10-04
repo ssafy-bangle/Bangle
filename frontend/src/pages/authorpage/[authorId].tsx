@@ -4,11 +4,12 @@ import BookCover from '@src/components/atoms/bookCover';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import * as S from '@src/styles/pageStyles/authorpage/[authorId].styled';
+import { authorInfo, bookListProp } from '@src/types/author';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export default function AuthorId() {
-  const [authorInfo, setAuthorInfo] = useState();
+  const [authorInfo, setAuthorInfo] = useState<authorInfo>();
   const router = useRouter();
   const authorId = Number(router.query.authorId);
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -16,7 +17,14 @@ export default function AuthorId() {
   const getAuthorInfoReq = (authorId: number) => {
     authorApi.getAuthorInfo(authorId).then((res) => {
       console.log('get Detail', res);
-      setAuthorInfo(res);
+      const data = {
+        bookList: res.data.bookList,
+        follower: res.data.follower,
+        introduction: res.data.introduction,
+        isFollow: res.data.isFollow,
+        nickname: res.data.nickname,
+      };
+      setAuthorInfo(data);
     });
   };
 
@@ -26,11 +34,16 @@ export default function AuthorId() {
     }
   }, [authorId]);
 
+  useEffect(() => {
+    if (authorInfo?.isFollow) {
+      setIsClicked(true);
+    }
+  }, [authorInfo]);
+
   const subscribeHandler = () => {
     authorApi.subscribeAuthor(authorId).then((res) => {
-      console.log('subscribe', res)
       setIsClicked((pre) => !pre);
-    })
+    });
   };
 
   return (
@@ -41,9 +54,9 @@ export default function AuthorId() {
           <S.LeftSection>
             <S.PartTitle>작가 정보</S.PartTitle>
             <S.MainInfo>
-              <strong> 작가</strong>
+              <strong>{authorInfo?.nickname} 작가</strong>
             </S.MainInfo>
-            <S.AuthorInfo>작가소개</S.AuthorInfo>
+            <S.AuthorInfo>{authorInfo?.introduction}</S.AuthorInfo>
             <Button
               length="medium"
               content={isClicked ? '작가 저장 취소' : '내 작가로 저장'}
@@ -53,14 +66,13 @@ export default function AuthorId() {
           </S.LeftSection>
           <S.RightSection>
             <S.PartTitle>작가의 책장</S.PartTitle>
-            <S.MainInfo style={{ color: 'var(--BG_GRAY3)' }}>총 {0}권의 책이 있습니다.</S.MainInfo>
+            <S.MainInfo style={{ color: 'var(--BG_GRAY3)' }}>
+              총 {authorInfo?.bookList.length}권의 책이 있습니다.
+            </S.MainInfo>
             <S.BookShelf>
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
-              <BookCover imgsrc={TestBook} onClick={() => {}} />
+              {authorInfo?.bookList.map((book: bookListProp) => (
+                <BookCover imgsrc={book.cover} onClick={() => router.push(`/bookshelf/${book.id}`)} key={book.id} />
+              ))}
             </S.BookShelf>
           </S.RightSection>
         </S.SectionContainer>

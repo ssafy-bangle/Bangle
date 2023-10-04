@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { getBookshelfResProp } from '@src/types/book';
 import { useEffect, useState } from 'react';
 import { bookApi } from '@src/apis';
+import { bookListProp } from '@src/types/author';
 
 export default function Bookshelf() {
   const router = useRouter();
@@ -30,6 +31,14 @@ export default function Bookshelf() {
     router.push(`/ebook/${testBookId}`);
   };
 
+  const [wishList, setWishList] = useState<bookListProp[]>();
+  useEffect(() => {
+    bookApi.getWishList().then((res) => {
+      console.log(res);
+      setWishList(res.data);
+    });
+  }, []);
+
   return (
     <>
       <PageTitle>책장</PageTitle>
@@ -47,6 +56,10 @@ export default function Bookshelf() {
           </S.CoverContainer>
         </S.Box>
         <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
+        {wishList?.length && wishList?.length > 0 && (
+          // book detail page 로 router push path 수정 필요
+          <BooksContainer page="bookShelf" title="관심있는 책" data={wishList} onClick={() => router.push(`/`)} />
+        )}
       </S.Container>
     </>
   );
