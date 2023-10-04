@@ -191,11 +191,12 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <Image src={Munzi1} width={276} alt="munzi1Img" onClick={() => chargeDustImmediately(55)} />
+              <Image src={Munzi1} layout="responsive" width={276} alt="munzi1Img" onClick={() => chargeDustImmediately(55)} />
               <Image
                 src={Munzi2}
                 width={276}
                 alt="munzi2Img"
+                layout="responsive"
                 style={{ marginTop: '8px' }}
                 onClick={() => chargeDustImmediately(110)}
               />
@@ -203,7 +204,7 @@ export default function Mypage() {
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
               <S.MunziBtnContainer>
-                <Image src={Munzi3} width={250} alt="munzi3Img" />
+                <Image src={Munzi3} width={250} alt="munzi3Img" layout="responsive" />
                 <Munzibtn price={1} content="￦1,000" onClick={() => chargeDustImmediately(1)} />
                 <Munzibtn price={5} content="￦5,000" onClick={() => chargeDustImmediately(5)} />
                 <Munzibtn price={10} content="￦10,000" onClick={() => chargeDustImmediately(10)} />
