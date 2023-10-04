@@ -44,14 +44,14 @@ public class AuthorRepositoryCustomImpl implements AuthorRepositoryCustom {
 		List<AuthorSearchResponse> contents = jpaQueryFactory.select(Projections.constructor(AuthorSearchResponse.class, author.id,member.nickname))
 			.from(author)
 			.join(author.member, member)
-			.where(member.nickname.contains(keyword))
+			.where(member.nickname.toLowerCase().contains(keyword.toLowerCase()))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
 			.fetch();
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(author.count())
 			.from(author)
 			.join(author.member, member)
-			.where(member.nickname.contains(keyword));
+			.where(member.nickname.toLowerCase().contains(keyword.toLowerCase()));
 
 		return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
 	}
