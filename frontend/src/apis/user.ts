@@ -61,11 +61,24 @@ const putMemberRolesToAuthor = async () => {
   }
 };
 
+const postMemberInterest = async (interest: string[]) => {
+  console.log('post Member Interest:', interest);
+  try {
+    const res = await client.post('/members/interests', {
+      interests: interest
+    });
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 const user = {
   postLogin,
   postMemberInfo,
   getMemberInfo,
   putMemberNickname,
   putMemberRolesToAuthor,
+  postMemberInterest,
 };
 export default user;

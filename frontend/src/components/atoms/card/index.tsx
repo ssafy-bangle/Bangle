@@ -58,10 +58,7 @@ export default function Card({ title, type, onClick, selected = false }: CardPro
         <S.BlackScreen isClicked={isClicked} />
         <S.Title>{isClicked ? <HeartFilled /> : title}</S.Title>
         {type == 'author' && (
-          <S.Button
-            onClick={() => {
-              router.push('/mypage');
-            }}>
+          <S.Button onClick={() => onClick}>
             작가 홈 바로가기 <RightOutlined />
           </S.Button>
         )}

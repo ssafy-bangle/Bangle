@@ -144,7 +144,7 @@ export default function BookId() {
           <S.CardContainer>
             {bookInfo.reviews.map((card: reviewProps) => (
               <>
-                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} />
+                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} onClick={() => {}} />
               </>
             ))}
           </S.CardContainer>

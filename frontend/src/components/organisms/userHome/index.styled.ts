@@ -20,7 +20,9 @@ export const BookBox = styled.div`
   }
 `;
 
-export const RecommendSection = styled.div``;
+export const RecommendSection = styled.div`
+  margin-bottom: 6rem;
+`;
 
 export const BooksBox = styled.div`
   width: inherit;
