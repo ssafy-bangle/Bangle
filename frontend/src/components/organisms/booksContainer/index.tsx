@@ -30,7 +30,6 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
           <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
         ));
       case 'wishList':
-        console.log('heeee', data);
         return data?.map((item: bookListProp, idx: number) => (
           <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
         ));

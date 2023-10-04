@@ -1,6 +1,5 @@
 import PageTitle from '@src/components/atoms/pageTitle';
 import * as S from '@src/styles/pageStyles/bookshelf/index.styled';
-// import { TestBook } from '@src/assets/imgs';
 import BookCover from '@src/components/atoms/bookCover';
 import BooksContainer from '@src/components/organisms/booksContainer';
 import { useRouter } from 'next/router';
@@ -67,7 +66,6 @@ export default function Bookshelf() {
       }
     });
   }, []);
-  console.log('wishshsh', wishList?.length)
 
   const handlePageClick = () => {};
 

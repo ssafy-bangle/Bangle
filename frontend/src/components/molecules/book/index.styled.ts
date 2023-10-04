@@ -5,5 +5,6 @@ export const BookTitle = styled.div`
   font-size: 1.8rem;
   font-weight: 700;
   margin-top: 0.9rem;
+  line-height: 130%;
   cursor: pointer;
 `;
