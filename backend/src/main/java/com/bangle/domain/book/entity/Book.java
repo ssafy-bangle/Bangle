@@ -7,16 +7,7 @@ import com.bangle.domain.book.dto.BookResponse;
 import com.bangle.domain.book.dto.RestRequest;
 import com.bangle.domain.order.entity.OrderStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,6 +60,11 @@ public class Book {
 
 	@Column(name = "publication_date")
 	private LocalDateTime publicationDate;
+
+	@PrePersist
+	public void setPublicationDate() {
+		this.publicationDate = this.publicationDate == null ? LocalDateTime.now() : this.publicationDate;
+	}
 
 	public int getPrice(OrderStatus orderStatus) {
 		if (orderStatus.equals(OrderStatus.RENT)) {
