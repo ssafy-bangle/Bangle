@@ -27,7 +27,15 @@ export default function Cart() {
 
   useEffect(() => {
     console.log('cartItem 있나', cartItems);
-  }, [cartItems]);
+    setCartItems((pre) => [...pre]);
+  }, []);
+
+  useEffect(() => {
+    const storedCartItems = cookie.onGet('cartItems');
+    if (storedCartItems) {
+      setCartItems(storedCartItems);
+    }
+  }, []);
 
   const showModal = () => {
     setIsOpen((pre) => !pre);
