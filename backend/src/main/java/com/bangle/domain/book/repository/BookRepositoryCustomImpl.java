@@ -41,7 +41,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 				Projections.constructor(BookResponse.class,book.id, book.title, book.genre, book.purchasePrice, book.rentalPrice,
 					book.averageScore, book.cover))
 			.from(book)
-			.where(book.title.contains(keyword),
+			.where(book.title.toLowerCase().contains(keyword.toLowerCase()),
 				book.genre.contains(category))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize())
@@ -49,7 +49,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 
 		JPAQuery<Long> countQuery = jpaQueryFactory.select(book.count())
 			.from(book)
-			.where(book.title.contains(keyword),
+			.where(book.title.toLowerCase().contains(keyword.toLowerCase()),
 				book.genre.contains(category));
 
 		return PageableExecutionUtils.getPage(books, pageable, countQuery::fetchOne);
