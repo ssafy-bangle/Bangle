@@ -24,7 +24,6 @@ export type BookCoverProps = {
 };
 
 export type BookProps = {
-  // imgsrc: StaticImageData;
   data?: bookListProp | getBookshelfResProp;
   imgsrc: string;
   onClick?: (address:string | undefined) => void;

@@ -34,4 +34,5 @@ export type bookListProp = {
   rentalPrice: number;
   averageScore: number;
   cover: string;
+  address?: string;
 };
