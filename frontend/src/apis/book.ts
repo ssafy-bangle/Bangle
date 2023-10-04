@@ -100,10 +100,5 @@ const getWishList = async () => {
 //   }
 // };
 
-<<<<<<< frontend/src/apis/book.ts
 const bookApi = { getBookShelf, getBookDetail, postBook, buyBook };
 export default bookApi;
-=======
-const book = { getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
-export default book;
->>>>>>> frontend/src/apis/book.ts
