@@ -1,4 +1,5 @@
 export type SearchBook = {
+  id: number;
   title: string;
   genre: string;
   purchasePrice: number;
