@@ -21,8 +21,8 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
   // page == 'search'인 경우 BookCover 컴포넌트 불러오기
 
   const pageOnclickHandler = (bookId: number) => {
-    router.push(`/bookshelf/${bookId}`)
-  }
+    router.push(`/bookshelf/${bookId}`);
+  };
 
   return (
     <>

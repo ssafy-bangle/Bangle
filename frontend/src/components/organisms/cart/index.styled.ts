@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Drawer } from 'antd';
 import Image from 'next/image';
+import NoValue from '@src/components/atoms/noValue';
 
 export const StyledDrawer = styled(Drawer)``;
 
@@ -30,6 +31,16 @@ export const ListContainer = styled.div`
   padding: 1rem 0;
   border-radius: 1.2rem;
   overflow: auto;
+`;
+
+export const ValueContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0.8);
+  width: 100%;
 `;
 
 export const TotalItemContainer = styled.div`
