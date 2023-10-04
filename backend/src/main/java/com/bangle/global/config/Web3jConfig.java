@@ -33,7 +33,7 @@ public class Web3jConfig {
 
     public StaticGasProvider staticGasProvider() {
         return new StaticGasProvider(
-            BigInteger.valueOf(9_000_000_000L),
+            BigInteger.valueOf(12_000_000_000L),
             BigInteger.valueOf(9_000_000)
         );
     }
