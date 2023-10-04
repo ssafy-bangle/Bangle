@@ -37,7 +37,7 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
           {page === 'bookShelf' &&
             data?.map((item: getBookshelfResProp, idx: number) => (
-              <Book key={idx} imgsrc={item.cover} onClick={onClick} />
+              <Book key={idx} address={item.address} title={item.title} imgsrc={item.cover} onClick={onClick} />
             ))}
           {type === 'book' && data?.map((item: SearchBook, idx: number) => <BookCover key={idx} imgsrc={item.cover} />)}
           {type === 'author' &&

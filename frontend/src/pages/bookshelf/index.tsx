@@ -9,12 +9,13 @@ import { useEffect, useState } from 'react';
 import { bookApi } from '@src/apis';
 import { bookListProp } from '@src/types/author';
 
-type bookProp = {
+type bookDetailProp = {
   title: string;
   author: string;
   cover: string;
   publicationDate: string;
   genre: string;
+  address: string;
 }
 
 export default function Bookshelf() {
@@ -23,11 +24,11 @@ export default function Bookshelf() {
   // 책의 URL은 여기서 보내지 않는다 (주소에 노출되기때문 => ebook에서 fetch해오도록 한다)
   // TEST를 위한 임시 책 id
   const [bookList, setBookList] = useState<getBookshelfResProp[]>([]);
-  const [firstBook, setFirstBook] = useState<bookProp>();
+  const [firstBook, setFirstBook] = useState<bookDetailProp>();
   useEffect(() => {
     bookApi.getBookShelf().then((res) => {
       let newBookList:getBookshelfResProp[] = []
-      res.data.forEach((bookshelf:bookProp)=>{
+      res.data.forEach((bookshelf:getBookshelfResProp)=>{
         newBookList.push({...bookshelf})
       })
       setBookList(newBookList);
@@ -54,9 +55,9 @@ export default function Bookshelf() {
     }
   }, [bookList])
 
-  const handleBookClick = () => {
-    if (bookList.length) {
-      router.push(`/ebook/${bookList[0].address}`);
+  const handleBookClick = (address: string | undefined) => {
+    if (address !== undefined) {
+      router.push(`/ebook/${address}`);
     }
   };
 
@@ -75,7 +76,7 @@ export default function Bookshelf() {
         <S.SubTitle>지금 보고 있는 책</S.SubTitle>
         <S.Box>
           <S.Left>
-            <S.Title onClick={handleBookClick}>{firstBook?.title}</S.Title>
+            <S.Title onClick={()=>handleBookClick(firstBook?.address)}>{firstBook?.title}</S.Title>
             <S.Content>
             {firstBook?.publicationDate} ·{firstBook?.author} · {firstBook?.genre}
             </S.Content>
@@ -83,7 +84,7 @@ export default function Bookshelf() {
           <S.CoverContainer>
             {
               firstBook?
-              <BookCover imgsrc={firstBook.cover} onClick={handleBookClick} />
+              <BookCover imgsrc={firstBook.cover} onClick={()=>handleBookClick(firstBook?.address)} />
               :<></>
             }
           </S.CoverContainer>
