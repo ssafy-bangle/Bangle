@@ -122,9 +122,9 @@ public class OrderService {
 			// add address to bookshelf entity
 			bookshelf.setIpfsAddress(upload.getAddress());
 			// save address to Sepolia network
-//			ethereumService.savePurchase(
-//				upload.getAddress(), member.getPublicKey(), bookshelf.getMember().getPublicKey(),
-//				bookshelf.getBook().getPrice(OrderStatus.BUY));
+			ethereumService.savePurchase(
+				upload.getAddress(), member.getPublicKey(), bookshelf.getMember().getPublicKey(),
+				bookshelf.getBook().getPrice(OrderStatus.BUY));
 		}
 
 		orderRepository.save(newOrder);
