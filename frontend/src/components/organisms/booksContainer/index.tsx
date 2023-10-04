@@ -10,6 +10,7 @@ import NoValue from '@src/components/atoms/noValue';
 import { SearchBook } from '@src/types/search';
 import { getBookshelfResProp } from '@src/types/book';
 import { useRouter } from 'next/router';
+import { bookListProp } from '@src/types/author';
 
 export default function BooksContainer({ title, type, page, data, onClick }: BooksContainerProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -18,6 +19,10 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
   // type == 'author'인 경우 검색된 작가 목록 불러오기
   // page == 'bookShelf'인 경우 Book 컴포넌트 불러오기
   // page == 'search'인 경우 BookCover 컴포넌트 불러오기
+
+  const pageOnclickHandler = (bookId: number) => {
+    router.push(`/bookshelf/${bookId}`)
+  }
 
   return (
     <>
@@ -35,10 +40,13 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
         </S.NoValue>
       ) : (
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
-          {page === 'bookShelf' &&
-            data?.map((item: getBookshelfResProp, idx: number) => (
-              <Book key={idx} imgsrc={item.cover} onClick={onClick} />
-            ))}
+          {page === 'bookShelf'
+            ? data?.map((item: getBookshelfResProp, idx: number) => (
+                <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
+              ))
+            : data?.map((item: bookListProp, idx: number) => (
+                <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
+              ))}
           {type === 'book' && data?.map((item: SearchBook, idx: number) => <BookCover key={idx} imgsrc={item.cover} />)}
           {type === 'author' &&
             data?.map(

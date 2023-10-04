@@ -19,7 +19,7 @@ const Template: Story = {
     page: {
       type: 'string',
       control: 'select',
-      options: ['bookShelf', 'search'],
+      options: ['bookShelf', 'search', 'wishList'],
       description: '페이지',
     },
     title: {

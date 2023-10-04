@@ -1,6 +1,7 @@
 import { StaticImageData } from 'next/image';
 import { getBookshelfResProp } from './book';
 import { SearchBook } from './search';
+import { bookListProp } from './author';
 
 export type LoadingProps = {
   content?: string;
@@ -24,6 +25,7 @@ export type BookCoverProps = {
 
 export type BookProps = {
   // imgsrc: StaticImageData;
+  data?: bookListProp | getBookshelfResProp;
   imgsrc: string;
   onClick?: () => void;
 };
@@ -104,7 +106,7 @@ export type NoValueProps = {
 
 export type BooksContainerProps = {
   type?: 'book' | 'author';
-  page: 'bookShelf' | 'search';
+  page: 'bookShelf' | 'search' | 'wishList';
   data?: SearchBook | any; //작가의 content type이 api 명세서에 없는 이슈로 any로 임시 지정
   title: string;
   onClick?: () => void;

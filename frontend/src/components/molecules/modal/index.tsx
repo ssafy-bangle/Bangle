@@ -23,7 +23,7 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
   const chargeDustImmediately = () => {
     if (price) {
       paymentAPI.postPayment(price).then(() => {
-        setUserInfo({ ...userInfo });
+        setUserInfo({ ...userInfo, dust: userInfo.dust + price });
       });
     }
     openModalHandler();

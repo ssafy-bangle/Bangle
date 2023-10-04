@@ -57,6 +57,7 @@ const buyBook = async (body: buyBookReqProps) => {
     const res = await client.post(`/orders/book`, body);
     return res.data;
   } catch (e) {
+    console.log('error at buybook', e)
     throw new Error('');
   }
 };
