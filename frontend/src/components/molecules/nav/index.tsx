@@ -37,7 +37,7 @@ export default function Nav() {
 
   return (
     <S.Container>
-      <S.LogoBox src={LogoImg} width={36} alt="logoImg" onClick={() => router.push('/')} />
+      <S.LogoBox src={LogoImg} width={36} alt="logoImg" onClick={() => router.push('/home')} />
       <S.NavContainer>
         <S.MenuContainer>
           {Object.entries(selectedList).map(([k, v], idx) => (
