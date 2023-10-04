@@ -100,5 +100,5 @@ const getWishList = async () => {
 //   }
 // };
 
-const bookApi = { getBookShelf, getBookDetail, postBook, buyBook };
+const bookApi = { getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
 export default bookApi;
