@@ -23,6 +23,22 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
     router.push(`/bookshelf/${bookId}`);
   };
 
+  const bookShelfItems = (page: string) => {
+    switch (page) {
+      case 'bookShelf':
+        return data?.map((item: getBookshelfResProp, idx: number) => (
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
+        ));
+      case 'wishList':
+        console.log('heeee', data);
+        return data?.map((item: bookListProp, idx: number) => (
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
+        ));
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <S.TitleContainer>
@@ -39,18 +55,11 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
         </S.NoValue>
       ) : (
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
-          {page === 'bookShelf'
-            ? data?.map((item: getBookshelfResProp, idx: number) => (
-                <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
-              ))
-            : data?.map((item: bookListProp, idx: number) => (
-                <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
-              ))}
+          {page !== 'search' && bookShelfItems(page)}
           {type === 'book' &&
             data?.map((item: SearchBook, idx: number) => (
               <BookCover key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
             ))}
-
           {type === 'author' &&
             data?.map((item: { id: number; nickname: string }, idx: number) => (
               <Card

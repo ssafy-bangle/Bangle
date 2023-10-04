@@ -13,7 +13,6 @@ export type BookInfo = {
   publicationDate: string;
   reviews: reviewProps[];
   buy: boolean;
-  wish: boolean;
 };
 
 export type reviewProps = {

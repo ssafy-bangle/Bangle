@@ -52,9 +52,11 @@ export default function BookId() {
         publicationDate: res.publicationDate?.substring(0, res.publicationDate.indexOf('T')),
         reviews: response.data.reviews,
         buy: response.data.buy,
-        wish: res.wish,
       };
       setBookInfo({ ...bookInfo, ...info });
+      if (response.data.wish) {
+        setIsWish(true);
+      }
     });
   };
 
