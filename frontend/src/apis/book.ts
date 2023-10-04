@@ -61,6 +61,24 @@ const buyBook = async (body: buyBookReqProps) => {
   }
 };
 
+const wishBook = async (bookId: number) => {
+  try {
+    const res = await client.post(`/wishlist/${bookId}`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getWishList = async () => {
+  try {
+    const res = await client.get(`/wishlist`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 // const postBookImg = async (imgData: FormData) => {
 //   try {
 //     //Url 수정 해야함
@@ -82,5 +100,10 @@ const buyBook = async (body: buyBookReqProps) => {
 //   }
 // };
 
+<<<<<<< frontend/src/apis/book.ts
 const bookApi = { getBookShelf, getBookDetail, postBook, buyBook };
 export default bookApi;
+=======
+const book = { getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+export default book;
+>>>>>>> frontend/src/apis/book.ts

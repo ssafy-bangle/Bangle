@@ -3,7 +3,7 @@ import * as S from '@src/styles/pageStyles/bookshelf/[bookId].styled';
 import BookCover from '@src/components/atoms/bookCover';
 import Munzibtn from '@src/components/molecules/munzibtn';
 import { useEffect, useState } from 'react';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { BookFilled, BookOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
 import Rating from '@src/components/atoms/rating';
 import ReviewCard from '@src/components/atoms/reviewCard';
 import Modal from '@src/components/molecules/modal';
@@ -20,6 +20,7 @@ export default function BookId() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const [bookInfo, setBookInfo] = useRecoilState(BookInfoState);
+  const [isWish, setIsWish] = useState<boolean>(false);
   const [priceType, setPriceType] = useState<number>(0);
   const router = useRouter();
   const bookId = Number(router.query.bookId);
@@ -78,6 +79,13 @@ export default function BookId() {
     setIsOpen((pre) => !pre);
   };
 
+  const setWishListHandler = () => {
+    bookApi.wishBook(bookId).then((res) => {
+      console.log('wishlist', res);
+      setIsWish((pre) => !pre);
+    });
+  };
+
   return (
     <>
       <PageTitle>책장</PageTitle>
@@ -85,25 +93,31 @@ export default function BookId() {
         <S.InfoContainer>
           <BookCover size="big" imgsrc={TestBook} />
           <S.BookInfo>
-            <S.BookTitle>{bookInfo.title}</S.BookTitle>
+            <S.TopInfoContainer>
+              <S.BookTitle>{bookInfo.title}</S.BookTitle>
+              {isWish ? <BookFilled onClick={setWishListHandler} /> : <BookOutlined onClick={setWishListHandler} />}
+            </S.TopInfoContainer>
             <S.SmallInfo>
+              {/* <span onClick={() => router.push(`/authorpage/${authorId}`)}>{bookInfo.nickname}</span> · {bookInfo.publicationDate} · {bookInfo.genre} */}
               {bookInfo.nickname} · {bookInfo.publicationDate} · {bookInfo.genre}
             </S.SmallInfo>
-            <S.PriceContainer>
-              <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={() => showModal(0)} />
-              <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={() => showModal(1)} />
-              <Modal
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                type={priceType === 0 ? 'dirBuy' : 'dirRent'}
-                title={'제목'}
-                price={priceType === 0 ? bookInfo.purchasePrice : bookInfo.rentalPrice}
-                onClick={() => {
-                  buyBookRequest(bookInfo.bookId);
-                  console.log('clicked');
-                }}
-              />
-            </S.PriceContainer>
+            {bookInfo.buy == false && (
+              <S.PriceContainer>
+                <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={() => showModal(0)} />
+                <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={() => showModal(1)} />
+                <Modal
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                  type={priceType === 0 ? 'dirBuy' : 'dirRent'}
+                  title={'제목'}
+                  price={priceType === 0 ? bookInfo.purchasePrice : bookInfo.rentalPrice}
+                  onClick={() => {
+                    buyBookRequest(bookInfo.bookId);
+                    console.log('clicked');
+                  }}
+                />
+              </S.PriceContainer>
+            )}
             <S.InfoText>
               <S.InfoTitle>소개</S.InfoTitle>
               <S.InfoContent isClicked={isClicked}>{bookInfo.introduction}</S.InfoContent>
@@ -127,11 +141,6 @@ export default function BookId() {
                 <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} />
               </>
             ))}
-            {/* {[1, 2, 3].map((card: number) => (
-              <>
-                <S.ReviewCardItem imgsrc={TestBook} size="small" key={card} />
-              </>
-            ))} */}
           </S.CardContainer>
         </S.ReviewContainer>
       </S.Container>

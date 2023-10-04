@@ -69,6 +69,17 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
     }
   };
 
+  const munziContent = (type: string) => {
+    switch (type) {
+      case 'publish':
+        return `출판먼지`;
+      case 'dirRent':
+        return `대여먼지`;
+      default:
+        return `구매먼지`;
+    }
+  };
+
   useEffect(() => {
     console.log(userInfo);
   }, [userInfo]);
@@ -90,7 +101,7 @@ export default function Modal({ isOpen, setIsOpen, type, title, price, onClick }
                   </S.PriceContainer>
                 </S.FirstMunzi>
                 <S.FirstMunzi>
-                  {type == 'publish' ? '출판먼지' : '구매먼지'}
+                  {munziContent(type)}
                   <S.PriceContainer>
                     <Image src={DarkMunzi} alt="다크먼지" width={30} />
                     <S.MunziPrice>{price}</S.MunziPrice>
