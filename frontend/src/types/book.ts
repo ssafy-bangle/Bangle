@@ -8,6 +8,7 @@ export type BookInfo = {
   purchasePrice: number;
   rentalPrice: number;
   title: string;
+  authorId: number;
   nickname: string;
   publicationDate: string;
   reviews: reviewProps[];

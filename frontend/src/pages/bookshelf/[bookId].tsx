@@ -48,6 +48,8 @@ export default function BookId() {
         purchasePrice: res.purchasePrice,
         rentalPrice: res.rentalPrice,
         title: res.title,
+        // authorId res 에서 어떻게 들어오는지 확인 필요
+        authorId: res.id,
         nickname: res.nickname,
         publicationDate: res.publicationDate.substring(0, res.publicationDate.indexOf('T')),
         reviews: response.data.reviews,
