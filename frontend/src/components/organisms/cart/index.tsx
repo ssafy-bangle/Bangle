@@ -26,16 +26,11 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState<CartBookProp[]>(cookie.onGet('cartItems') || []);
 
   useEffect(() => {
-    console.log('cartItem 있나', cartItems);
-    setCartItems((pre) => [...pre]);
-  }, []);
-
-  useEffect(() => {
     const storedCartItems = cookie.onGet('cartItems');
     if (storedCartItems) {
       setCartItems(storedCartItems);
     }
-  }, []);
+  }, [open]);
 
   const showModal = () => {
     setIsOpen((pre) => !pre);
@@ -73,6 +68,19 @@ export default function Cart() {
     }
   };
 
+  const deleteBookHandler = () => {
+    selectedBookList.map((item) => {
+      setCartItems((pre) => pre.filter((book) => item.id !== book.id));
+      setSelectedBookList((pre) => pre.filter((item) => !item.id))
+    });
+  };
+
+  useEffect(() => {
+    if (cartItems) {
+      cookie.onSet('cartItems', [...cartItems]);
+    }
+  }, [cartItems]);
+
   const totalCheckHandler = () => {
     setIsClicked((pre) => !pre);
   };
@@ -89,11 +97,14 @@ export default function Cart() {
           <S.Title>내가 담은 책들</S.Title>
         </S.Box>
         <form onSubmit={handleOnCart}>
-          <Checkbox
-            content="전체 선택"
-            setInput={totalCheckHandler}
-            isChecked={cartItems.length === selectedBookList.length ? true : false}
-          />
+          <S.TopContainer>
+            <Checkbox
+              content="전체 선택"
+              setInput={totalCheckHandler}
+              isChecked={cartItems.length === selectedBookList.length ? true : false}
+            />
+            <S.Delete onClick={deleteBookHandler}>선택 삭제</S.Delete>
+          </S.TopContainer>
           <S.ListContainer>
             {cartItems.length == 0 ? (
               <S.ValueContainer>

@@ -45,6 +45,7 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
       setCartItem((pre) => [...pre, cartData])
     }
     openModalHandler();
+    cookie.onSet('cartItems', [...cartItem]);
     alert('장바구니에 책이 담겼습니다');
     router.push('/home');
   };

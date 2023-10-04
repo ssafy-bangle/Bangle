@@ -59,13 +59,15 @@ export const BottomDotsDiv = styled.div`
 export const Dots = styled.span`
   font-size: 2rem;
   margin: 0 0.4rem;
-  color: var(--BG_GRAY3);
+  font-weight: 500;
+  color: #EAF9F4;
 `;
 
 export const AnimationWrapper = styled.div<{isWhite : boolean}>`
   display: inline-block;
-  animation: ${({ isWhite }) => (isWhite ? 'var(--BG_GRAY2)' : 'none')} 2.5s infinite alternate;
-  color: ${({ isWhite }) => (isWhite ? 'var(--BG_GRAY1)' : 'var(--BG_GRAY3)')};
+  font-weight: 700;
+  animation: ${({ isWhite }) => (isWhite ? 'var(--BG_MAIN)' : '#EAF9F4')} 2.5s infinite alternate;
+  color: ${({ isWhite }) => (isWhite ? 'var(--BG_MAIN)' : '#EAF9F4')};
 `;
 
 export const RightSection = styled.div`

@@ -40,14 +40,16 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
 
   return (
     <>
-      <S.TitleContainer>
-        <S.SubTitle>
-          {title} {page === 'search' && <S.BookLength>총 {data?.length} 건의 검색 결과가 있습니다</S.BookLength>}
-        </S.SubTitle>
-        {page === 'search' && data?.length > 6 && (
-          <S.TotalBtn onClick={() => setIsClicked((pre) => !pre)}>{isClicked ? '닫기' : '전체보기'}</S.TotalBtn>
-        )}
-      </S.TitleContainer>
+      {title && (
+        <S.TitleContainer>
+          <S.SubTitle>
+            {title} {page === 'search' && <S.BookLength>총 {data?.length} 건의 검색 결과가 있습니다</S.BookLength>}
+          </S.SubTitle>
+          {page === 'search' && data?.length > 6 && (
+            <S.TotalBtn onClick={() => setIsClicked((pre) => !pre)}>{isClicked ? '닫기' : '전체보기'}</S.TotalBtn>
+          )}
+        </S.TitleContainer>
+      )}
       {!data?.length ? (
         <S.NoValue>
           <NoValue type={page} />
