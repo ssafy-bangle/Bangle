@@ -2,24 +2,13 @@ import { StoryObj, Meta } from '@storybook/react';
 import Dropdown from '.';
 import { DropdownItems } from '@src/types/props';
 
-const items: DropdownItems[] = [
-  {
-    label: '일반',
-    key: 0,
-  },
-  {
-    label: '자기계발',
-    key: 1,
-  },
-  {
-    label: '금융',
-    key: 2,
-  },
-  {
-    label: '소설',
-    key: 3,
-  },
-];
+const genreList = ['인문', 'SF', '자기계발', '로맨스', '소설', '건강', '경제', '취미', '어학', '여행'];
+const itemList = genreList.map((genre: string, idx: number) => ({
+  label: genre,
+  key: idx,
+}));
+
+const items: DropdownItems[] = itemList;
 
 export default {
   component: Dropdown,

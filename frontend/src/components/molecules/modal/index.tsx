@@ -9,7 +9,7 @@ import paymentAPI from '@src/apis/payment';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { cookie } from '@src/utils/cookie';
-import { BookInfo } from '@src/types/book';
+
 
 export default function Modal({ data, isOpen, setIsOpen, type, title, price, onClick }: ModalProps) {
   // get user info
@@ -46,7 +46,7 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
     }
     openModalHandler();
     alert('장바구니에 책이 담겼습니다');
-    router.push('/home')
+    router.push('/home');
   };
 
   useEffect(() => {
