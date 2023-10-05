@@ -46,6 +46,7 @@ export type getBookshelfResProp = {
   address: string;
   cover: string;
   progress: number;
+  authorId: number;
 };
 
 export type postBookReviewProps = {

@@ -94,7 +94,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 		}
 		BookDetailResponse bookDetailResponse = jpaQueryFactory.select(
 				Projections.constructor(BookDetailResponse.class, book.id, book.title, book.cover, book.purchasePrice,
-					book.rentalPrice, book.averageScore, book.address, book.genre, member.nickname, book.publicationDate,
+					book.rentalPrice, book.averageScore, book.address, book.genre, member.nickname,book.introduction, book.publicationDate,
 					author.id))
 			.from(book)
 			.join(book.author, author)

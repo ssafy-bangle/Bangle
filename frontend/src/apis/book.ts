@@ -4,6 +4,27 @@ import axios from 'axios';
 
 const client = apiInstance();
 
+const postBookshelfPage = async (bookId: number | string, curPage: number) => {
+  try {
+    const res = await client.post('/bookshelf', {
+      bookId: bookId,
+      currentPage: curPage,
+    });
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getBookViewDetail = async (bookId: number | string) => {
+  try {
+    const res = await client.get(`/bookshelf/${bookId}`);
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
 const getBookShelf = async () => {
   try {
     const res = await client.get(`/bookshelf/list`);
@@ -18,6 +39,7 @@ const getBookDetail = async (bookId: number) => {
     const res = await client.get(`/books/detail/${bookId}`);
     return res.data;
   } catch (e) {
+    console.log(e);
     throw new Error('');
   }
 };

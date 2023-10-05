@@ -47,7 +47,7 @@ export default function BookId() {
           averageScore: res.averageScore,
           cover: res.cover,
           genre: res.genre,
-          introduction: response.msg,
+          introduction: res.introduction,
           purchasePrice: res.purchasePrice,
           rentalPrice: res.rentalPrice,
           title: res.title,

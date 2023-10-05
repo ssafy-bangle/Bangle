@@ -40,7 +40,7 @@ class StringListView(APIView):
         def get_recommend(title, cosine_similar = cosine_similar):
             idx = title_to_idx[title]
             score = list(enumerate(cosine_similar[idx]))
-            score = sorted(score, key=lambda x:-x[1])[1:11]
+            score = sorted(score, key=lambda x:-x[1])[1:13]
             # print(data['id'].iloc[book_idx])
             return [data['id'][i[0]] for i in score]
 
