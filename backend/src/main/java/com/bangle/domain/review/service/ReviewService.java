@@ -1,5 +1,7 @@
 package com.bangle.domain.review.service;
 
+import com.bangle.domain.book.entity.Book;
+import java.util.Objects;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,17 +24,32 @@ public class ReviewService {
 	private final AwsS3Service awsS3Service;
 	private final RedisTemplate<String, String> template;
 
-	public void writeReview(ReviewRequest request, String userId){
-		System.out.println("2222222222222222222222222222222222222222222222222222222222222222222222");
+	@Transactional
+	public void writeReview(ReviewRequest request, String userId) {
+		Book book = bookRepository.findById(request.bookId())
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 책"));
+
 		reviewRepository.save(Review.builder()
 			.member(memberRepository.findByUserId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자")))
-			.book(bookRepository.findById(request.bookId())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 책")))
+			.book(book)
 			.content(request.content())
 			.score(request.score())
 			.cover(awsS3Service.uploadFromUrlToS3(request.cover()))
 			.build());
+
+		// update total review count
+		// book average score update
+		String totalReviewsKey = "bookId:" + book.getId() + ":total_reviews";
+		String totalReviews = template.opsForValue().get(totalReviewsKey);
+		if (totalReviews == null) {
+			template.opsForValue().set(totalReviewsKey, "1");
+			book.updateAverageScore(request.score(), 0);
+		} else {
+			template.opsForValue().set(totalReviewsKey, Long.parseLong(totalReviews) + 1L + "");
+			book.updateAverageScore(request.score(), Long.parseLong(totalReviews));
+		}
+
 		String key = "bookId:" + request.bookId() + ":today_reviews";
 		String today_reviews = template.opsForValue().get(key);
 		if (today_reviews == null) {

@@ -79,4 +79,7 @@ public class Book {
 	public RestRequest toRequest(){
 		return new RestRequest(this.getId(),this.getTitle(), this.getIntroduction());
 	}
+	public void updateAverageScore(float score, long totalReviews) {
+		this.averageScore = (totalReviews * this.averageScore + score) / (totalReviews + 1);
+	}
 }

@@ -27,8 +27,13 @@ public class ReviewController {
 	@PostMapping("/api/books/review")
 	public ResponseEntity<?> writeReview(@AuthenticationPrincipal CustomMemberDetails member,
 										@RequestBody ReviewRequest request){
-		reviewService.writeReview(request, member.getUsername());
-		return BaseResponse.ok(HttpStatus.OK, "리뷰 작성 성공");
+		try {
+			reviewService.writeReview(request, member.getUsername());
+			return BaseResponse.ok(HttpStatus.OK, "리뷰 작성 성공");
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return BaseResponse.fail(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 
 	@DeleteMapping("/api/books/review/{reviewId}")
