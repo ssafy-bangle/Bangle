@@ -70,7 +70,7 @@ export default function AuthorId() {
             </S.MainInfo>
             <S.BookShelf>
               {authorInfo?.bookList.map((book: bookListProp) => (
-                <BookCover imgsrc={book.cover} onClick={() => router.push(`/bookshelf/${book.id}`)} key={book.id} />
+                <BookCover imgsrc={book.cover} onClick={() => router.push(`/bookshelf/${book.bookId}`)} key={book.bookId} />
               ))}
             </S.BookShelf>
           </S.RightSection>

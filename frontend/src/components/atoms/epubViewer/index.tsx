@@ -6,14 +6,12 @@ import bookApi from '@src/apis/book';
 
 export default function EPubViewer({
   side,
-  clickState,
-  setClickState,
-  bookBinary
+  bookBinary,
+  curPage,
 }: {
   side: 'left' | 'right';
-  clickState: -1 | 0 | 1;
-  setClickState: (state: -1 | 0 | 1) => void;
-  bookBinary: ArrayBuffer
+  bookBinary: ArrayBuffer;
+  curPage: number;
 }) {
   const [book, setBook] = useState<Book | null>(null);
   const [page, setPage] = useState<number>(side === 'left' ? 1 : 2);
@@ -45,15 +43,9 @@ export default function EPubViewer({
     };
     if (bookBinary.byteLength) {
       loadEpub();
+      setPage(curPage);
     }
   }, [bookBinary]);
-
-  // 페이지 이벤트 감지 시, 페이지 변경
-  useEffect(() => {
-    clickState === 1 && setPage((cur) => cur + 2);
-    clickState === -1 && page - 2 > 0 && setPage((cur) => cur - 2);
-    setClickState(0);
-  }, [clickState]);
 
   // 페이지 변경 감지 시, 책 화면 변경
   useEffect(() => {

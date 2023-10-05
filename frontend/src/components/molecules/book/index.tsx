@@ -8,8 +8,8 @@ export default function Book({ data, imgsrc, onClick }: BookProps) {
       {' '}
       {onClick && (
         <div>
-          <BookCover imgsrc={imgsrc} onClick={() => onClick(data?.address)} />
-          <S.BookTitle onClick={() => onClick(data?.address)}>{data?.title}</S.BookTitle>
+          <BookCover imgsrc={imgsrc} onClick={() => onClick(data?.bookId)} />
+          <S.BookTitle onClick={() => onClick(data?.bookId)}>{data?.title}</S.BookTitle>
         </div>
       )}{' '}
     </>

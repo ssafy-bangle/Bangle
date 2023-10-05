@@ -3,6 +3,24 @@ import apiInstance from './client';
 
 const client = apiInstance();
 
+const postBookshelfPage = async (bookshelfId: number, curPage: number) => {
+  try {
+    const res = await client.post(`/bookshelf/${bookshelfId}/${curPage}`)
+    return res.data
+  } catch (e) {
+    throw new Error('');
+  }
+}
+
+const getBookViewDetail = async (bookId: number | string) => {
+  try {
+    const res = await client.get(`/bookshelf/${bookId}`)
+    return res.data
+  } catch (e) {
+    throw new Error('');
+  }
+}
+
 const getBookShelf = async () => {
   try {
     const res = await client.get(`/bookshelf/list`);
@@ -109,5 +127,5 @@ const getGenre = async () => {
 //   }
 // };
 
-const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList, getBookViewDetail, postBookshelfPage };
 export default book;

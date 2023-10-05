@@ -29,7 +29,7 @@ export type authorInfo = {
 };
 
 export type bookListProp = {
-  id: number;
+  bookId: number;
   title: string;
   genre: string;
   purchasePrice: number;

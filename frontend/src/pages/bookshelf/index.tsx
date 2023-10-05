@@ -9,6 +9,7 @@ import { bookApi } from '@src/apis';
 import { bookListProp } from '@src/types/author';
 
 type bookDetailProp = {
+  bookId: number;
   title: string;
   author: string;
   cover: string;
@@ -49,9 +50,9 @@ export default function Bookshelf() {
     }
   }, [bookList]);
 
-  const handleBookClick = (address: string | undefined) => {
-    if (address !== undefined) {
-      router.push(`/ebook/${address}`);
+  const handleBookClick = (bookId: number | undefined) => {
+    if (bookId !== undefined) {
+      router.push(`/ebook/${bookId}`);
     }
   };
 
@@ -76,14 +77,14 @@ export default function Bookshelf() {
             <S.SubTitle>지금 보고 있는 책</S.SubTitle>
             <S.Box>
               <S.Left>
-                <S.Title onClick={() => handleBookClick(firstBook?.address)}>{firstBook?.title}</S.Title>
+                <S.Title onClick={() => handleBookClick(firstBook?.bookId)}>{firstBook?.title}</S.Title>
                 <S.Content>
                   {firstBook?.publicationDate} ·{firstBook?.author} · {firstBook?.genre}
                 </S.Content>
               </S.Left>
               <S.CoverContainer>
                 {firstBook ? (
-                  <BookCover imgsrc={firstBook.cover} onClick={() => handleBookClick(firstBook?.address)} />
+                  <BookCover imgsrc={firstBook.cover} onClick={() => handleBookClick(firstBook?.bookId)} />
                 ) : (
                   <></>
                 )}
