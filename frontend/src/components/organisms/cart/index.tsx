@@ -135,7 +135,7 @@ export default function Cart() {
               cartItems.map((book: CartBookProp, index: number) => (
                 <CartItem
                   setChecked={selectProductHandler}
-                  key={index}
+                  key={book.id}
                   id={book.id}
                   title={book.title}
                   author={book.author}

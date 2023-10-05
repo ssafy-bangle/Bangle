@@ -44,6 +44,9 @@ export const RightBottomLeftSection = styled.div`
   width: max;
   display: flex;
   flex-direction: column;
+  #hover {
+    cursor: pointer;
+  }
 `;
 
 export const RightBottomRightSection = styled.div`

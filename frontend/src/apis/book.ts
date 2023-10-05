@@ -61,6 +61,7 @@ const postBook = async (body: postBookReqProps) => {
             price: body.price,
             introduce: body.introduce,
             genre: body.genre,
+            totalPage: body.pageNum
           }),
         ],
         { type: 'application/json' },

@@ -64,7 +64,7 @@ export default function Ebook() {
 
   const closeViewer = () => {
     console.log("clicked")
-    router.push('/bookshelf')
+    router.push('/bookshelf?new=true')
     if (bookId) {
       bookApi.postBookshelfPage(bookId, curPage, epubCfi);
     }
