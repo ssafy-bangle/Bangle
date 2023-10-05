@@ -54,7 +54,7 @@ function UploadBookInfo({ setTitle, setPageNum, setPrice, setGenre, setIntroduct
           <S.InputTitle>
             가격 <strong>*</strong>
           </S.InputTitle>
-          <Input type="number" placeholder={'단위 : 먼지'} size={'short'} state={'default'} setInput={setPrice} />
+          <Input type={'number'} placeholder={'단위 : 먼지'} size={'short'} state={'default'} setInput={setPrice} />
         </S.Price>
         <S.Genre>
           <S.InputTitle>장르</S.InputTitle>

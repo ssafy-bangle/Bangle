@@ -10,7 +10,6 @@ import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { cookie } from '@src/utils/cookie';
 
-
 export default function Modal({ data, isOpen, setIsOpen, type, title, price, onClick }: ModalProps) {
   // get user info
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
@@ -41,8 +40,8 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
         author: data.nickname,
         price: data.purchasePrice,
         checked: false,
-      }
-      setCartItem((pre) => [...pre, cartData])
+      };
+      setCartItem((pre) => [...pre, cartData]);
     }
     openModalHandler();
     cookie.onSet('cartItems', [...cartItem]);
@@ -54,8 +53,8 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
     if (cartItem) {
       cookie.onSet('cartItems', [...cartItem]);
     }
-    console.log('cookie', cartItem)
-  }, [cartItem])
+    console.log('cookie', cartItem);
+  }, [cartItem]);
 
   const buttonType = (type: string) => {
     switch (type) {

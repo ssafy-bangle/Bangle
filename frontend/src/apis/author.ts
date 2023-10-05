@@ -1,5 +1,3 @@
-import { getStatResProp } from '@src/types/author';
-
 import apiInstance from './client';
 
 const client = apiInstance();
@@ -18,7 +16,6 @@ const getAuthorInfo = async (authorId: number) => {
     const res = await client.get(`/authors/${authorId}`);
     return res.data;
   } catch (e) {
-    console.log('Error at getAuthorInfo: ', e);
     throw new Error('');
   }
 };
@@ -28,7 +25,6 @@ const subscribeAuthor = async (authorId: number) => {
     const res = await client.post(`/readers/subscribe/${authorId}`);
     return res.data;
   } catch (e) {
-    console.log('Error at subscribe Author: ', e);
     throw new Error('');
   }
 };

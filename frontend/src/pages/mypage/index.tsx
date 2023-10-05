@@ -6,12 +6,12 @@ import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState, UserModeState } from '@src/modules/user';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
 import { paymentApi, userApi } from '@src/apis';
-import { useRouter } from 'next/router';
 import { UserInfo } from '@src/types/user';
+import { useRouter } from 'next/router';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -68,6 +68,15 @@ export default function Mypage() {
     setMode('author');
   };
 
+  const chargeDustImmediately = (price: number) => {
+    if (price) {
+      paymentApi.postPayment(price).then(() => {
+        alert(`${price} 먼지 충전이 완료되었습니다`);
+        setUserInfo({ ...userInfo, dust: userInfo.dust + price });
+      });
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
@@ -79,15 +88,6 @@ export default function Mypage() {
       userId: '',
     });
     router.push('/');
-  };
-
-  const chargeDustImmediately = (price: number) => {
-    if (price) {
-      paymentApi.postPayment(price).then(() => {
-        alert(`${price} 먼지 충전이 완료되었습니다`);
-        setUserInfo({ ...userInfo, dust: userInfo.dust + price });
-      });
-    }
   };
 
   const getDustChargeList = () => {
@@ -191,7 +191,13 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <Image src={Munzi1} layout="responsive" width={276} alt="munzi1Img" onClick={() => chargeDustImmediately(55)} />
+              <Image
+                src={Munzi1}
+                layout="responsive"
+                width={276}
+                alt="munzi1Img"
+                onClick={() => chargeDustImmediately(55)}
+              />
               <Image
                 src={Munzi2}
                 width={276}

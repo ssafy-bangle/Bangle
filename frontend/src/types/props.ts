@@ -3,6 +3,11 @@ import { BookInfo, getBookshelfResProp } from './book';
 import { SearchBook } from './search';
 import { bookListProp } from './author';
 
+export type AlertProps = {
+  state: 'error' | 'info';
+  onClick?: () => void;
+};
+
 export type LoadingProps = {
   content?: string;
 };

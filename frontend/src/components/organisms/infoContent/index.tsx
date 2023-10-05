@@ -21,7 +21,6 @@ export default function InfoContent() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const setMode = useSetRecoilState(UserModeState);
   const handleOnClick = async () => {
-    //회원가입
     if (privateKey) {
       const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
         .map((b) => b.toString(16).padStart(2, '0'))
