@@ -22,7 +22,7 @@ export const ModalBackDrop = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 500px;
+  width: 1000px;
   height: 100vh;
   background-color: #021b1a;
 `;

@@ -12,13 +12,13 @@ import Button from '@src/components/atoms/button';
 export default function Ebook() {
   const [epubData, setEpubData] = useState<ArrayBuffer>(new ArrayBuffer(0));
   const [curPage, setCurPage] = useState<number>(0);
+  const [clickState, setClickState] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [userPW, setUserPW] = useState<string>("");
   const [showEpub, setShowEpub] = useState<boolean>(false);
 
   const router = useRouter();
   const bookId = Array.isArray(router.query.bookId) ? router.query.bookId[0] : router.query.bookId;
-  console.log(router.query)
 
   const getBookAndDecrypt = async () => {
     let isDecrypted = false
@@ -78,19 +78,16 @@ export default function Ebook() {
         <>
           <EbookNav closeViewer={closeViewer}/>
           <S.Container>
-            <S.LeftArrow src={arrowLeft} alt="arrowLeft" onClick={() => movePage(-1)} />
+            <S.LeftArrow src={arrowLeft} alt="arrowLeft" onClick={() => setClickState(-1)} />
             <EpubViewer 
               side="left" 
               bookBinary={epubData} 
               curPage={curPage}
+              clickState={clickState}
+              setClickState={setClickState}
               />
             <S.Line />
-            <EpubViewer 
-              side="right" 
-              bookBinary={epubData} 
-              curPage={curPage + 1}
-              />
-            <S.RightArrow src={arrowRight} alt="arrowRight" onClick={() => movePage(1)} />
+            <S.RightArrow src={arrowRight} alt="arrowRight" onClick={() => setClickState(1)} />
           </S.Container>
         </>
         :
