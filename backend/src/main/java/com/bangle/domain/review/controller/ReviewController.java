@@ -6,6 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,9 +26,8 @@ public class ReviewController {
 
 	@PostMapping("/api/books/review")
 	public ResponseEntity<?> writeReview(@AuthenticationPrincipal CustomMemberDetails member,
-										ReviewRequest request,
-										@RequestPart MultipartFile cover){
-		reviewService.writeReview(request, cover, member.getUsername());
+										@RequestBody ReviewRequest request){
+		reviewService.writeReview(request, member.getUsername());
 		return BaseResponse.ok(HttpStatus.OK, "리뷰 작성 성공");
 	}
 
