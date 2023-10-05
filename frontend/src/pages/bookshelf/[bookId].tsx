@@ -8,11 +8,12 @@ import Rating from '@src/components/atoms/rating';
 import ReviewCard from '@src/components/atoms/reviewCard';
 import Modal from '@src/components/molecules/modal';
 import { bookApi } from '@src/apis';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { useRouter } from 'next/router';
 import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
+import { AlertOpenState } from '@src/modules/state';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -23,6 +24,7 @@ export default function BookId() {
   const [priceType, setPriceType] = useState<number>(0);
   const router = useRouter();
   const bookId = Number(router.query.bookId);
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   const showModal = (type?: number) => {
     setIsOpen((pre) => !pre);
@@ -34,30 +36,35 @@ export default function BookId() {
   };
 
   const getBookInfoReq = (bookId: number) => {
-    bookApi.getBookDetail(bookId).then((response) => {
-      console.log('get Detail', response);
-      const res = response.data.bookDetail;
-      const info: BookInfo = {
-        bookId: res.id,
-        address: res.address,
-        averageScore: res.averageScore,
-        cover: res.cover,
-        genre: res.genre,
-        introduction: response.msg,
-        purchasePrice: res.purchasePrice,
-        rentalPrice: res.rentalPrice,
-        title: res.title,
-        authorId: res.authorId,
-        nickname: res.nickname,
-        publicationDate: res.publicationDate?.substring(0, res.publicationDate.indexOf('T')),
-        reviews: response.data.reviews,
-        buy: response.data.buy,
-      };
-      setBookInfo({ ...bookInfo, ...info });
-      if (response.data.wish) {
-        setIsWish(true);
-      }
-    });
+    bookApi
+      .getBookDetail(bookId)
+      .then((response) => {
+        console.log('get Detail', response);
+        const res = response.data.bookDetail;
+        const info: BookInfo = {
+          bookId: res.id,
+          address: res.address,
+          averageScore: res.averageScore,
+          cover: res.cover,
+          genre: res.genre,
+          introduction: response.msg,
+          purchasePrice: res.purchasePrice,
+          rentalPrice: res.rentalPrice,
+          title: res.title,
+          authorId: res.authorId,
+          nickname: res.nickname,
+          publicationDate: res.publicationDate?.substring(0, res.publicationDate.indexOf('T')),
+          reviews: response.data.reviews,
+          buy: response.data.buy,
+        };
+        setBookInfo({ ...bookInfo, ...info });
+        if (response.data.wish) {
+          setIsWish(true);
+        }
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   useEffect(() => {
@@ -74,19 +81,29 @@ export default function BookId() {
     const body = {
       books: [book],
     };
-    bookApi.buyBook(body).then(() => {
-      showModal();
-      setUserInfo({ ...userInfo, dust: userInfo.dust });
-      router.push('/bookshelf');
-    });
+    bookApi
+      .buyBook(body)
+      .then(() => {
+        showModal();
+        setUserInfo({ ...userInfo, dust: userInfo.dust });
+        router.push('/bookshelf');
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
     setIsOpen((pre) => !pre);
   };
 
   const setWishListHandler = () => {
-    bookApi.wishBook(bookId).then((res) => {
-      console.log('wishlist', res);
-      setIsWish((pre) => !pre);
-    });
+    bookApi
+      .wishBook(bookId)
+      .then((res) => {
+        console.log('wishlist', res);
+        setIsWish((pre) => !pre);
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   return (

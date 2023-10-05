@@ -4,7 +4,7 @@ function apiInstance(contentType: string = 'application/json;charset=utf-8') {
   const client = axios.create({
     baseURL: process.env.NEXT_PUBLIC_DOMAIN + 'api',
     headers: {
-      'Content-Type': contentType
+      'Content-Type': contentType,
     },
   });
 

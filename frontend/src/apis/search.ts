@@ -11,9 +11,6 @@ const getSearchResult = async (keyword: any, category: any) => {
       category = '';
     }
     const res = await client.get(`/books/search?keyword=${keyword}&category=${category}&size=1000&page=0`);
-
-    console.log('res, keyword, category', res, keyword, category);
-
     return res.data;
   } catch (e) {
     throw new Error('');

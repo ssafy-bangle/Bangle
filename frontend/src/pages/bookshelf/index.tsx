@@ -7,6 +7,8 @@ import { getBookshelfResProp } from '@src/types/book';
 import { useEffect, useState } from 'react';
 import { bookApi } from '@src/apis';
 import { bookListProp } from '@src/types/author';
+import { useSetRecoilState } from 'recoil';
+import { AlertOpenState } from '@src/modules/state';
 
 type bookDetailProp = {
   title: string;
@@ -19,33 +21,41 @@ type bookDetailProp = {
 
 export default function Bookshelf() {
   const router = useRouter();
-
   const [bookList, setBookList] = useState<getBookshelfResProp[]>([]);
   const [firstBook, setFirstBook] = useState<bookDetailProp>();
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   useEffect(() => {
-    bookApi.getBookShelf().then((res) => {
-      let newBookList: getBookshelfResProp[] = [];
-      res.data.forEach((bookshelf: getBookshelfResProp) => {
-        newBookList.push({ ...bookshelf });
+    bookApi
+      .getBookShelf()
+      .then((res) => {
+        let newBookList: getBookshelfResProp[] = [];
+        res.data.forEach((bookshelf: getBookshelfResProp) => {
+          newBookList.push({ ...bookshelf });
+        });
+        setBookList(newBookList);
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
       });
-      setBookList(newBookList);
-    });
   }, []);
 
   useEffect(() => {
     if (bookList.length) {
-      bookApi.getBookDetail(bookList[0].bookId).then((res) => {
-        console.log('setfirstbook', res);
-        const date = new Date(res.data.bookDetail.publicationDate);
-        const dateString = date.toLocaleDateString('ko-ko', {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
+      bookApi
+        .getBookDetail(bookList[0].bookId)
+        .then((res) => {
+          const date = new Date(res.data.bookDetail.publicationDate);
+          const dateString = date.toLocaleDateString('ko-ko', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          });
+          setFirstBook({ ...res.data.bookDetail, author: res.data.bookDetail.nickname, publicationDate: dateString });
+        })
+        .catch(() => {
+          setIsAlertOpen(true);
         });
-        console.log(date);
-        setFirstBook({ ...res.data.bookDetail, author: res.data.bookDetail.nickname, publicationDate: dateString });
-      });
     }
   }, [bookList]);
 
@@ -57,12 +67,17 @@ export default function Bookshelf() {
 
   const [wishList, setWishList] = useState<bookListProp[]>();
   useEffect(() => {
-    bookApi.getWishList().then((res) => {
-      console.log(res);
-      if (res.data) {
-        setWishList(res.data);
-      }
-    });
+    bookApi
+      .getWishList()
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          setWishList(res.data);
+        }
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   }, []);
 
   const handlePageClick = () => {};

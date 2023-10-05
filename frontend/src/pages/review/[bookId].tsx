@@ -7,6 +7,8 @@ import NoValue from '@src/components/atoms/noValue';
 import Rating from '@src/components/atoms/rating';
 import { reviewApi } from '@src/apis';
 import { useRouter } from 'next/router';
+import { AlertOpenState } from '@src/modules/state';
+import { useSetRecoilState } from 'recoil';
 
 export default function Review() {
   const [reviewImg, setReviewImg] = useState<string>('');
@@ -17,6 +19,7 @@ export default function Review() {
   const bookId = Number(router.query.bookId);
   const [currentDot, setCurrentDot] = useState<number>(0);
   const [isGenerate, setIsGenerate] = useState<boolean>(false);
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   const handlePostReview = () => {
     reviewApi.postReview({
@@ -37,8 +40,8 @@ export default function Review() {
         setReviewImg(res.data.data[0].url);
         setIsGenerate((pre) => !pre);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
+        setIsAlertOpen(true);
       });
   };
 

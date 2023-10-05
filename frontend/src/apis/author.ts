@@ -34,7 +34,6 @@ const getSubscribeAuthor = async () => {
     const res = await client.get('/readers/subscribe/list');
     return res.data;
   } catch (e) {
-    console.log('Error at getSubscribeAuthor: ', e);
     throw new Error('');
   }
 };
