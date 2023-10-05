@@ -39,17 +39,17 @@ export default function Bookshelf() {
       .catch(() => {
         setIsAlertOpen(true);
       });
-  }
+  };
 
   useEffect(() => {
     if (router.query.new) {
-      setTimeout(getNewBookshelf,80)
-      router.replace('/bookshelf')
+      setTimeout(getNewBookshelf, 80);
+      router.replace('/bookshelf');
     }
-  }, [router])
+  }, [router]);
 
   useEffect(() => {
-    getNewBookshelf()
+    getNewBookshelf();
   }, []);
 
   useEffect(() => {
@@ -82,7 +82,6 @@ export default function Bookshelf() {
     bookApi
       .getWishList()
       .then((res) => {
-        console.log(res);
         if (res.data) {
           setWishList(res.data);
         }
@@ -119,11 +118,11 @@ export default function Bookshelf() {
           </>
         )}
         <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
-        {wishList && wishList?.length > 0 ? 
-          <BooksContainer page="wishList" title="관심있는 책" data=
-          {wishList} onClick={handlePageClick} />
-          : <></>
-        }
+        {wishList && wishList?.length > 0 ? (
+          <BooksContainer page="wishList" title="관심있는 책" data={wishList} onClick={handlePageClick} />
+        ) : (
+          <></>
+        )}
       </S.Container>
     </>
   );

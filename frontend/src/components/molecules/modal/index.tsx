@@ -32,7 +32,7 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
 
   // 충전 먼지 즉시 이후 user 업데이트
   const addBooksOnCart = () => {
-    const cartItems =cookie.onGet("cartItems");
+    const cartItems = cookie.onGet('cartItems');
     if (data) {
       const cartData: CartBookProp = {
         id: data.bookId,
@@ -42,10 +42,10 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
         price: data.purchasePrice,
         checked: false,
       };
-      
-      var found = cartItems.find((e: { id: number; }) => e.id === data.bookId);
-      if(found){
-        alert("장바구니에 담겨있는 책입니다.");
+
+      var found = cartItems.find((e: { id: number }) => e.id === data.bookId);
+      if (found) {
+        alert('장바구니에 담겨있는 책입니다.');
         openModalHandler();
         return;
       }
@@ -62,7 +62,6 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
     if (cartItem) {
       cookie.onSet('cartItems', [...cartItem]);
     }
-    console.log('cookie', cartItem);
   }, [cartItem]);
 
   const buttonType = (type: string) => {
@@ -109,10 +108,6 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
         return `구매먼지`;
     }
   };
-
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
 
   return (
     <>

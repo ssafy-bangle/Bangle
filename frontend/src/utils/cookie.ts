@@ -15,7 +15,6 @@ export const cookie = {
           secure: true,
           maxAge: 3000,
         });
-    console.log('TEST : 현재 쿠키 :', cookie.onGet(name));
   },
   onGet: (name: string) => {
     return cookies.get(name);

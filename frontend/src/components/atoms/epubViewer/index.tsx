@@ -8,14 +8,14 @@ export default function EPubViewer({
   clickState,
   setClickState,
   epubCfi,
-  setEpubCfi
+  setEpubCfi,
 }: {
   side: 'left' | 'right';
   bookBinary: ArrayBuffer;
   clickState: number;
-  setClickState: (c:number)=>void;
+  setClickState: (c: number) => void;
   epubCfi: string;
-  setEpubCfi: (s:string)=>void;
+  setEpubCfi: (s: string) => void;
 }) {
   const [book, setBook] = useState<Book | null>(null);
   const [rendition, setRendition] = useState<Rendition | null>(null);
@@ -38,13 +38,14 @@ export default function EPubViewer({
           if (epubCfi === null) {
             epubRendition.display(1);
           } else {
-            epubRendition.display(epubCfi)
-              .then(()=>{epubRendition.next()})
+            epubRendition.display(epubCfi).then(() => {
+              epubRendition.next();
+            });
             // epubRendition.next()
           }
         }
       } catch (error) {
-        console.error('Error loading EPUB:', error);
+        // console.error('Error loading EPUB:', error);
       }
     };
     if (bookBinary.byteLength) {
@@ -62,15 +63,14 @@ export default function EPubViewer({
     if (book && rendition && rendition.location) {
       // rendition.display(curPage)
       if (clickState > 0) {
-        rendition.next()
+        rendition.next();
       } else if (clickState < 0) {
-        rendition.prev()
+        rendition.prev();
       }
-      setEpubCfi(rendition.location.end.cfi)
-      setClickState(0)
+      setEpubCfi(rendition.location.end.cfi);
+      setClickState(0);
     }
     // book && rendition && rendition.display(curPage);
-
   }, [book, rendition, clickState]);
 
   // 책 화면 변경 감지 시, 텍스트 색상 변경

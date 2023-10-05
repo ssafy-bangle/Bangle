@@ -4,12 +4,10 @@ import apiInstance from './client';
 const client = apiInstance();
 
 const postReview = async (review: postBookReviewProps) => {
-  console.log('body', review)
   try {
     const res = await client.post(`/books/review`, review);
     return res.data;
   } catch (e) {
-    console.log('Error at postReview: ', e);
     throw new Error('');
   }
 };
@@ -19,7 +17,6 @@ const getReviewImg = async (comment: string) => {
     const res = await client.post('/openai/createImage', comment);
     return res.data;
   } catch (e) {
-    console.log('Error at getReviewImg: ', e);
     throw new Error('');
   }
 };

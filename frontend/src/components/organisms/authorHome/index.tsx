@@ -53,6 +53,7 @@ export default function AuthorHome() {
     authorApi
       .getStat()
       .then((res: bookStatProp[]) => {
+        console.log(res)
         setBook(res);
         calTotalTodayData();
       })
@@ -70,8 +71,8 @@ export default function AuthorHome() {
         </S.Box>
         <S.Title2>월별 분석</S.Title2>
         <S.ChipSection>
-          {book?.map((item: bookStatProp) => (
-            <S.ChipBox>
+          {book?.map((item: bookStatProp, idx: number) => (
+            <S.ChipBox key={idx}>
               <Chip
                 size="big"
                 title={item.title}

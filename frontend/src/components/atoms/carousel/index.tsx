@@ -1,5 +1,5 @@
 import * as S from './index.styled';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Carousel as C } from 'antd';
 import BookCover from '../bookCover';
 import { useRouter } from 'next/router';
