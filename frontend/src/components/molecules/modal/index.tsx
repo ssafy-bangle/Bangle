@@ -41,12 +41,20 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
         price: data.purchasePrice,
         checked: false,
       };
+      const cartItems =cookie.onGet("cartItems");
+      var found = cartItems.find((e: { id: number; }) => e.id === data.bookId);
+      if(found){
+        alert("장바구니에 담겨있는 책입니다.");
+        openModalHandler();
+        return;
+      }
+
       setCartItem((pre) => [...pre, cartData]);
     }
     openModalHandler();
     cookie.onSet('cartItems', [...cartItem]);
     alert('장바구니에 책이 담겼습니다');
-    router.push('/home');
+    // router.push('/home');
   };
 
   useEffect(() => {
