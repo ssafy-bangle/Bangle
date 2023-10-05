@@ -96,7 +96,7 @@ export default function UserHome() {
           </S.BannerContainer>
         </S.ContainerBox>
       </S.BannerSection>
-      {booksByGenre.length > 0 ? (
+      {booksByGenre?.length > 0 ? (
         <S.RecommendSection>
           <S.Title>
             ❤️ <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
