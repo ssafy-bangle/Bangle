@@ -1,5 +1,6 @@
 package com.bangle.domain.bookshelf.controller;
 
+import com.bangle.domain.blockchain.service.IpfsService;
 import com.bangle.domain.bookshelf.dto.BookshelfPageResponse;
 import com.bangle.domain.bookshelf.dto.BookshelfResponse;
 import com.bangle.domain.bookshelf.dto.BookshelfSaveRequest;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookshelfController {
 
     private final BookshelfService bookshelfService;
+    private final IpfsService ipfsService;
 
     @GetMapping("/list")
     public ResponseEntity<?> listBookshelf(@AuthenticationPrincipal CustomMemberDetails member) {
@@ -47,6 +50,19 @@ public class BookshelfController {
             BookshelfPageResponse bookshelfPageResponse = bookshelfService
                     .getBookshelfPageResponse(customMemberDetails.getPK(), bookId);
             return BaseResponse.okWithData(HttpStatus.OK, "get book page detail", bookshelfPageResponse);
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return BaseResponse.fail(HttpStatus.BAD_REQUEST, "book not found");
+        }
+    }
+
+    @GetMapping("/ipfs/{address}")
+    public ResponseEntity<?> getIPFSbook(
+        @PathVariable String address
+    ) {
+        try {
+            String encryptedBook = ipfsService.download(address);
+            return BaseResponse.okWithData(HttpStatus.OK, "book found", encryptedBook);
         } catch (NoSuchElementException e) {
             e.printStackTrace();
             return BaseResponse.fail(HttpStatus.BAD_REQUEST, "book not found");

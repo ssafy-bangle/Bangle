@@ -59,7 +59,7 @@ export default function Ebook() {
       setCurPage(curPage - 2)
       setClickState(-1)
     }
-    console.log("dir: ", direction, " / moveTo: ", curPage)
+    console.log("dir: ", direction, " / moveTo: ", curPage, " / to: ", totalPages)
   }
 
   const closeViewer = () => {
