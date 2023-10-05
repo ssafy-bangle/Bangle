@@ -53,6 +53,7 @@ export default function AuthorHome() {
     authorApi
       .getStat()
       .then((res: bookStatProp[]) => {
+        console.log(res)
         setBook(res);
         calTotalTodayData();
       })
