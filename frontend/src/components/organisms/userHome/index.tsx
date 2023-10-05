@@ -10,6 +10,7 @@ import { authorApi, bookApi } from '@src/apis';
 import BooksContainer from '../booksContainer';
 import { AlertOpenState } from '@src/modules/state';
 import { RecommendBook } from '@src/types/book';
+import { useRouter } from 'next/router';
 
 export default function UserHome() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
@@ -18,6 +19,7 @@ export default function UserHome() {
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
   const [booksByGenre, setBooksByGenre] = useState<any>();
   const [booksByInterest, setBooksByInterest] = useState<any>();
+  const router = useRouter();
 
   const getRandomMessage = (genre: string) => {
     const tmp = [
@@ -80,11 +82,26 @@ export default function UserHome() {
           오늘의 <strong>책</strong>
         </S.Title>
         <S.ContainerBox>
-          <Image width={550} src={BannerImg} alt="bannerImg" quality={100} />
-          <S.BookBox>
-            <Image width={120} src={BookImg} alt="BookImg" />
-            <Button length="long" content="구매하기" />
-          </S.BookBox>
+          <S.BannerContainer onClick={() => router.push('/bookshelf/80')}>
+            <S.ImageBanner src={BannerImg} alt="bannerImg" width={1000} />
+            <S.InnerBox>
+              <S.ContentsBox>
+                <S.BannerTitle>
+                  필리핀 말린 망고보다
+                  <br />
+                  도움되는 유탁의 여행기
+                </S.BannerTitle>
+                <S.BannerContent>
+                  초등학교 3학년, 나는 필리핀에 가면 다 영어를 잘하는 줄 알았다.
+                  <br />
+                  하지만 세상에 저절로 얻어지는 것은 없다는 걸 배우게 되었다.
+                  <br />
+                  필리핀 여행에서 얻은 깨달음을 전하는 유탁 작가의 신작을 확인해보세요! →
+                </S.BannerContent>
+              </S.ContentsBox>
+              <Image src={BookImg} alt="bannerImg" width={160} />
+            </S.InnerBox>
+          </S.BannerContainer>
         </S.ContainerBox>
       </S.BannerSection>
       <S.RecommendSection>
