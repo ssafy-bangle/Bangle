@@ -105,6 +105,7 @@ export type ChipProps = {
   imgsrc?: string;
   purchases?: number;
   price?: number;
+  tabIndex?: number;
   month_purchases?: number[];
   setValue?: (value: string | number | selectedBook) => void;
 };

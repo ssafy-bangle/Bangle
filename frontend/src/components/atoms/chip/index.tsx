@@ -3,10 +3,22 @@ import Icon from '@src/components/atoms/icon';
 import { ChipProps } from '@src/types/props';
 import BookCover from '../bookCover';
 
-export default function Chip({ size, title, icon, imgsrc, purchases, price, month_purchases, setValue }: ChipProps) {
+export default function Chip({
+  size,
+  title,
+  icon,
+  imgsrc,
+  purchases,
+  price,
+  month_purchases,
+  setValue,
+  tabIndex,
+}: ChipProps) {
   return (
     <>
       <S.ChipContainer
+        className="chip"
+        tabIndex={tabIndex}
         size={size}
         title={title}
         icon={icon}

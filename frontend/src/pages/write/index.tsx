@@ -50,7 +50,7 @@ export default function Write() {
         file: fileData,
         cover: coverData,
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         setUserInfo({ ...userInfo, dust: data.dust });
       })
       .catch(() => {
@@ -87,9 +87,10 @@ export default function Write() {
           type="publish"
           title={'책제목'}
           price={10}
-          onClick={() => {
-            handlePostBook();
-            router.push('/');
+          onClick={async () => {
+            await handlePostBook();
+            alert('책 등록 완료되었습니다.');
+            router.push('/home');
           }}
         />
       </S.BtnContainer>

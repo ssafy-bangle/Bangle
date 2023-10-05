@@ -8,7 +8,7 @@ import { RecommendBook } from '@src/types/book';
 export default function Carousel({ data }: { data: RecommendBook[] }) {
   const router = useRouter();
   return (
-    <C autoplay autoplaySpeed={5000}>
+    <C autoplay autoplaySpeed={7000}>
       <div>
         <S.Section>
           {data?.slice(0, 6).map((item: RecommendBook) => (

@@ -7,7 +7,7 @@ import { userApi } from '@src/apis';
 import { useRouter } from 'next/router';
 import { AlertOpenState } from '@src/modules/state';
 
-export default function Alert({ state, message }: AlertProps) {
+export default function Alert({ state, message, setIsShow }: AlertProps) {
   const router = useRouter();
   const setUserInfo = useSetRecoilState(UserInfoState);
   const [isOpenAlert, setIsOpenAlert] = useRecoilState(AlertOpenState);
@@ -36,7 +36,7 @@ export default function Alert({ state, message }: AlertProps) {
     <>
       {state === 'info' && (
         <S.ModalContainer>
-          {isOpenAlert && (
+          {
             <S.ModalBackDrop>
               <S.StyledAlert
                 message="충전완료"
@@ -50,7 +50,7 @@ export default function Alert({ state, message }: AlertProps) {
                 }
               />
             </S.ModalBackDrop>
-          )}
+          }
         </S.ModalContainer>
       )}
 

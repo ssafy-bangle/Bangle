@@ -72,10 +72,12 @@ export default function Mypage() {
 
   const setRoleChange = () => {
     setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
-    userApi.putMemberRolesToAuthor().catch(() => {
-      setIsOpenAlert(true);
-      alert('작가로 전환되었습니다.');
-    });
+    userApi
+      .putMemberRolesToAuthor()
+      .then(() => alert('작가로 전환되었습니다.'))
+      .catch(() => {
+        setIsOpenAlert(true);
+      });
     setMode('author');
   };
 
@@ -236,7 +238,6 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <div>asdfasdfasdf</div>
               <Image
                 id="hover"
                 src={Munzi1}

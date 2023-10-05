@@ -57,6 +57,13 @@ export default function AuthorHome() {
       .then((res: bookStatProp[]) => {
         setBook(res);
         calTotalTodayData();
+
+        res.length > 0 &&
+          setSelectedBook({
+            purchases: res[0].total_purchases,
+            price: res[0].price,
+            month_purchases: res[0].month_purchases,
+          });
       })
       .catch(() => {
         setIsAlertOpen(true);
@@ -81,6 +88,7 @@ export default function AuthorHome() {
                 purchases={item.total_purchases}
                 price={item.price}
                 month_purchases={item.month_purchases}
+                tabIndex={idx === 0 ? 0 : -1}
                 setValue={() =>
                   setSelectedBook({
                     purchases: item.total_purchases,
