@@ -1,5 +1,6 @@
 package com.bangle.domain.order.service;
 
+import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.blockchain.service.EthereumService;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -83,6 +84,8 @@ public class OrderService {
 			Book book = books.get(i);
 			OrderStatus orderStatus = order.books().get(i).orderStatus();
 			totalDust += book.getPrice(orderStatus);
+			Author author = book.getAuthor();
+			author.getMember().updateDust(book.getPrice(orderStatus));
 			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
 			bookshelfList.add(Bookshelf.createBookShelf(member, book, orderStatus));
 			// 오늘 구매수 증가
