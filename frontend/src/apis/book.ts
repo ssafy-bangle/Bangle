@@ -3,9 +3,14 @@ import apiInstance from './client';
 
 const client = apiInstance();
 
-const postBookshelfPage = async (bookshelfId: number, curPage: number) => {
+const postBookshelfPage = async (bookId: number | string, curPage: number) => {
   try {
-    const res = await client.post(`/bookshelf/${bookshelfId}/${curPage}`)
+    const res = await client.post('/bookshelf',
+    {
+      bookId: bookId,
+      currentPage: curPage
+    })
+    console.log("RES:, ", res)
     return res.data
   } catch (e) {
     throw new Error('');

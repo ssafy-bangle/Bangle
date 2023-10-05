@@ -10,24 +10,23 @@ import ipfs from '@src/utils/ipfs';
 export default function Ebook() {
   const [clickState, setClickState] = useState<-1 | 0 | 1>(0);
   const [epubData, setEpubData] = useState<ArrayBuffer>(new ArrayBuffer(0));
-  const [curPage, setCurPage] = useState<number>(1);
-  let totalPage = 1;
-  let bookshelfId = 0;
+  const [curPage, setCurPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const router = useRouter();
-  let bookId = router.query.bookId
+  // let bookId = router.query.bookId
+  const bookId = Array.isArray(router.query.bookId) ? router.query.bookId[0] : router.query.bookId;
   console.log(router.query)
 
   useEffect(() => {
     if (bookId) {
-      bookId = Array.isArray(bookId) ? bookId[0] : bookId;
       // get bookshelf address from bookid
       bookApi.getBookViewDetail(bookId)
         .then((res) => {
-          totalPage = res.totalPage
-          bookshelfId = res.bookshelfId
-          setCurPage(res.readPages)
-          const bookshelfAddress = res.address
+          console.log("res", res)
+          setTotalPages(res.data.totalPages)
+          setCurPage(res.data.readPages)
+          const bookshelfAddress = res.data.address
           ipfs.downloadBookFile(bookshelfAddress)
 
           let encodedData = localStorage.getItem(bookshelfAddress)
@@ -48,16 +47,20 @@ export default function Ebook() {
   }, [bookId])
 
   const movePage = (direction: number) => {
-    if (direction === 1 && totalPage >= curPage + 2) {
+    if (direction === 1 && totalPages >= curPage + 2) {
       setCurPage(curPage + 2)
-    } else if (direction === -1 && curPage - 2 > 0) {
+    } else if (direction === -1 && curPage - 2 >= 0) {
       setCurPage(curPage - 2)
     }
+    console.log("dir: ", direction, " / moveTo: ", curPage)
   }
 
   const closeViewer = () => {
-    () => router.push('/bookshelf')
-    bookApi.postBookshelfPage(bookshelfId, curPage);
+    console.log("clicked")
+    router.push('/bookshelf')
+    if (bookId) {
+      bookApi.postBookshelfPage(bookId, curPage);
+    }
   }
 
   return (

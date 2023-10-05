@@ -1,8 +1,6 @@
 import Epub, { Book, Rendition, Contents, EpubCFI } from 'epubjs';
 import { useEffect, useState, useRef, useMemo } from 'react';
 import * as S from './index.styled';
-import ipfs from '@src/utils/ipfs';
-import bookApi from '@src/apis/book';
 
 export default function EPubViewer({
   side,
@@ -21,11 +19,9 @@ export default function EPubViewer({
   useEffect(() => {
     const loadEpub = async () => {
       try {
-        console.log(bookBinary)
         const epubBook = Epub(bookBinary);
         await epubBook.ready;
         setBook(epubBook);
-        
 
         const areaElement = areaElementRef.current;
         if (areaElement) {
@@ -43,14 +39,15 @@ export default function EPubViewer({
     };
     if (bookBinary.byteLength) {
       loadEpub();
-      setPage(curPage);
     }
   }, [bookBinary]);
 
   // 페이지 변경 감지 시, 책 화면 변경
   useEffect(() => {
-    book && rendition && rendition.display(page);
-  }, [page, book, rendition]);
+    console.log("cp: ", curPage)
+    setPage(curPage);
+    book && rendition && rendition.display(curPage);
+  }, [curPage, book, rendition]);
 
   // 책 화면 변경 감지 시, 텍스트 색상 변경
   useEffect(() => {
