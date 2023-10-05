@@ -21,7 +21,7 @@ export const SubTitle = styled.div`
 export const CardsContainer = styled.div`
   margin-top: 6rem;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 2.8rem;
   margin-bottom: 6rem;
 `;

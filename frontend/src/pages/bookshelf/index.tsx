@@ -22,6 +22,7 @@ export default function Bookshelf() {
 
   const [bookList, setBookList] = useState<getBookshelfResProp[]>([]);
   const [firstBook, setFirstBook] = useState<bookDetailProp>();
+
   useEffect(() => {
     bookApi.getBookShelf().then((res) => {
       let newBookList: getBookshelfResProp[] = [];
@@ -58,7 +59,9 @@ export default function Bookshelf() {
   useEffect(() => {
     bookApi.getWishList().then((res) => {
       console.log(res);
-      setWishList(res.data);
+      if (res.data) {
+        setWishList(res.data);
+      }
     });
   }, []);
 
@@ -68,24 +71,28 @@ export default function Bookshelf() {
     <>
       <PageTitle>책장</PageTitle>
       <S.Container>
-        <S.SubTitle>지금 보고 있는 책</S.SubTitle>
-        <S.Box>
-          <S.Left>
-            <S.Title onClick={() => handleBookClick(firstBook?.address)}>{firstBook?.title}</S.Title>
-            <S.Content>
-              {firstBook?.publicationDate} ·{firstBook?.author} · {firstBook?.genre}
-            </S.Content>
-          </S.Left>
-          <S.CoverContainer>
-            {firstBook ? (
-              <BookCover imgsrc={firstBook.cover} onClick={() => handleBookClick(firstBook?.address)} />
-            ) : (
-              <></>
-            )}
-          </S.CoverContainer>
-        </S.Box>
+        {firstBook && (
+          <>
+            <S.SubTitle>지금 보고 있는 책</S.SubTitle>
+            <S.Box>
+              <S.Left>
+                <S.Title onClick={() => handleBookClick(firstBook?.address)}>{firstBook?.title}</S.Title>
+                <S.Content>
+                  {firstBook?.publicationDate} ·{firstBook?.author} · {firstBook?.genre}
+                </S.Content>
+              </S.Left>
+              <S.CoverContainer>
+                {firstBook ? (
+                  <BookCover imgsrc={firstBook.cover} onClick={() => handleBookClick(firstBook?.address)} />
+                ) : (
+                  <></>
+                )}
+              </S.CoverContainer>
+            </S.Box>
+          </>
+        )}
         <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
-        {wishList?.length && wishList?.length > 0 && (
+        {wishList?.length && (
           <BooksContainer page="wishList" title="관심있는 책" data={wishList} onClick={handlePageClick} />
         )}
       </S.Container>

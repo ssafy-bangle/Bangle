@@ -29,5 +29,15 @@ const subscribeAuthor = async (authorId: number) => {
   }
 };
 
-const author = { getStat, getAuthorInfo, subscribeAuthor };
+const getSubscribeAuthor = async () => {
+  try {
+    const res = await client.get('/readers/subscribe/list');
+    return res.data;
+  } catch (e) {
+    console.log('Error at getSubscribeAuthor: ', e);
+    throw new Error('');
+  }
+};
+
+const author = { getStat, getAuthorInfo, subscribeAuthor, getSubscribeAuthor };
 export default author;

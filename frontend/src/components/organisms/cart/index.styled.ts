@@ -15,6 +15,19 @@ export const Box = styled.div`
   margin-bottom: 3rem;
 `;
 
+export const TopContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Delete = styled.div`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--BG_ERROR);
+  cursor: pointer;
+`;
+
 export const Img = styled(Image)``;
 
 export const Title = styled.div`

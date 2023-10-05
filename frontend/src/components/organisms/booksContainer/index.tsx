@@ -8,6 +8,7 @@ import NoValue from '@src/components/atoms/noValue';
 import { SearchBook } from '@src/types/search';
 import { getBookshelfResProp } from '@src/types/book';
 import { useRouter } from 'next/router';
+import { bookListProp } from '@src/types/author';
 
 export default function BooksContainer({ title, type, page, data, onClick }: BooksContainerProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -22,32 +23,44 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
     router.push(`/bookshelf/${bookId}`);
   };
 
+  const bookShelfItems = (page: string) => {
+    switch (page) {
+      case 'bookShelf':
+        return data?.map((item: getBookshelfResProp, idx: number) => (
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
+        ));
+      case 'wishList':
+        return data?.map((item: bookListProp, idx: number) => (
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
+        ));
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-      <S.TitleContainer>
-        <S.SubTitle>
-          {title} {page === 'search' && <S.BookLength>총 {data?.length} 건의 검색 결과가 있습니다</S.BookLength>}
-        </S.SubTitle>
-        {page === 'search' && data?.length > 6 && (
-          <S.TotalBtn onClick={() => setIsClicked((pre) => !pre)}>{isClicked ? '닫기' : '전체보기'}</S.TotalBtn>
-        )}
-      </S.TitleContainer>
+      {title && (
+        <S.TitleContainer>
+          <S.SubTitle>
+            {title} {page === 'search' && <S.BookLength>총 {data?.length} 건의 검색 결과가 있습니다</S.BookLength>}
+          </S.SubTitle>
+          {page === 'search' && data?.length > 6 && (
+            <S.TotalBtn onClick={() => setIsClicked((pre) => !pre)}>{isClicked ? '닫기' : '전체보기'}</S.TotalBtn>
+          )}
+        </S.TitleContainer>
+      )}
       {!data?.length ? (
         <S.NoValue>
           <NoValue type={page} />
         </S.NoValue>
       ) : (
         <S.BookContainer isClicked={isClicked} page={page} type={type}>
-          {page === 'bookShelf' &&
-            data?.map((item: getBookshelfResProp, idx: number) => (
-              <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
-            ))}
-
+          {page !== 'search' && bookShelfItems(page)}
           {type === 'book' &&
             data?.map((item: SearchBook, idx: number) => (
               <BookCover key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.id)} />
             ))}
-
           {type === 'author' &&
             data?.map((item: { id: number; nickname: string }, idx: number) => (
               <Card

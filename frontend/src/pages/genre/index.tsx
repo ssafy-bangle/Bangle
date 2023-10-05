@@ -1,3 +1,4 @@
+import { userApi } from '@src/apis';
 import Button from '@src/components/atoms/button';
 import Card from '@src/components/atoms/card';
 import { UserInfoState } from '@src/modules/user';
@@ -39,6 +40,13 @@ export default function Genre() {
     }
   };
 
+  const postGenreHandler = (interest: string[]) => {
+    userApi.postMemberInterest(interest).then(() => {
+      console.log('finish');
+      router.push('/home');
+    });
+  };
+
   return (
     <>
       <S.Container>
@@ -56,7 +64,7 @@ export default function Genre() {
           ))}
         </S.CardsContainer>
         <S.NextButton>
-          <Button content="다음" length="long" active={genreSelected.length > 0} onClick={() => router.push('/home')} />
+          <Button content="다음" length="long" active={genreSelected.length > 0} onClick={() => postGenreHandler(genreSelected)} />
         </S.NextButton>
       </S.Container>
     </>

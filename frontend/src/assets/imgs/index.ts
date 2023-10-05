@@ -24,9 +24,9 @@ export { default as SearchImg } from './search.png';
 
 // purchase elements
 export { default as Munzi } from './munzi.png';
-export { default as Munzi1 } from './55.png';
-export { default as Munzi2 } from './110.png';
-export { default as Munzi3 } from './munzi_3.png';
+export { default as Munzi1 } from './little.png';
+export { default as Munzi2 } from './many.png';
+export { default as Munzi3 } from './auto.png';
 
 // genre elements
 export { default as genre01 } from './sf.jpg';

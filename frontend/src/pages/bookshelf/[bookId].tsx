@@ -13,7 +13,6 @@ import { UserInfoState } from '@src/modules/user';
 import { useRouter } from 'next/router';
 import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
-import { TestBook } from '@src/assets/imgs';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -55,6 +54,9 @@ export default function BookId() {
         buy: response.data.buy,
       };
       setBookInfo({ ...bookInfo, ...info });
+      if (response.data.wish) {
+        setIsWish(true);
+      }
     });
   };
 
@@ -142,7 +144,7 @@ export default function BookId() {
           <S.CardContainer>
             {bookInfo.reviews.map((card: reviewProps) => (
               <>
-                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} />
+                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} onClick={() => {}} />
               </>
             ))}
           </S.CardContainer>

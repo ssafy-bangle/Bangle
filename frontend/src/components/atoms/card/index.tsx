@@ -48,15 +48,17 @@ export default function Card({ title, type, onClick, selected = false }: CardPro
   };
   return (
     <>
-      <S.CardContainer type={type} title={title} onClick={onClickHandler} selected>
+      <S.CardContainer
+        type={type}
+        title={title}
+        onClick={onClickHandler}
+        selected
+        style={{ border: type === 'author' ? '1.4px solid var(--BG_GRAY3)' : 'none' }}>
         {genreImageSrc && <S.GenreImage src={genreImageSrc} alt="장르" />}
         <S.BlackScreen isClicked={isClicked} />
         <S.Title>{isClicked ? <HeartFilled /> : title}</S.Title>
         {type == 'author' && (
-          <S.Button
-            onClick={() => {
-              router.push('/mypage');
-            }}>
+          <S.Button onClick={() => onClick}>
             작가 홈 바로가기 <RightOutlined />
           </S.Button>
         )}
