@@ -70,7 +70,7 @@ const getAccessToken = async () => {
           Authorization: 'Bearer ' + localStorage.getItem('refreshToken'),
         },
       })
-      .post(process.env.NEXT_PUBLIC_DOMAIN + '/login/reissue');
+      .post(process.env.NEXT_PUBLIC_DOMAIN + 'login/reissue');
     return res.data;
   } catch (e) {
     throw new Error('refreshToken이 만료되었습니다. 다시 로그인 하세요.');
@@ -78,7 +78,6 @@ const getAccessToken = async () => {
 };
 
 const postMemberInterest = async (interest: string[]) => {
-  console.log('post Member Interest:', interest);
   try {
     const res = await client.post('/members/interests', {
       interests: interest,

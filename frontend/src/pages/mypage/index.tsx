@@ -11,7 +11,7 @@ import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
 import { paymentApi, userApi } from '@src/apis';
 import { UserInfo } from '@src/types/user';
-import { handleLogout } from '@src/utils/logout';
+import { useRouter } from 'next/router';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -19,6 +19,7 @@ export type munziLogReqProps = {
 };
 
 export default function Mypage() {
+  const router = useRouter();
   const [recoilUserInfo, setRecoilUserInfo] = useRecoilState(UserInfoState);
   const [userInfo, setUserInfo] = useState<UserInfo>({
     nickname: '',
@@ -74,6 +75,19 @@ export default function Mypage() {
         setUserInfo({ ...userInfo, dust: userInfo.dust + price });
       });
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUserInfo({
+      nickname: '',
+      dust: 0,
+      email: '',
+      roles: 'ROLE_USER',
+      userId: '',
+    });
+    router.push('/');
   };
 
   const getDustChargeList = () => {
@@ -177,7 +191,13 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <Image src={Munzi1} layout="responsive" width={276} alt="munzi1Img" onClick={() => chargeDustImmediately(55)} />
+              <Image
+                src={Munzi1}
+                layout="responsive"
+                width={276}
+                alt="munzi1Img"
+                onClick={() => chargeDustImmediately(55)}
+              />
               <Image
                 src={Munzi2}
                 width={276}

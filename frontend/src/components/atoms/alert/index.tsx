@@ -2,10 +2,14 @@ import { AlertProps } from '@src/types/props';
 import { Button, Space } from 'antd';
 import * as S from './index.styled';
 import { useState } from 'react';
-import { handleLogout } from '@src/utils/logout';
+import { UserInfoState } from '@src/modules/user';
+import { useSetRecoilState } from 'recoil';
 import { userApi } from '@src/apis';
+import { useRouter } from 'next/router';
 
 export default function Alert({ state, onClick }: AlertProps) {
+  const router = useRouter();
+  const setUserInfo = useSetRecoilState(UserInfoState);
   const [isOpen, setIsOpen] = useState(true);
 
   const openModalHandler = () => {
@@ -17,7 +21,20 @@ export default function Alert({ state, onClick }: AlertProps) {
   };
 
   const extendToken = () => {
-    console.log('test', userApi.getAccessToken());
+    userApi.getAccessToken().then((res) => localStorage.setItem('refreshToken', res.data['access-token']));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUserInfo({
+      nickname: '',
+      dust: 0,
+      email: '',
+      roles: 'ROLE_USER',
+      userId: '',
+    });
+    router.push('/');
   };
 
   return (
