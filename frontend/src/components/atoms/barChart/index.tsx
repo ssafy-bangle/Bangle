@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { selectedBook } from '@src/types/props';

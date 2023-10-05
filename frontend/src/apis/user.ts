@@ -61,11 +61,28 @@ const putMemberRolesToAuthor = async () => {
   }
 };
 
+const getAccessToken = async () => {
+  try {
+    const res = await axios
+      .create({
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: 'Bearer ' + localStorage.getItem('refreshToken'),
+        },
+      })
+      .post(process.env.NEXT_PUBLIC_DOMAIN + '/login/reissue');
+    return res.data;
+  } catch (e) {
+    throw new Error('refreshToken이 만료되었습니다. 다시 로그인 하세요.');
+  }
+};
+
 const user = {
   postLogin,
   postMemberInfo,
   getMemberInfo,
   putMemberNickname,
   putMemberRolesToAuthor,
+  getAccessToken,
 };
 export default user;

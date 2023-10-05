@@ -47,15 +47,13 @@ export default function AuthorHome() {
   };
 
   useEffect(() => {
-    console.log('Ssss', selectedBook);
-  }, [selectedBook]);
-
-  useEffect(() => {
     const getStat = () => {
-      authorApi.getStat().then((res: bookStatProp[]) => {
-        setBook(res);
-        calTotalTodayData();
-      });
+      try {
+        authorApi.getStat().then((res: bookStatProp[]) => {
+          setBook(res);
+          calTotalTodayData();
+        });
+      } catch {}
     };
     getStat();
   }, []);

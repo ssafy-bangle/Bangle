@@ -6,12 +6,12 @@ import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState, UserModeState } from '@src/modules/user';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
 import { paymentApi, userApi } from '@src/apis';
-import { useRouter } from 'next/router';
 import { UserInfo } from '@src/types/user';
+import { handleLogout } from '@src/utils/logout';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -19,7 +19,6 @@ export type munziLogReqProps = {
 };
 
 export default function Mypage() {
-  const router = useRouter();
   const [recoilUserInfo, setRecoilUserInfo] = useRecoilState(UserInfoState);
   const [userInfo, setUserInfo] = useState<UserInfo>({
     nickname: '',
@@ -66,19 +65,6 @@ export default function Mypage() {
     setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
     userApi.putMemberRolesToAuthor();
     setMode('author');
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setUserInfo({
-      nickname: '',
-      dust: 0,
-      email: '',
-      roles: 'ROLE_USER',
-      userId: '',
-    });
-    router.push('/');
   };
 
   const chargeDustImmediately = (price: number) => {

@@ -2,9 +2,7 @@ import * as S from './index.styled';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
-import Checkbox from '@src/components/atoms/checkbox';
 import { beforeImgUpload, getBase64 } from '@src/utils';
-import Input from '@src/components/atoms/input';
 
 export default function UploadBookCover({ imgUrl, loading, setLoading, setCoverData, setImgUrl }: any) {
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {

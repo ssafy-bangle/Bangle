@@ -3,17 +3,15 @@ import * as S from './index.styled';
 import { useEffect, useState } from 'react';
 
 export default function Rating({ value, label, editable, setInput }: RatingProps) {
-  const handleRateChange = (newValue: number) => {
-    console.log('Rate Changed:', newValue);
-    setInput(newValue);
-  };
+  const [ratingValue, setRatingValue] = useState<number>(value);
 
   useEffect(() => {
-    console.log('newValue', value);
     setRatingValue(value);
   }, [value]);
 
-  const [ratingValue, setRatingValue] = useState<number>(value);
+  const handleRateChange = (newValue: number) => {
+    setInput(newValue);
+  };
 
   return (
     <>
