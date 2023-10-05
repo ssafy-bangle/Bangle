@@ -5,7 +5,6 @@ const postPayment = async (amount: number) => {
     const res = await client.post('/payments/' + amount);
     return res.data;
   } catch (e) {
-    console.log('ERROR AT postPayment: ', e);
     throw new Error('');
   }
 };
@@ -15,7 +14,6 @@ const getPayment = async () => {
     const res = await client.get('/payments');
     return res.data;
   } catch (e) {
-    console.log('ERROR AT getPayment: ', e);
     throw new Error('');
   }
 };

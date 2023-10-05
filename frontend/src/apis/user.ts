@@ -21,7 +21,6 @@ const postLogin = async (idToken: string) => {
 };
 
 const postMemberInfo = async (nickname: string, publicKey: string, role: string) => {
-  console.log('Post member INfo:', nickname, publicKey, role);
   try {
     const res = await client.post('/members', {
       nickname,
@@ -71,10 +70,9 @@ const getAccessToken = async () => {
         },
       })
       .post(process.env.NEXT_PUBLIC_DOMAIN + 'login/reissue');
-    console.log('tokken', res.data);
+
     return res.data;
   } catch (e) {
-    console.error('tokken', e);
     throw new Error('refreshToken이 만료되었습니다. 다시 로그인 하세요.');
   }
 };

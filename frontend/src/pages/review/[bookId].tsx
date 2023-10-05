@@ -46,7 +46,6 @@ export default function Review() {
   };
 
   useEffect(() => {
-    console.log(score);
     setScore(score);
   }, [score]);
 

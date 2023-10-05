@@ -33,9 +33,8 @@ export default function Cart() {
     }
     let totalMunzi = 0;
     selectedBookList.map((item) => {
-      console.log(item);
-      totalMunzi+=item.price;
-    })
+      totalMunzi += item.price;
+    });
     setTotalPrice(totalMunzi);
   }, [open]);
 
@@ -53,22 +52,24 @@ export default function Cart() {
       bookId: book.id,
       orderStatus: 'BUY',
     }));
-    const ids = sortedSelectedBookList.map((book: CartBookProp)=>book.id);
-    console.log(ids);
-    
+    const ids = sortedSelectedBookList.map((book: CartBookProp) => book.id);
+
     const body = {
       books: books,
     };
     bookApi
       .buyBook(body)
-      .then(({data}) => {
+      .then(({ data }) => {
         onClose();
         showModal();
         setUserInfo({ ...userInfo, dust: data.dust });
         // 장바구니 구매시 쿠키, 카트, 체크리스트 제거, 금액 0
-        cookie.onSet("cartItems",cartItems.filter(item => !ids.includes(item.id)));
-        setCartItems(cartItems.filter(item => !ids.includes(item.id)))
-        setSelectedBookList(sortedSelectedBookList.filter(item => !ids.includes(item.id)));
+        cookie.onSet(
+          'cartItems',
+          cartItems.filter((item) => !ids.includes(item.id)),
+        );
+        setCartItems(cartItems.filter((item) => !ids.includes(item.id)));
+        setSelectedBookList(sortedSelectedBookList.filter((item) => !ids.includes(item.id)));
         setTotalPrice(0);
         router.push('/bookshelf');
       })
@@ -183,7 +184,6 @@ export default function Cart() {
             price={totalPrice}
             onClick={() => {
               buyBookRequest(selectedBookList);
-              console.log('Buy!');
             }}
           />
         </form>

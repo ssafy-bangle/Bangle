@@ -42,14 +42,6 @@ export default function UserHome() {
   };
 
   useEffect(() => {
-    console.log('booksByGenre', booksByGenre);
-  }, [booksByGenre]);
-
-  useEffect(() => {
-    console.log('booksByInterest', booksByInterest);
-  }, [booksByInterest]);
-
-  useEffect(() => {
     setNickname(recoilUserInfo.nickname);
     authorApi
       .getSubscribeAuthor()
