@@ -165,5 +165,7 @@ const book = {
   getWishList,
   getRecommendBookByGenre,
   getBookByInterests,
+  postBookshelfPage,
+  getBookViewDetail
 };
 export default book;
