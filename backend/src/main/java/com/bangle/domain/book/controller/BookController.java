@@ -96,14 +96,16 @@ public class BookController {
 //			ethereumService.savePublish(authorIpfsResponse.getAddress());
 
 			// make book entity and save SERVER's file address
-			bookService.saveBook(
-				customMemberDetails.getUser().getAuthor(),
+			int dust = bookService.saveBook(
+				customMemberDetails.getPK(),
 				publishRequest,
 				cover,
 				serverIpfsResponse.getAddress());
-
+			Map<String, Object> map = new HashMap<>();
+			map.put("address", authorIpfsResponse.getAddress());
+			map.put("dust", dust);
 			// return AUTHOR's file address
-			return BaseResponse.okWithData(HttpStatus.OK, "PUBLISH COMPLETE",authorIpfsResponse.getAddress());
+			return BaseResponse.okWithData(HttpStatus.OK, "PUBLISH COMPLETE",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return BaseResponse.fail(HttpStatus.BAD_REQUEST, e.getMessage());

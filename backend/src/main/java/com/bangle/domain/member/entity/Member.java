@@ -88,6 +88,13 @@ public class Member {
 		dust -= cost;
 	}
 
+	public void publishBook(int cost) {
+		if (dust < cost) {
+			throw new IllegalArgumentException("잔액 부족");
+		}
+		dust -= cost;
+	}
+
 	public void upgradeAuthor() {
 		this.roles = "ROLE_AUTHOR";
 	}
