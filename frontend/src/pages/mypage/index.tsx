@@ -204,7 +204,11 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
+              <div>
+                asdfasdfasdf
+              </div>
               <Image
+                id="hover"
                 src={Munzi1}
                 layout="responsive"
                 width={276}
@@ -212,6 +216,7 @@ export default function Mypage() {
                 onClick={() => chargeDustImmediately(55)}
               />
               <Image
+                id="hover"
                 src={Munzi2}
                 width={276}
                 alt="munzi2Img"
