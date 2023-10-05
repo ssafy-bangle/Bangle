@@ -13,9 +13,8 @@ export default function Chip({ size, title, icon, imgsrc, purchases, price, mont
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.preventDefault();
           purchases !== undefined && price !== undefined && month_purchases !== undefined
-            ? (setValue != undefined &&
-                setValue({ price: price, purchases: purchases, month_purchases: month_purchases }),
-              console.log(price, purchases))
+            ? setValue != undefined &&
+              setValue({ price: price, purchases: purchases, month_purchases: month_purchases })
             : setValue != undefined && setValue(title);
         }}>
         {icon && (

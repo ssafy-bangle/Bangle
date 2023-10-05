@@ -42,14 +42,6 @@ export default function UserHome() {
   };
 
   useEffect(() => {
-    console.log('booksByGenre', booksByGenre);
-  }, [booksByGenre]);
-
-  useEffect(() => {
-    console.log('booksByInterest', booksByInterest);
-  }, [booksByInterest]);
-
-  useEffect(() => {
     setNickname(recoilUserInfo.nickname);
     authorApi
       .getSubscribeAuthor()
@@ -104,12 +96,14 @@ export default function UserHome() {
           </S.BannerContainer>
         </S.ContainerBox>
       </S.BannerSection>
-      <S.RecommendSection>
-        <S.Title>
-          ❤️ <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
-        </S.Title>
-        <Carousel data={booksByGenre} />
-      </S.RecommendSection>
+      {booksByGenre?.length > 0 ? (
+        <S.RecommendSection>
+          <S.Title>
+            ❤️ <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
+          </S.Title>
+          <Carousel data={booksByGenre} />
+        </S.RecommendSection>
+      ) : null}
       {booksByInterest?.map(([key, arr]: [string, RecommendBook[]]) => (
         <S.RecommendSection>
           <S.Title>

@@ -9,7 +9,7 @@ const postBookshelfPage = async (bookId: number | string, curPage: number, epubC
     const res = await client.post('/bookshelf', {
       bookId: bookId,
       currentPage: curPage,
-      epubCfi: epubCfi
+      epubCfi: epubCfi,
     });
     return res.data;
   } catch (e) {
@@ -40,7 +40,6 @@ const getBookDetail = async (bookId: number) => {
     const res = await client.get(`/books/detail/${bookId}`);
     return res.data;
   } catch (e) {
-    console.log(e);
     throw new Error('');
   }
 };
@@ -61,7 +60,7 @@ const postBook = async (body: postBookReqProps) => {
             price: body.price,
             introduce: body.introduce,
             genre: body.genre,
-            totalPage: body.pageNum
+            totalPage: body.pageNum,
           }),
         ],
         { type: 'application/json' },
@@ -71,7 +70,6 @@ const postBook = async (body: postBookReqProps) => {
     const res = await apiInstance('multipart/form-data').post('/books/publish', formData);
     return res.data;
   } catch (e) {
-    console.log('Error at postBook', e);
     throw new Error('');
   }
 };
@@ -168,6 +166,6 @@ const book = {
   getRecommendBookByGenre,
   getBookByInterests,
   postBookshelfPage,
-  getBookViewDetail
+  getBookViewDetail,
 };
 export default book;

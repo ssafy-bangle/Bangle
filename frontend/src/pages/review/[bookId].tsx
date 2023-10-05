@@ -50,7 +50,6 @@ export default function Review() {
   };
 
   useEffect(() => {
-    console.log(score);
     setScore(score);
   }, [score]);
 
@@ -97,7 +96,7 @@ export default function Review() {
           </S.BottomDiv>
         </S.LeftSection>
         <S.RightSection>
-          <S.Title>.</S.Title>
+          <S.Title>리뷰</S.Title>
           <S.ReviewContainer>
             {reviewImg ? (
               <ReviewCard imgsrc={reviewImg} size="big" />

@@ -1,5 +1,6 @@
 package com.bangle.domain.order.service;
 
+import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.blockchain.service.EthereumService;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -83,6 +84,8 @@ public class OrderService {
 			Book book = books.get(i);
 			OrderStatus orderStatus = order.books().get(i).orderStatus();
 			totalDust += book.getPrice(orderStatus);
+			Author author = book.getAuthor();
+			author.getMember().updateDust(book.getPrice(orderStatus));
 			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
 			bookshelfList.add(Bookshelf.createBookShelf(member, book, orderStatus));
 			// 오늘 구매수 증가
@@ -135,7 +138,7 @@ public class OrderService {
 		bookshelfRepository.saveAll(bookshelfList);
 		Map<String, Object> map = new HashMap<>();
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
-		map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
+		// map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
 		map.put("dust", member.getDust());
 		return map;
 	}

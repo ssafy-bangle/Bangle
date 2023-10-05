@@ -42,7 +42,7 @@ export type MenuProps = {
 };
 
 export type InputProps = {
-  type?: 'text' | 'number';
+  type?: 'text' | 'number' | 'password';
   size: 'short' | 'medium' | 'default' | 'long';
   state: 'default' | 'focus' | 'error';
   placeholder: string;

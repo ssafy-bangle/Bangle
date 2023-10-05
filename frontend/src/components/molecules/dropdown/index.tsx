@@ -11,7 +11,6 @@ export default function Dropdown({ source = 'default', items, setInput }: Dropdo
     const tmp: number = Number(key);
     setSelectedItem(items[tmp]);
     setInput(items[tmp].label);
-    console.log(items[tmp]);
   };
 
   return (

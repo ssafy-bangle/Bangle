@@ -40,7 +40,6 @@ export default function BookId() {
     bookApi
       .getBookDetail(bookId)
       .then((response) => {
-        console.log('get Detail', response);
         const res = response.data.bookDetail;
         const info: BookInfo = {
           bookId: res.id,
@@ -85,11 +84,14 @@ export default function BookId() {
     };
     bookApi
       .buyBook(body)
-      .then(({data}) => {
+      .then(({ data }) => {
         showModal();
         setUserInfo({ ...userInfo, dust: data.dust });
         // 즉시 구매했는데 장바구니에 들어있으면 제거하기
-        cookie.onSet("cartItems",cookie.onGet("cartItems").filter((e: any) => e.id !==id));
+        cookie.onSet(
+          'cartItems',
+          cookie.onGet('cartItems').filter((e: any) => e.id !== id),
+        );
         router.push('/bookshelf');
       })
       .catch(() => {
@@ -102,7 +104,6 @@ export default function BookId() {
     bookApi
       .wishBook(bookId)
       .then((res) => {
-        console.log('wishlist', res);
         setIsWish((pre) => !pre);
       })
       .catch(() => {
@@ -140,7 +141,6 @@ export default function BookId() {
                   data={bookInfo}
                   onClick={() => {
                     buyBookRequest(bookInfo.bookId);
-                    console.log('clicked');
                   }}
                 />
               </S.PriceContainer>
