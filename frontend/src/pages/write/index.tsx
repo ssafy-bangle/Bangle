@@ -3,11 +3,13 @@ import * as S from '@src/styles/pageStyles/write/index.styled';
 import UploadBookInfo from '@src/components/organisms/uploadBookInfo';
 import Modal from '@src/components/molecules/modal';
 import PageTitle from '@src/components/atoms/pageTitle';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { DropdownItems } from '@src/types/props';
 import { bookApi } from '@src/apis';
 import { useRouter } from 'next/router';
 import Button from '@src/components/atoms/button';
+import { useSetRecoilState } from 'recoil';
+import { AlertOpenState } from '@src/modules/state';
 
 const genreList = ['인문', 'SF', '자기계발', '로맨스', '소설', '건강', '경제', '취미', '어학', '여행'];
 const itemList = genreList.map((genre: string, idx: number) => ({
@@ -28,8 +30,8 @@ export default function Write() {
   const [genre, setGenre] = useState<string>('일반');
   const [introduction, setIntroduction] = useState<string>('');
   const [loading, setLoading] = useState(false);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   const showModal = () => {
     setIsOpen(true);
@@ -46,12 +48,10 @@ export default function Write() {
         file: fileData,
         cover: coverData,
       })
-      .then((res) => console.log('HANDLE BOOK POSE RES: ' + res));
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
-
-  useEffect(() => {
-    console.log('UploadBookInfo의 Title 값 변경!', title);
-  }, [title]);
 
   return (
     <>

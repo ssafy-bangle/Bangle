@@ -1,7 +1,7 @@
 import * as S from './index.styled';
 import { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { CartOpenState } from '@src/modules/state';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { AlertOpenState, CartOpenState } from '@src/modules/state';
 import Button from '@src/components/atoms/button';
 import { CartBlackImg, DarkMunzi, TestBook } from '@src/assets/imgs';
 import Checkbox from '@src/components/atoms/checkbox';
@@ -24,6 +24,7 @@ export default function Cart() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartBookProp[]>(cookie.onGet('cartItems') || []);
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   useEffect(() => {
     const storedCartItems = cookie.onGet('cartItems');
@@ -49,12 +50,17 @@ export default function Cart() {
     const body = {
       books: books,
     };
-    bookApi.buyBook(body).then(() => {
-      onClose();
-      showModal();
-      setUserInfo({ ...userInfo, dust: userInfo.dust - totalPrice });
-      router.push('/bookshelf');
-    });
+    bookApi
+      .buyBook(body)
+      .then(() => {
+        onClose();
+        showModal();
+        setUserInfo({ ...userInfo, dust: userInfo.dust - totalPrice });
+        router.push('/bookshelf');
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   const selectProductHandler = (book: CartBookProp, checked: boolean) => {
@@ -71,7 +77,7 @@ export default function Cart() {
   const deleteBookHandler = () => {
     selectedBookList.map((item) => {
       setCartItems((pre) => pre.filter((book) => item.id !== book.id));
-      setSelectedBookList((pre) => pre.filter((item) => !item.id))
+      setSelectedBookList((pre) => pre.filter((item) => !item.id));
     });
   };
 

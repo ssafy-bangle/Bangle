@@ -1,36 +1,23 @@
 import { userApi } from '@src/apis';
 import Button from '@src/components/atoms/button';
 import Card from '@src/components/atoms/card';
+import { AlertOpenState } from '@src/modules/state';
 import { UserInfoState } from '@src/modules/user';
 import * as S from '@src/styles/pageStyles/genre/index.styled';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function Genre() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
   const [nickname, setNickname] = useState<string>('');
   const router = useRouter();
   const [genreSelected, setGenreSelected] = useState<string[]>([]);
-  const genreList = [
-    'SF',
-    '인문',
-    '자기계발',
-    '로맨스',
-    '소설',
-    '건강',
-    '경제',
-    '취미',
-    '어학',
-    '여행',
-  ];
+  const genreList = ['SF', '인문', '자기계발', '로맨스', '소설', '건강', '경제', '취미', '어학', '여행'];
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
   }, []);
-
-  useEffect(() => {
-    console.log('genre', genreSelected);
-  }, [genreSelected]);
 
   const toggleGenre = (selectedGenre: string) => {
     if (genreSelected.includes(selectedGenre)) {
@@ -41,10 +28,14 @@ export default function Genre() {
   };
 
   const postGenreHandler = (interest: string[]) => {
-    userApi.postMemberInterest(interest).then(() => {
-      console.log('finish');
-      router.push('/home');
-    });
+    userApi
+      .postMemberInterest(interest)
+      .then(() => {
+        router.push('/home');
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   return (
@@ -64,7 +55,12 @@ export default function Genre() {
           ))}
         </S.CardsContainer>
         <S.NextButton>
-          <Button content="다음" length="long" active={genreSelected.length > 0} onClick={() => postGenreHandler(genreSelected)} />
+          <Button
+            content="다음"
+            length="long"
+            active={genreSelected.length > 0}
+            onClick={() => postGenreHandler(genreSelected)}
+          />
         </S.NextButton>
       </S.Container>
     </>

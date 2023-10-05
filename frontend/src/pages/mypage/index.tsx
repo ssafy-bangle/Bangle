@@ -6,12 +6,13 @@ import Munzibtn from '@src/components/molecules/munzibtn';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
 import { UserInfoState, UserModeState } from '@src/modules/user';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
 import { paymentApi, userApi } from '@src/apis';
 import { UserInfo } from '@src/types/user';
 import { useRouter } from 'next/router';
+import { AlertOpenState } from '@src/modules/state';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -35,6 +36,7 @@ export default function Mypage() {
   const [mode, setMode] = useRecoilState(UserModeState);
   const [open, setOpen] = useState<boolean>(false);
   const [munziLog, setMunziLog] = useState<munziLogReqProps[]>([]);
+  const setIsOpenAlert = useSetRecoilState(AlertOpenState);
 
   const hide = () => {
     setOpen(false);
@@ -52,28 +54,34 @@ export default function Mypage() {
     setOpen(newOpen);
   };
 
-  useEffect(() => {
-    console.log('useInfo', userInfo);
-    console.log('mode', mode);
-  }, [userInfo, mode]);
-
   const setNicknameChange = (nickname: string) => {
-    isClicked && (setUserInfo({ ...userInfo, nickname: nickname }), userApi.putMemberNickname(nickname));
+    isClicked &&
+      (setUserInfo({ ...userInfo, nickname: nickname }),
+      userApi.putMemberNickname(nickname).catch(() => {
+        setIsOpenAlert(true);
+      }));
     setIsClicked((pre) => !pre);
   };
 
   const setRoleChange = () => {
     setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
-    userApi.putMemberRolesToAuthor();
+    userApi.putMemberRolesToAuthor().catch(() => {
+      setIsOpenAlert(true);
+    });
     setMode('author');
   };
 
   const chargeDustImmediately = (price: number) => {
     if (price) {
-      paymentApi.postPayment(price).then(() => {
-        alert(`${price} 먼지 충전이 완료되었습니다`);
-        setUserInfo({ ...userInfo, dust: userInfo.dust + price });
-      });
+      paymentApi
+        .postPayment(price)
+        .then(() => {
+          alert(`${price} 먼지 충전이 완료되었습니다`);
+          setUserInfo({ ...userInfo, dust: userInfo.dust + price });
+        })
+        .catch(() => {
+          setIsOpenAlert(true);
+        });
     }
   };
 
@@ -91,10 +99,15 @@ export default function Mypage() {
   };
 
   const getDustChargeList = () => {
-    paymentApi.getPayment().then((res) => {
-      const first10Items = res.data.slice(0, 10);
-      setMunziLog([...first10Items]);
-    });
+    paymentApi
+      .getPayment()
+      .then((res) => {
+        const first10Items = res.data.slice(0, 10);
+        setMunziLog([...first10Items]);
+      })
+      .catch(() => {
+        setIsOpenAlert(true);
+      });
   };
 
   const dateFormater = (date: string) => {

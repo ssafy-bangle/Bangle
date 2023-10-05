@@ -3,9 +3,11 @@ import * as S from './index.styled';
 import Cart from '@src/components/organisms/cart';
 import { useRouter } from 'next/router';
 import Footer from '@src/components/atoms/footer';
+import Alert from '@src/components/atoms/alert';
 
 export default function Layout(props: { children: React.ReactNode }) {
   const router = useRouter();
+
   const checkPath = () => {
     switch (router.pathname) {
       case '/':
@@ -21,6 +23,7 @@ export default function Layout(props: { children: React.ReactNode }) {
 
   return (
     <S.Container>
+      {<Alert state="error" />}
       {checkPath() && <Nav />}
       {props.children}
       <Cart />

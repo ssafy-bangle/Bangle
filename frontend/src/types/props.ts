@@ -5,7 +5,8 @@ import { bookListProp } from './author';
 
 export type AlertProps = {
   state: 'error' | 'info';
-  onClick?: () => void;
+  message?: string;
+  setIsShow?: (value: boolean) => void;
 };
 
 export type LoadingProps = {

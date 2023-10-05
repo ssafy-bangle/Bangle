@@ -88,26 +88,5 @@ const getGenre = async () => {
   }
 };
 
-// const postBookImg = async (imgData: FormData) => {
-//   try {
-//     //Url 수정 해야함
-//     const token = 'Bearer ' + localStorage.getItem('accessToken');
-//     const res = await formData.post(`/authors/register`, imgData);
-//     return res.data;
-//   } catch (e) {
-//     throw new Error('');
-//   }
-// };
-
-// const postBookFile = async (fileData: FormData) => {
-//   try {
-//     //Url 수정 해야함
-//     const res = await formData.post(`/authors/register`, fileData);
-//     return res.data;
-//   } catch (e) {
-//     throw new Error('');
-//   }
-// };
-
 const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
 export default book;

@@ -1,19 +1,17 @@
 import Epub, { Book, Rendition, Contents, EpubCFI } from 'epubjs';
 import { useEffect, useState, useRef, useMemo } from 'react';
 import * as S from './index.styled';
-import ipfs from '@src/utils/ipfs';
-import bookApi from '@src/apis/book';
 
 export default function EPubViewer({
   side,
   clickState,
   setClickState,
-  bookBinary
+  bookBinary,
 }: {
   side: 'left' | 'right';
   clickState: -1 | 0 | 1;
   setClickState: (state: -1 | 0 | 1) => void;
-  bookBinary: ArrayBuffer
+  bookBinary: ArrayBuffer;
 }) {
   const [book, setBook] = useState<Book | null>(null);
   const [page, setPage] = useState<number>(side === 'left' ? 1 : 2);
@@ -23,11 +21,10 @@ export default function EPubViewer({
   useEffect(() => {
     const loadEpub = async () => {
       try {
-        console.log(bookBinary)
+        console.log(bookBinary);
         const epubBook = Epub(bookBinary);
         await epubBook.ready;
         setBook(epubBook);
-        
 
         const areaElement = areaElementRef.current;
         if (areaElement) {

@@ -21,6 +21,7 @@ export const UserInfoState = atom<UserInfo>({
 export const UserModeState = atom<UserMode>({
   key: `${KEY}/mode`,
   default: 'user',
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const UserInfoSelector = selector({
@@ -38,6 +39,5 @@ export const UserInfoSelector = selector({
 
     // UserInfo 타입인 경우에만 업데이트 및 API 호출 수행
     set(UserInfoState, newValue);
-    // userApi.postMemberInfo(newValue);
   },
 });

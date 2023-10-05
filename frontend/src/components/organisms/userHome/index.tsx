@@ -3,23 +3,29 @@ import Image from 'next/image';
 import * as S from './index.styled';
 import Button from '@src/components/atoms/button';
 import Carousel from '@src/components/atoms/carousel';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { useEffect, useState } from 'react';
-import { authorApi, bookApi } from '@src/apis';
+import { authorApi } from '@src/apis';
 import BooksContainer from '../booksContainer';
+import { AlertOpenState } from '@src/modules/state';
 
 export default function UserHome() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
   const [nickname, setNickname] = useState<string>('');
   const [subAuthorList, setSubAuthorList] = useState<{ id: number; nickname: string }[]>([]);
-
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
-    authorApi.getSubscribeAuthor().then((res) => {
-      setSubAuthorList(() => [...res.data]);
-    });
-    // bookApi.getGenre();
+    authorApi
+      .getSubscribeAuthor()
+      .then((res) => {
+        setSubAuthorList(() => [...res.data]);
+        // bookApi.getGenre();
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   }, []);
 
   return (

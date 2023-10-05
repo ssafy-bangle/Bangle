@@ -6,8 +6,11 @@ import { useEffect, useState } from 'react';
 import { authorApi } from '@src/apis';
 import { bookStatProp } from '@src/types/author';
 import { selectedBook } from '@src/types/props';
+import { AlertOpenState } from '@src/modules/state';
+import { useSetRecoilState } from 'recoil';
 
 export default function AuthorHome() {
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
   const [book, setBook] = useState<bookStatProp[]>([
     {
       cover: '',
@@ -47,15 +50,15 @@ export default function AuthorHome() {
   };
 
   useEffect(() => {
-    const getStat = () => {
-      try {
-        authorApi.getStat().then((res: bookStatProp[]) => {
-          setBook(res);
-          calTotalTodayData();
-        });
-      } catch {}
-    };
-    getStat();
+    authorApi
+      .getStat()
+      .then((res: bookStatProp[]) => {
+        setBook(res);
+        calTotalTodayData();
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   }, []);
 
   return (

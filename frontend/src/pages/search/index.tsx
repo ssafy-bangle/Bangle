@@ -7,10 +7,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { searchApi } from '@src/apis';
 import { getSearchResProp } from '@src/types/search';
+import { useSetRecoilState } from 'recoil';
+import { AlertOpenState } from '@src/modules/state';
 
 export default function Search() {
   const router = useRouter();
   const [searchResult, setSearchResult] = useState<getSearchResProp>();
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   type QueryParams = {
     keyword: string | undefined;
@@ -26,10 +29,14 @@ export default function Search() {
   const [category, setCategory] = useState<string | undefined>();
 
   const getSearchResult = () => {
-    searchApi.getSearchResult(keyword, category).then((res) => {
-      setSearchResult(res);
-      console.log('검색!', res);
-    });
+    searchApi
+      .getSearchResult(keyword, category)
+      .then((res) => {
+        setSearchResult(res);
+      })
+      .catch((e) => {
+        setIsAlertOpen(true);
+      });
   };
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {

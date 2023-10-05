@@ -2,29 +2,36 @@ import { authorApi } from '@src/apis';
 import BookCover from '@src/components/atoms/bookCover';
 import Button from '@src/components/atoms/button';
 import PageTitle from '@src/components/atoms/pageTitle';
+import { AlertOpenState } from '@src/modules/state';
 import * as S from '@src/styles/pageStyles/author/[authorId].styled';
 import { authorInfo, bookListProp } from '@src/types/author';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 export default function AuthorId() {
   const [authorInfo, setAuthorInfo] = useState<authorInfo>();
   const router = useRouter();
   const authorId = Number(router.query.authorId);
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   const getAuthorInfoReq = (authorId: number) => {
-    authorApi.getAuthorInfo(authorId).then((res) => {
-      console.log('get Detail', res);
-      const data = {
-        bookList: res.data.bookList,
-        follower: res.data.follower,
-        introduction: res.data.introduction,
-        isFollow: res.data.isFollow,
-        nickname: res.data.nickname,
-      };
-      setAuthorInfo(data);
-    });
+    authorApi
+      .getAuthorInfo(authorId)
+      .then((res) => {
+        const data = {
+          bookList: res.data.bookList,
+          follower: res.data.follower,
+          introduction: res.data.introduction,
+          isFollow: res.data.isFollow,
+          nickname: res.data.nickname,
+        };
+        setAuthorInfo(data);
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   useEffect(() => {
@@ -40,9 +47,14 @@ export default function AuthorId() {
   }, [authorInfo]);
 
   const subscribeHandler = () => {
-    authorApi.subscribeAuthor(authorId).then((res) => {
-      setIsClicked((pre) => !pre);
-    });
+    authorApi
+      .subscribeAuthor(authorId)
+      .then((res) => {
+        setIsClicked((pre) => !pre);
+      })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
   };
 
   return (
