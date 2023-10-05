@@ -56,6 +56,8 @@ public class Bookshelf {
 
 	private LocalDateTime latestTime;
 
+	private String epubCfi;
+
 	// public static List<Bookshelf> createBookShelfList(Member member, List<Book> books,
 	// 	List<OrderBookRequest> orderBooks) {
 	// 	List<Bookshelf> bookshelfList = new ArrayList<>();
@@ -75,8 +77,9 @@ public class Bookshelf {
 			.build();
 	}
 
-	public void save(int currentPage) {
+	public void save(int currentPage, String epubCfi) {
 		this.readPages = currentPage;
+		this.epubCfi = epubCfi;
 		this.latestTime = LocalDateTime.now();
 	}
 

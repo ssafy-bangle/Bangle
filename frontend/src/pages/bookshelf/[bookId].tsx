@@ -83,9 +83,9 @@ export default function BookId() {
     };
     bookApi
       .buyBook(body)
-      .then(() => {
+      .then(({data}) => {
         showModal();
-        setUserInfo({ ...userInfo, dust: userInfo.dust });
+        setUserInfo({ ...userInfo, dust: data.dust });
         router.push('/bookshelf');
       })
       .catch(() => {

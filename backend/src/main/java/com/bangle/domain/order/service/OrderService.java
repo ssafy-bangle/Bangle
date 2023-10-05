@@ -10,12 +10,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.bangle.domain.blockchain.dto.IpfsResponse;
 import com.bangle.domain.blockchain.service.IpfsService;
 import com.bangle.domain.book.dto.BookIdAddressResponse;
 import com.bangle.global.util.CryptoUtil;
+
+import org.apache.catalina.util.ParameterMap;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.parameters.P;
@@ -61,7 +65,7 @@ public class OrderService {
 	private String serverPublicKey;
 
 	@Transactional
-	public List<BookIdAddressResponse> order(String userId, OrderRequest order)
+	public Map<String,Object> order(String userId, OrderRequest order)
 		throws Exception {
 		Member member = memberRepository.findByUserId(userId)
 			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
@@ -129,7 +133,10 @@ public class OrderService {
 
 		orderRepository.save(newOrder);
 		bookshelfRepository.saveAll(bookshelfList);
+		Map<String, Object> map = new HashMap<>();
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
-		return bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList();
+		map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
+		map.put("dust", member.getDust());
+		return map;
 	}
 }
