@@ -56,6 +56,7 @@ export default function Cart() {
         onClose();
         showModal();
         setUserInfo({ ...userInfo, dust: userInfo.dust - totalPrice });
+        sortedSelectedBookList.map((item) => setCartItems((pre) => pre.filter((book) => item.id !== book.id)));
         router.push('/bookshelf');
       })
       .catch(() => {
