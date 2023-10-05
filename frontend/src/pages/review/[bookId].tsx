@@ -27,9 +27,13 @@ export default function Review() {
       content: review,
       cover: reviewImg,
       score: score,
-    });
-    alert('리뷰 등록이 완료되었습니다.');
-    router.push(`/bookshelf/${bookId}`);
+    })
+      .then((res)=>{
+        console.log(res)
+        alert('리뷰 등록이 완료되었습니다.');
+        router.push(`/bookshelf/${bookId}`);
+      })
+      .catch((e)=>{console.log("eeeor: ", e)})
   };
 
   const getCoverImg = (searchWord: string) => {
@@ -93,7 +97,7 @@ export default function Review() {
           </S.BottomDiv>
         </S.LeftSection>
         <S.RightSection>
-          <S.Title>책제목</S.Title>
+          <S.Title>.</S.Title>
           <S.ReviewContainer>
             {reviewImg ? (
               <ReviewCard imgsrc={reviewImg} size="big" />

@@ -59,6 +59,7 @@ export default function BookId() {
           buy: response.data.buy,
         };
         setBookInfo({ ...bookInfo, ...info });
+        console.log("cover: ",bookInfo.reviews)
         if (response.data.wish) {
           setIsWish(true);
         }

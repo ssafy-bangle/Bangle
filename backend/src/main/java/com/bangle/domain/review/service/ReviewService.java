@@ -22,7 +22,8 @@ public class ReviewService {
 	private final AwsS3Service awsS3Service;
 	private final RedisTemplate<String, String> template;
 
-	public void writeReview(ReviewRequest request, MultipartFile cover, String userId){
+	public void writeReview(ReviewRequest request, String userId){
+		System.out.println("2222222222222222222222222222222222222222222222222222222222222222222222");
 		reviewRepository.save(Review.builder()
 			.member(memberRepository.findByUserId(userId)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자")))
@@ -30,7 +31,7 @@ public class ReviewService {
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 책")))
 			.content(request.content())
 			.score(request.score())
-			.cover(awsS3Service.uploadImageToS3(cover))
+			.cover(awsS3Service.uploadFromUrlToS3(request.cover()))
 			.build());
 		String key = "bookId:" + request.bookId() + ":today_reviews";
 		String today_reviews = template.opsForValue().get(key);
