@@ -39,7 +39,8 @@ export default function EPubViewer({
             epubRendition.display(1);
           } else {
             epubRendition.display(epubCfi)
-            epubRendition.next()
+              .then(()=>{epubRendition.next()})
+            // epubRendition.next()
           }
         }
       } catch (error) {
