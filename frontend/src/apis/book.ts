@@ -4,11 +4,12 @@ import axios from 'axios';
 
 const client = apiInstance();
 
-const postBookshelfPage = async (bookId: number | string, curPage: number) => {
+const postBookshelfPage = async (bookId: number | string, curPage: number, epubCfi: string) => {
   try {
     const res = await client.post('/bookshelf', {
       bookId: bookId,
       currentPage: curPage,
+      epubCfi: epubCfi
     });
     return res.data;
   } catch (e) {

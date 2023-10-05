@@ -5,18 +5,17 @@ import * as S from './index.styled';
 export default function EPubViewer({
   side,
   bookBinary,
-  curPage,
   clickState,
-  setClickState
+  setClickState,
+  setEpubCfi
 }: {
   side: 'left' | 'right';
   bookBinary: ArrayBuffer;
-  curPage: number;
   clickState: number;
   setClickState: (c:number)=>void;
+  setEpubCfi: (s:string)=>void;
 }) {
   const [book, setBook] = useState<Book | null>(null);
-  const [page, setPage] = useState<number>(side === 'left' ? 1 : 2);
   const [rendition, setRendition] = useState<Rendition | null>(null);
   const areaElementRef = useRef<HTMLDivElement>(null);
 
@@ -47,13 +46,12 @@ export default function EPubViewer({
   }, [bookBinary]);
   // 페이지 변경 감지 시, 책 화면 변경
   useEffect(() => {
-    if (rendition?.location) {
-      console.log(rendition.location.start.cfi)
-      rendition.display("epubcfi(/6/4!/4/1:0)")
-    }
+    // if (rendition?.location) {
+    //   console.log(rendition.location.start.cfi)
+    //   rendition.display("epubcfi(/6/4!/4/1:0)")
+    // }
     // let temp = rendition?.location.start.cfi
     // rendition?.display(temp)
-    setPage(curPage);
     if (book && rendition) {
       // rendition.display(curPage)
       if (clickState > 0) {
@@ -61,11 +59,12 @@ export default function EPubViewer({
       } else if (clickState < 0) {
         rendition.prev()
       }
+      setEpubCfi(rendition.location.start.cfi)
       setClickState(0)
     }
     // book && rendition && rendition.display(curPage);
 
-  }, [curPage, book, rendition, clickState]);
+  }, [book, rendition, clickState]);
 
   // 책 화면 변경 감지 시, 텍스트 색상 변경
   useEffect(() => {

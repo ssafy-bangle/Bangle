@@ -16,6 +16,7 @@ export default function Ebook() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [userPW, setUserPW] = useState<string>("");
   const [showEpub, setShowEpub] = useState<boolean>(false);
+  const [epubCfi, setEpubCfi] = useState<string>("");
 
   const router = useRouter();
   const bookId = Array.isArray(router.query.bookId) ? router.query.bookId[0] : router.query.bookId;
@@ -53,8 +54,10 @@ export default function Ebook() {
   const movePage = (direction: number) => {
     if (direction === 1 && totalPages >= curPage + 2) {
       setCurPage(curPage + 2)
+      setClickState(1)
     } else if (direction === -1 && curPage - 2 >= 0) {
       setCurPage(curPage - 2)
+      setClickState(-1)
     }
     console.log("dir: ", direction, " / moveTo: ", curPage)
   }
@@ -63,7 +66,7 @@ export default function Ebook() {
     console.log("clicked")
     router.push('/bookshelf')
     if (bookId) {
-      bookApi.postBookshelfPage(bookId, curPage);
+      bookApi.postBookshelfPage(bookId, curPage, epubCfi);
     }
   }
 
@@ -78,16 +81,16 @@ export default function Ebook() {
         <>
           <EbookNav closeViewer={closeViewer}/>
           <S.Container>
-            <S.LeftArrow src={arrowLeft} alt="arrowLeft" onClick={() => setClickState(-1)} />
+            <S.LeftArrow src={arrowLeft} alt="arrowLeft" onClick={() => movePage(-1)} />
             <EpubViewer 
               side="left" 
               bookBinary={epubData} 
-              curPage={curPage}
               clickState={clickState}
               setClickState={setClickState}
+              setEpubCfi={setEpubCfi}
               />
             <S.Line />
-            <S.RightArrow src={arrowRight} alt="arrowRight" onClick={() => setClickState(1)} />
+            <S.RightArrow src={arrowRight} alt="arrowRight" onClick={() => movePage(1)} />
           </S.Container>
         </>
         :
