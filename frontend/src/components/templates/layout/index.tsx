@@ -2,6 +2,7 @@ import Nav from '@src/components/molecules/nav';
 import * as S from './index.styled';
 import Cart from '@src/components/organisms/cart';
 import { useRouter } from 'next/router';
+import Footer from '@src/components/atoms/footer';
 
 export default function Layout(props: { children: React.ReactNode }) {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function Layout(props: { children: React.ReactNode }) {
       {checkPath() && <Nav />}
       {props.children}
       <Cart />
+      {checkPath() && <Footer />}
     </S.Container>
   );
 }

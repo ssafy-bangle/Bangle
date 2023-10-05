@@ -11,7 +11,6 @@ export default function Home() {
     <>
       <Alert state="info" />
       {mode === 'user' ? <UserHome /> : <AuthorHome />}
-      <S.footer></S.footer>
     </>
   );
 }
