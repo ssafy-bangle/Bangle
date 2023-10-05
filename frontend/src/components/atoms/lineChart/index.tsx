@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { bookStatProp } from '@src/types/author';
+import * as S from './index.styled'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -41,6 +42,11 @@ export const options = {
         color: 'white',
       },
     },
+    y: {
+      ticks: {
+        stepSize: 1
+      }
+    }
   },
 };
 
@@ -48,25 +54,54 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
   const [data, setData] = useState<ChartData>({ labels: [], datasets: [] });
   let labels = [];
   const colorsArray = [
-    '#FFE86F',
-    '#7FFF6F',
-    '#FF6F6F',
-    '#91C6F2',
-    '#F291C6',
-    '#C691F2',
-    '#9A89FF',
-    '#FF9A89',
-    '#89FF9A',
+    "#FF5733",
+    "#FF33A1",
+    "#33FF57",
+    "#33A1FF",
+    "#5733FF",
+    "#FF3366",
+    "#FFAA33",
+    "#66FF33",
+    "#3366FF",
+    "#33FFAA",
+    "#FF3333",
+    "#FFFF33",
+    "#33FFFF",
+    "#AA33FF",
+    "#FF33FF",
+    "#33FF33",
+    "#33AAFF",
+    "#FF66FF",
+    "#66FF66",
+    "#FF99CC",
+    "#99CCFF",
+    "#CC99FF",
+    "#FFFF99",
+    "#99FFCC",
+    "#CCFF99",
+    "#FFCC99",
+    "#99FF99",
+    "#99FFFF",
+    "#FF99FF",
+    "#CCFFFF"
   ];
 
   useEffect(() => {
-    const datasets = book?.map((item: bookStatProp, idx: number) => ({
+    const datasets = book?.filter((item: bookStatProp) => {
+      if (item.today_views !== 0 ||
+        item.today_purchases !== 0 ||
+        item.today_reviews !== 0) {
+          return true;
+        }
+      return false;
+    })
+    .map((item: bookStatProp, idx: number) => ({
       label: item.title.length > 12 ? item.title.slice(0, 8) + '...' : item.title,
       data: [item.today_views, item.today_purchases, item.today_reviews],
-      borderColor: colorsArray[idx],
-      backgroundColor: colorsArray[idx],
+      borderColor: colorsArray[idx%30],
+      backgroundColor: colorsArray[idx%30],
     }));
-
+    console.log(datasets)
     labels = ['조회수', '구매수', '리뷰수'];
 
     setData({
@@ -75,5 +110,14 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
     });
   }, [book]);
 
-  return <Line options={options} data={data} width={630} />;
+  return (
+    <>
+      {
+        data.datasets.length > 0 ? 
+        <Line options={options} data={data} width={630} />
+        :
+        <S.Sad>오늘의 판매 내역이 존재하지 않습니다!</S.Sad>
+      }
+    </>
+  );
 });
