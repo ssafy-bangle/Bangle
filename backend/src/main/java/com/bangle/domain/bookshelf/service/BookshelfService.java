@@ -46,7 +46,7 @@ public class BookshelfService {
 	public void saveBook(Long memberId, BookshelfSaveRequest bookshelfSaveRequest) {
 		Bookshelf book = bookshelfRepository.findByMemberIdAndBookId(memberId,
 			bookshelfSaveRequest.bookId());
-        book.save(bookshelfSaveRequest.currentPage());
+        book.save(bookshelfSaveRequest.currentPage(), bookshelfSaveRequest.epubCfi());
 	}
 
 	public BookshelfPageResponse getBookshelfPageResponse(Long memberId, Long bookId) {
@@ -59,6 +59,7 @@ public class BookshelfService {
 				.address(bookshelf.getAddress())
 				.readPages(bookshelf.getReadPages())
 				.totalPages(book.getTotalPages())
+				.epubCfi(bookshelf.getEpubCfi())
 				.build();
 	}
 }

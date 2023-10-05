@@ -15,4 +15,5 @@ public class BookshelfPageResponse {
     String address;
     Integer readPages;
     Integer totalPages;
+    String epubCfi;
 }
