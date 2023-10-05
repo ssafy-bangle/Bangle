@@ -10,7 +10,6 @@ const postBookshelfPage = async (bookId: number | string, curPage: number) => {
       bookId: bookId,
       currentPage: curPage
     })
-    console.log("RES:, ", res)
     return res.data
   } catch (e) {
     throw new Error('');
@@ -40,6 +39,7 @@ const getBookDetail = async (bookId: number) => {
     const res = await client.get(`/books/detail/${bookId}`);
     return res.data;
   } catch (e) {
+    console.log(e)
     throw new Error('');
   }
 };

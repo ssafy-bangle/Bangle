@@ -37,4 +37,6 @@ export type bookListProp = {
   averageScore: number;
   cover: string;
   address?: string;
+  progress?: number;
+  authorId?: number;
 };
