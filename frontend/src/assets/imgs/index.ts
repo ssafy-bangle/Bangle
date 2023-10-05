@@ -4,8 +4,8 @@ export { default as ShineImg } from './shine.png';
 export { default as TotalImg } from './Group 75.png';
 
 // home elements
-export { default as BannerImg } from './banner.png';
-export { default as BookImg } from './book.png';
+export { default as BannerImg } from './bannerBG.png';
+export { default as BookImg } from './mainBook.png';
 
 // cart elements
 export { default as CartBlackImg } from './cart_black.png';
