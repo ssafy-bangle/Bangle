@@ -103,6 +103,7 @@ export const Logout = styled.div`
   font-size: 1.6rem;
   margin-top: 8rem;
   font-weight: 700;
+  display: inline-block;
   text-decoration-line: underline;
   cursor: pointer;
 `;
