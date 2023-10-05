@@ -28,6 +28,7 @@ public class BookDetailResponse {
 	private String address;
 	private String genre;
 	private String nickname;
+	private String introduction;
 	private LocalDateTime publicationDate;
 	private long authorId;
 
