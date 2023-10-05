@@ -33,6 +33,7 @@ export type BookProps = {
   data?: bookListProp | getBookshelfResProp;
   imgsrc: string;
   onClick?: (bookId: number | undefined) => void;
+  showProgress: boolean;
 };
 
 export type MenuProps = {

@@ -7,12 +7,14 @@ export default function EPubViewer({
   bookBinary,
   clickState,
   setClickState,
+  epubCfi,
   setEpubCfi
 }: {
   side: 'left' | 'right';
   bookBinary: ArrayBuffer;
   clickState: number;
   setClickState: (c:number)=>void;
+  epubCfi: string;
   setEpubCfi: (s:string)=>void;
 }) {
   const [book, setBook] = useState<Book | null>(null);
@@ -33,8 +35,12 @@ export default function EPubViewer({
             height: '90%',
           });
           setRendition(epubRendition);
-          epubRendition.display(side === 'left' ? 1 : 2);
-          // epubRendition.display(side === 'left' ? 3 : 4);
+          if (epubCfi === null) {
+            epubRendition.display(1);
+          } else {
+            epubRendition.display(epubCfi)
+            epubRendition.next()
+          }
         }
       } catch (error) {
         console.error('Error loading EPUB:', error);
@@ -52,14 +58,14 @@ export default function EPubViewer({
     // }
     // let temp = rendition?.location.start.cfi
     // rendition?.display(temp)
-    if (book && rendition) {
+    if (book && rendition && rendition.location) {
       // rendition.display(curPage)
       if (clickState > 0) {
         rendition.next()
       } else if (clickState < 0) {
         rendition.prev()
       }
-      setEpubCfi(rendition.location.start.cfi)
+      setEpubCfi(rendition.location.end.cfi)
       setClickState(0)
     }
     // book && rendition && rendition.display(curPage);

@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { bookApi } from '@src/apis';
 import ipfs from '@src/utils/ipfs';
-import Input from '@src/components/atoms/input';
 import Button from '@src/components/atoms/button';
 
 export default function Ebook() {
@@ -30,6 +29,7 @@ export default function Ebook() {
           console.log("book view detail res", res)
           setTotalPages(res.data.totalPages)
           setCurPage(res.data.readPages)
+          setEpubCfi(res.data.epubCfi)
           const bookshelfAddress = res.data.address
           ipfs.downloadBookFile(userPW, bookshelfAddress)
             .then((decryptedData) => {
@@ -87,6 +87,7 @@ export default function Ebook() {
               bookBinary={epubData} 
               clickState={clickState}
               setClickState={setClickState}
+              epubCfi={epubCfi}
               setEpubCfi={setEpubCfi}
               />
             <S.Line />
@@ -97,7 +98,7 @@ export default function Ebook() {
         <S.InputPW>
           비밀번호를 입력해 주세요
           <S.InputContainer>
-            <S.InputField 
+            <S.InputField
               size={'default'} 
               state={'focus'} 
               placeholder={'비밀번호를 입력해 주세요'} setInput={setUserPW} />
