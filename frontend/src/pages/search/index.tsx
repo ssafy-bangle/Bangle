@@ -62,7 +62,6 @@ export default function Search() {
       </S.Container>
       <BooksContainer type="book" page="search" title="도서" data={searchResult?.data.books.content} />
       <BooksContainer type="author" page="search" title="작가" data={searchResult?.data.authors.content} />
-      <S.Footer />
     </>
   );
 }

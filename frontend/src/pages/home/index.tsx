@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <>
       {mode === 'user' ? <UserHome /> : <AuthorHome />}
-      <S.footer></S.footer>
     </>
   );
 }
