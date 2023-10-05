@@ -26,7 +26,7 @@ export default function Bookshelf() {
   const [firstBook, setFirstBook] = useState<bookDetailProp>();
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
-  useEffect(() => {
+  const getNewBookshelf = () => {
     bookApi
       .getBookShelf()
       .then((res) => {
@@ -39,6 +39,17 @@ export default function Bookshelf() {
       .catch(() => {
         setIsAlertOpen(true);
       });
+  }
+
+  useEffect(() => {
+    if (router.query.new) {
+      setTimeout(getNewBookshelf,80)
+      router.replace('/bookshelf')
+    }
+  }, [router])
+
+  useEffect(() => {
+    getNewBookshelf()
   }, []);
 
   useEffect(() => {
