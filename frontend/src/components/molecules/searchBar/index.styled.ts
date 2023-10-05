@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -14,9 +13,7 @@ export const SearchInput = styled.div`
   }
 `;
 
-export const InputStyle = styled.div`
-
-`;
+export const InputStyle = styled.div``;
 
 export const SearchBtn = styled.button`
   color: var(--BG_MAIN);
@@ -38,7 +35,7 @@ export const SearchBtn = styled.button`
 
 export const SearchLogContainer = styled.div`
   width: 100%;
-  height: 29.5rem;
+  height: 12rem;
   border: 1px solid var(--BG_MAIN);
   border-radius: 1.6rem;
   background-color: var(--BG_BLACK);
@@ -65,7 +62,7 @@ export const RecentItem = styled.div`
 
 export const Divider = styled.div`
   background-color: var(--BG_GRAY3);
-  margin: 1.6rem 0;
+  margin: 1rem 0;
   height: 0.1rem;
   width: 100%;
 `;

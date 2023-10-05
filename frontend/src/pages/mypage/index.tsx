@@ -9,7 +9,7 @@ import { UserInfoState, UserModeState } from '@src/modules/user';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Popover } from 'antd';
 import Input from '@src/components/atoms/input';
-import { paymentApi, userApi } from '@src/apis';
+import { authorApi, paymentApi, userApi } from '@src/apis';
 import { UserInfo } from '@src/types/user';
 import { useRouter } from 'next/router';
 import { AlertOpenState } from '@src/modules/state';
@@ -22,6 +22,7 @@ export type munziLogReqProps = {
 export default function Mypage() {
   const router = useRouter();
   const [recoilUserInfo, setRecoilUserInfo] = useRecoilState(UserInfoState);
+  const [introduction, setIntroduction] = useState<string>('');
   const [userInfo, setUserInfo] = useState<UserInfo>({
     nickname: '',
     dust: 0,
@@ -49,6 +50,12 @@ export default function Mypage() {
   useEffect(() => {
     setRecoilUserInfo(userInfo);
   }, [userInfo]);
+
+  useEffect(() => {
+    userInfo.roles === 'ROLE_AUTHOR' &&
+      mode === 'author' &&
+      authorApi.getAuthorMyInfo().then((res) => setIntroduction(res.data.introduction));
+  }, [userInfo, mode]);
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -121,6 +128,11 @@ export default function Mypage() {
     return { year, month, day, time };
   };
 
+  const handleIntroductionSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    authorApi.postIntroduction(introduction);
+  };
+
   const popContent = (
     <div>
       <div style={{ fontSize: '1rem', color: 'var(--BG_GRAY2)' }}>최근 10번의 충전 내역만 볼 수 있어요</div>
@@ -168,7 +180,15 @@ export default function Mypage() {
               onClick={() => setNicknameChange(nickname)}
             />
           </S.NicknamePart>
-          {roles === 'ROLE_AUTHOR' && <S.StyledInput placeholder="작가 소개를 입력해주세요"></S.StyledInput>}
+          {roles === 'ROLE_AUTHOR' && mode === 'author' && (
+            <form onSubmit={handleIntroductionSubmit}>
+              <S.StyledInput
+                value={introduction}
+                onChange={(e) => setIntroduction(e.target.value)}
+                placeholder={introduction === '' ? '작가 소개를 입력해주세요' : `${introduction}`}
+              />
+            </form>
+          )}
           {roles === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가되기 신청" onClick={setRoleChange} />
           ) : mode === 'user' ? (
@@ -209,6 +229,7 @@ export default function Mypage() {
                 layout="responsive"
                 width={276}
                 alt="munzi1Img"
+                style={{ cursor: 'pointer' }}
                 onClick={() => chargeDustImmediately(55)}
               />
               <Image
@@ -216,7 +237,7 @@ export default function Mypage() {
                 width={276}
                 alt="munzi2Img"
                 layout="responsive"
-                style={{ marginTop: '8px' }}
+                style={{ marginTop: '8px', cursor: 'pointer' }}
                 onClick={() => chargeDustImmediately(110)}
               />
             </S.RightBottomLeftSection>

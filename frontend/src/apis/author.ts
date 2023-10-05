@@ -38,5 +38,23 @@ const getSubscribeAuthor = async () => {
   }
 };
 
-const author = { getStat, getAuthorInfo, subscribeAuthor, getSubscribeAuthor };
+const postIntroduction = async (introduction: string) => {
+  try {
+    const res = await client.post('/authors', { introduction });
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getAuthorMyInfo = async () => {
+  try {
+    const res = await client.get('/authors');
+    return res.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const author = { getAuthorMyInfo, postIntroduction, getStat, getAuthorInfo, subscribeAuthor, getSubscribeAuthor };
 export default author;

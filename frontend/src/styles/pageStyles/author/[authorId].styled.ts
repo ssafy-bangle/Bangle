@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-
 export const Container = styled.div`
-  height: calc(100vh - 13.2rem - 44px);
+  height: auto;
 `;
 
 export const LeftSection = styled.div`
@@ -51,6 +50,8 @@ export const MainInfo = styled.div`
 
 export const BookShelf = styled.div`
   display: grid;
+  width: 70rem;
+  height: auto;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
 `;
