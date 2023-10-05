@@ -92,7 +92,7 @@ export default function Review() {
           </S.BottomDiv>
         </S.LeftSection>
         <S.RightSection>
-          <S.Title>책제목</S.Title>
+          <S.Title>리뷰</S.Title>
           <S.ReviewContainer>
             {reviewImg ? (
               <ReviewCard imgsrc={reviewImg} size="big" />
