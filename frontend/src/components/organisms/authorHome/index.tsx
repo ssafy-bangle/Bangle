@@ -8,9 +8,11 @@ import { bookStatProp } from '@src/types/author';
 import { selectedBook } from '@src/types/props';
 import { AlertOpenState } from '@src/modules/state';
 import { useSetRecoilState } from 'recoil';
+import Loading from '@src/components/atoms/loading';
 
 export default function AuthorHome() {
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
+
   const [book, setBook] = useState<bookStatProp[]>([
     {
       cover: '',
@@ -53,7 +55,6 @@ export default function AuthorHome() {
     authorApi
       .getStat()
       .then((res: bookStatProp[]) => {
-        console.log(res)
         setBook(res);
         calTotalTodayData();
       })

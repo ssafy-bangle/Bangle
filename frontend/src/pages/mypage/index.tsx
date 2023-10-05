@@ -74,6 +74,7 @@ export default function Mypage() {
     setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
     userApi.putMemberRolesToAuthor().catch(() => {
       setIsOpenAlert(true);
+      alert('작가로 전환되었습니다.');
     });
     setMode('author');
   };
@@ -131,6 +132,7 @@ export default function Mypage() {
   const handleIntroductionSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     authorApi.postIntroduction(introduction);
+    alert('작가 소개가 등록 되었습니다.');
   };
 
   const popContent = (
@@ -192,9 +194,19 @@ export default function Mypage() {
           {roles === 'ROLE_USER' ? (
             <Button length={'medium'} icon="mode" content="작가되기 신청" onClick={setRoleChange} />
           ) : mode === 'user' ? (
-            <Button length={'medium'} icon="mode" content="작가모드로 보기" onClick={() => setMode('author')} />
+            <Button
+              length={'medium'}
+              icon="mode"
+              content="작가모드로 보기"
+              onClick={() => (setMode('author'), alert('작가 모드로 전환되었습니다.'))}
+            />
           ) : (
-            <Button length={'medium'} icon="mode" content="독자모드로 보기" onClick={() => setMode('user')} />
+            <Button
+              length={'medium'}
+              icon="mode"
+              content="독자모드로 보기"
+              onClick={() => (setMode('user'), alert('독자 모드로 전환되었습니다.'))}
+            />
           )}
           <S.Logout onClick={handleLogout}>로그아웃</S.Logout>
         </S.LeftSection>
@@ -224,9 +236,7 @@ export default function Mypage() {
           <S.RightBottomSection>
             <S.RightBottomLeftSection>
               <S.PartTitle>먼지뭉치</S.PartTitle>
-              <div>
-                asdfasdfasdf
-              </div>
+              <div>asdfasdfasdf</div>
               <Image
                 id="hover"
                 src={Munzi1}

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-
-export const Sad = styled.div`
-	color: var(--BG_GRAY2);
-  font-size: 4rem;
+export const LoadingBox = styled.div`
+  width: 10rem;
+  height: 10rem;
+  margin: auto;
+  margin-top: 4rem;
 `;

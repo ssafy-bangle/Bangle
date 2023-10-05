@@ -4,6 +4,13 @@ export const Container = styled.div`
   width: 98.4rem;
   margin: auto;
 `;
+
+export const LoadingBox = styled.div`
+  align-items: center;
+  align-items: center;
+  align-content: center;
+  background-color: red;
+`;
 export const ChipSection = styled.div`
   width: inherit;
   overflow-x: scroll;
