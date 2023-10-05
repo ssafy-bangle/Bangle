@@ -76,10 +76,13 @@ export default function Cart() {
   };
 
   const deleteBookHandler = () => {
+    let deleteMunzi = 0;
     selectedBookList.map((item) => {
       setCartItems((pre) => pre.filter((book) => item.id !== book.id));
       setSelectedBookList((pre) => pre.filter((item) => !item.id));
+      deleteMunzi += item.price;
     });
+    setTotalPrice((prev) => prev - deleteMunzi);
   };
 
   useEffect(() => {
