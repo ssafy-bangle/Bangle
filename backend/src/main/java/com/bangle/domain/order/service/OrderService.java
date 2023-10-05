@@ -135,7 +135,7 @@ public class OrderService {
 		bookshelfRepository.saveAll(bookshelfList);
 		Map<String, Object> map = new HashMap<>();
 		// book id 오름차순으로 정렬하고 {bookid, address} 반환
-		map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
+		// map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
 		map.put("dust", member.getDust());
 		return map;
 	}
