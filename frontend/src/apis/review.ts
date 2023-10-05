@@ -3,12 +3,13 @@ import apiInstance from './client';
 
 const client = apiInstance();
 
-const postReview = async (body: postBookReviewProps) => {
-  console.log('body', body)
+const postReview = async (review: postBookReviewProps) => {
+  console.log('body', review)
   try {
-    const res = await client.post(`/books/review`, body);
+    const res = await client.post(`/books/review`, review);
     return res.data;
   } catch (e) {
+    console.log('Error at postReview: ', e);
     throw new Error('');
   }
 };

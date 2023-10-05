@@ -1,5 +1,5 @@
 import * as S from '@src/styles/pageStyles/review/index.styled';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import PageTitle from '@src/components/atoms/pageTitle';
 import Button from '@src/components/atoms/button';
 import ReviewCard from '@src/components/atoms/reviewCard';
@@ -13,21 +13,20 @@ export default function Review() {
   const [searchWord, setSearchWord] = useState<string>('');
   const [review, setReview] = useState<string>('');
   const [score, setScore] = useState<number>(5);
-  const testBookId = 4;
+  const router = useRouter();
+  const bookId = Number(router.query.bookId);
   const [currentDot, setCurrentDot] = useState<number>(0);
   const [isGenerate, setIsGenerate] = useState<boolean>(false);
 
-  const router = useRouter();
-
   const handlePostReview = () => {
     reviewApi.postReview({
-      bookId: testBookId,
+      bookId: bookId,
       content: review,
       cover: reviewImg,
       score: score,
     });
     alert('리뷰 등록이 완료되었습니다.');
-    router.push(`/bookshelf/${testBookId}`);
+    router.push(`/bookshelf/${bookId}`);
   };
 
   const getCoverImg = (searchWord: string) => {

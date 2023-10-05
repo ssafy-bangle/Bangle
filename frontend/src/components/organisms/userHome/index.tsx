@@ -12,7 +12,7 @@ import BooksContainer from '../booksContainer';
 export default function UserHome() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
   const [nickname, setNickname] = useState<string>('');
-  const [subAuthorList, setSubAuthorList] = useState<{id: number, nickname: string}[]>([]);
+  const [subAuthorList, setSubAuthorList] = useState<{ id: number; nickname: string }[]>([]);
 
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
@@ -42,10 +42,14 @@ export default function UserHome() {
         </S.Title>
         <Carousel />
       </S.RecommendSection>
-      <S.RecommendSection>
-        <S.Title><strong>{nickname}</strong>님의 관심 작가 목록</S.Title>
-        <BooksContainer type="author" page="bookShelf" data={subAuthorList} />
-      </S.RecommendSection>
+      {subAuthorList.length > 0 && (
+        <S.RecommendSection>
+          <S.Title>
+            <strong>{nickname}</strong>님의 관심 작가 목록
+          </S.Title>
+          <BooksContainer type="author" page="bookShelf" data={subAuthorList} />
+        </S.RecommendSection>
+      )}
     </>
   );
 }
