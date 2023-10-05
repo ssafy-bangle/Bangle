@@ -3,6 +3,28 @@ import apiInstance from './client';
 
 const client = apiInstance();
 
+const postBookshelfPage = async (bookId: number | string, curPage: number) => {
+  try {
+    const res = await client.post('/bookshelf',
+    {
+      bookId: bookId,
+      currentPage: curPage
+    })
+    return res.data
+  } catch (e) {
+    throw new Error('');
+  }
+}
+
+const getBookViewDetail = async (bookId: number | string) => {
+  try {
+    const res = await client.get(`/bookshelf/${bookId}`)
+    return res.data
+  } catch (e) {
+    throw new Error('');
+  }
+}
+
 const getBookShelf = async () => {
   try {
     const res = await client.get(`/bookshelf/list`);
@@ -17,6 +39,7 @@ const getBookDetail = async (bookId: number) => {
     const res = await client.get(`/books/detail/${bookId}`);
     return res.data;
   } catch (e) {
+    console.log(e)
     throw new Error('');
   }
 };
@@ -88,5 +111,26 @@ const getGenre = async () => {
   }
 };
 
-const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+// const postBookImg = async (imgData: FormData) => {
+//   try {
+//     //Url 수정 해야함
+//     const token = 'Bearer ' + localStorage.getItem('accessToken');
+//     const res = await formData.post(`/authors/register`, imgData);
+//     return res.data;
+//   } catch (e) {
+//     throw new Error('');
+//   }
+// };
+
+// const postBookFile = async (fileData: FormData) => {
+//   try {
+//     //Url 수정 해야함
+//     const res = await formData.post(`/authors/register`, fileData);
+//     return res.data;
+//   } catch (e) {
+//     throw new Error('');
+//   }
+// };
+
+const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList, getBookViewDetail, postBookshelfPage };
 export default book;

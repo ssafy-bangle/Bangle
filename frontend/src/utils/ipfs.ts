@@ -11,11 +11,11 @@ function byteArrayToWordArray(ba: Uint8Array) {
 	return CryptoJS.lib.WordArray.create(wa, ba.length);
 }
 
-const downloadBookFile = (address: string) => {
-	axios({
-		// url: "http://j9a501.p.ssafy.io:8080/ipfs/" + address,
-		url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
-		// url: 'http://localhost:8080/ipfs/' + address, 
+const downloadBookFile = (userPW:string, address: string) => {
+	console.log("pw", userPW)
+	return axios({
+		// url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
+		url: 'http://j9a501.p.ssafy.io:8080/ipfs/' + address,
 		method: "GET",
 		responseType: "blob"
 	})
@@ -23,20 +23,25 @@ const downloadBookFile = (address: string) => {
 		console.log("download: ", res)
 		const blob = new Blob([res.data])
 		// need user input to pw
-		cryptography.deriveAESkey("bangle_user")
+		return cryptography.deriveAESkey(userPW)
 			.then((aesKey) => {
 				const cryptoJsKey = byteArrayToWordArray(aesKey)
 				const newIv = byteArrayToWordArray(aesKey.subarray(0, 16))
-				blob.arrayBuffer()
+				return blob.arrayBuffer()
 					.then((ipfsArrayBuffer) => {
 						const ipfsUintArray = new Uint8Array(ipfsArrayBuffer)
 						const decoder = new TextDecoder()
 						const decrypted = CryptoJS.AES.decrypt(decoder.decode(ipfsUintArray), cryptoJsKey, 
 							{mode: CryptoJS.mode.CBC, iv: newIv, padding: CryptoJS.pad.Pkcs7})
-						localStorage.setItem(address, decrypted.toString(CryptoJS.enc.Base64))
+						return decrypted.toString(CryptoJS.enc.Base64);
 					})
 			})
 	})
+	.catch((e)=>{
+		console.log(e)
+		return "";
+	})
 }
+
 const ipfs = {downloadBookFile}
 export default ipfs
