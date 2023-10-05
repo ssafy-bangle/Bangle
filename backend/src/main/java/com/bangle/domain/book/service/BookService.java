@@ -78,6 +78,7 @@ public class BookService {
 				.purchasePrice(publishRequest.getPrice())
 				.introduction(publishRequest.getIntroduce())
 				.genre(publishRequest.getGenre())
+				.totalPages(publishRequest.getTotalPage())
 				.address(address)
 				.author(author)
 				.cover(coverUrl)

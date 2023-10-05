@@ -17,7 +17,7 @@ export default function SearchBar() {
   const router = useRouter();
   const handleOnSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setRecentSearch((pre) => [...pre, keyword]);
+    keyword !== '' && setRecentSearch((pre) => [...pre, keyword]);
     router.push({
       pathname: '/search',
       query: {
@@ -49,16 +49,17 @@ export default function SearchBar() {
               <S.SearchLogContainer>
                 <S.RecentContainer>
                   최근 검색
+                  <S.Divider />
                   <S.RecentItemContainer>
-                    {recentSearch.slice(-3).map((content: string, idx: number) => (
+                    {recentSearch.slice(-2).map((content: string, idx: number) => (
                       <S.RecentItem key={idx}>
                         <CloseCircleOutlined /> {content}
                       </S.RecentItem>
                     ))}
                   </S.RecentItemContainer>
                 </S.RecentContainer>
-                <S.Divider />
-                <S.GenreContainer>
+
+                {/* <S.GenreContainer>
                   카테고리
                   <S.ChipsContainer>
                     {genreCategory.map((item: object, idx: number) => (
@@ -71,7 +72,7 @@ export default function SearchBar() {
                       />
                     ))}
                   </S.ChipsContainer>
-                </S.GenreContainer>
+                </S.GenreContainer> */}
               </S.SearchLogContainer>
             </S.InputStyle>
           </form>

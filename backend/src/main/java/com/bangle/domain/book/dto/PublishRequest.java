@@ -8,4 +8,5 @@ public class PublishRequest {
   Integer price;
   String introduce;
   String genre;
+  Integer totalPage;
 }
