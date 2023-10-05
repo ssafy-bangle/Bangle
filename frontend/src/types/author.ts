@@ -29,7 +29,7 @@ export type authorInfo = {
 };
 
 export type bookListProp = {
-  id: number;
+  bookId: number;
   title: string;
   genre: string;
   purchasePrice: number;
@@ -37,4 +37,6 @@ export type bookListProp = {
   averageScore: number;
   cover: string;
   address?: string;
+  progress?: number;
+  authorId?: number;
 };

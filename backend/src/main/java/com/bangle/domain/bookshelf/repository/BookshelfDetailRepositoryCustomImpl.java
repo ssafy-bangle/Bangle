@@ -28,8 +28,10 @@ public class BookshelfDetailRepositoryCustomImpl implements BookshelfDetailRepos
 	@Override
 	public List<BookshelfResponse> findBookshelfByMemberId(Long memberId) {
 		return jpaQueryFactory.select(
-				Projections.constructor(BookshelfResponse.class, book.id, book.title, bookshelf.address, book.cover,
-					bookshelf.readPages.divide(book.totalPages).multiply(100).as("progress")))
+				Projections.constructor(BookshelfResponse.class,
+						book.id, book.title, bookshelf.address, book.cover,
+						bookshelf.readPages.divide(book.totalPages).multiply(100).as("progress"),
+						book.author.id))
 			.from(bookshelf)
 			.join(bookshelf.book, book)
 			.join(bookshelf.member, member)

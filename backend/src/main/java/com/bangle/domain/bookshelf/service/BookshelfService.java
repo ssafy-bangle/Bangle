@@ -1,7 +1,14 @@
 package com.bangle.domain.bookshelf.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import com.bangle.domain.book.entity.Book;
+import com.bangle.domain.book.repository.BookRepository;
+import com.bangle.domain.bookshelf.dto.BookshelfPageResponse;
+import com.bangle.domain.member.entity.Member;
+import com.bangle.global.auth.security.CustomMemberDetails;
 import org.springframework.stereotype.Service;
 
 import com.bangle.domain.bookshelf.dto.BookshelfResponse;
@@ -19,6 +26,7 @@ public class BookshelfService {
 
 	private final MemberService memberService;
 	private final BookshelfRepository bookshelfRepository;
+	private final BookRepository bookRepository;
 
 	public List<BookshelfResponse> list(Long memberId) {
 
@@ -39,5 +47,18 @@ public class BookshelfService {
 		Bookshelf book = bookshelfRepository.findByMemberIdAndBookId(memberId,
 			bookshelfSaveRequest.bookId());
         book.save(bookshelfSaveRequest.currentPage());
+	}
+
+	public BookshelfPageResponse getBookshelfPageResponse(Long memberId, Long bookId) {
+		Bookshelf bookshelf = bookshelfRepository.findByMemberIdAndBookId(memberId, bookId);
+		Book book = bookRepository.findById(bookId).orElseThrow(NoSuchElementException::new);
+
+		return BookshelfPageResponse.builder()
+				.bookshelfId(bookshelf.getId())
+				.title(book.getTitle())
+				.address(bookshelf.getAddress())
+				.readPages(bookshelf.getReadPages())
+				.totalPages(book.getTotalPages())
+				.build();
 	}
 }

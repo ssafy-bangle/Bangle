@@ -8,6 +8,7 @@ import { privateToPublic } from '@ethereumjs/util';
 import { useRouter } from 'next/router';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { UserInfoState, UserModeState } from '@src/modules/user';
+import cryptography from '@src/utils/cryptography';
 
 export default function InfoContent() {
   const router = useRouter();
@@ -33,12 +34,6 @@ export default function InfoContent() {
     }
   };
 
-  const makeHash = async (password: string) => {
-    const encodedPassword = new TextEncoder().encode(password);
-    const hashedBuffer = await crypto.subtle.digest('SHA-256', encodedPassword);
-    return new Uint8Array(hashedBuffer);
-  };
-
   useEffect(() => {
     setIsButtonActive(
       nickname !== '' && password !== '' && passwordCheck !== '' && isKeyValid && privateKey !== undefined
@@ -49,7 +44,7 @@ export default function InfoContent() {
 
   useEffect(() => {
     if (password === passwordCheck && password.length >= 8) {
-      makeHash(password).then((hashedBuffer) => {
+      cryptography.makeHash(password).then((hashedBuffer) => {
         setPrivateKey(hashedBuffer);
       });
       setIsKeyValid(true);
