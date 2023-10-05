@@ -41,7 +41,9 @@ export const InputPW = styled.div`
   }
 `;
 
-export const InputField = styled(Input)`
+export const InputField = styled(Input).attrs({
+  type: 'password',
+})`
   background-color: aliceblue;
 `;
 
