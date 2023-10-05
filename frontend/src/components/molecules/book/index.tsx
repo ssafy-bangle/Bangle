@@ -10,11 +10,13 @@ export default function Book({ data, imgsrc, onClick }: BookProps) {
   const router = useRouter();
   const content = (
     <div>
-      <div onClick={()=>router.push(`/bookshelf/${data?.bookId}`)}>책 정보 보기</div>
-      <hr />
-      <div onClick={()=>router.push(`/author/${data?.authorId}`)}>작가 정보 보기</div>
+      <S.BookInfo onClick={() => router.push(`/review/${data?.bookId}`)}>책 리뷰 쓰기</S.BookInfo>
+      <hr style={{ opacity: '35%' }} />
+      <S.BookInfo onClick={() => router.push(`/bookshelf/${data?.bookId}`)}>책 정보 보기</S.BookInfo>
+      <hr style={{ opacity: '35%' }} />
+      <S.BookInfo onClick={() => router.push(`/author/${data?.authorId}`)}>작가 정보 보기</S.BookInfo>
     </div>
-  )
+  );
 
   return (
     <>
@@ -23,12 +25,15 @@ export default function Book({ data, imgsrc, onClick }: BookProps) {
         <div>
           <BookCover imgsrc={imgsrc} onClick={() => onClick(data?.bookId)} />
           <S.Progress>
-            <Progress percent={data?.progress} size="small" strokeColor={"#FFE86F"}/>
+            <Progress percent={data?.progress} size="small" strokeColor={'#FFE86F'} />
           </S.Progress>
           <S.BookTitle onClick={() => onClick(data?.bookId)}>
             {data?.title}
-            <div onClick={(e)=>{e.stopPropagation()}}>
-              <Popover content={content} trigger={"click"} placement='bottomLeft'>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}>
+              <Popover content={content} trigger={'click'} placement="bottomRight">
                 <MoreOutlined />
               </Popover>
             </div>
