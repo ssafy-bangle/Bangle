@@ -6,23 +6,68 @@ import Carousel from '@src/components/atoms/carousel';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { useEffect, useState } from 'react';
-import { authorApi } from '@src/apis';
+import { authorApi, bookApi } from '@src/apis';
 import BooksContainer from '../booksContainer';
 import { AlertOpenState } from '@src/modules/state';
+import { RecommendBook } from '@src/types/book';
 
 export default function UserHome() {
   const recoilUserInfo = useRecoilValue(UserInfoState);
   const [nickname, setNickname] = useState<string>('');
   const [subAuthorList, setSubAuthorList] = useState<{ id: number; nickname: string }[]>([]);
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
+  const [booksByGenre, setBooksByGenre] = useState<any>();
+  const [booksByInterest, setBooksByInterest] = useState<any>();
+
+  const getRandomMessage = (genre: string) => {
+    const tmp = [
+      `요즘 핫한 `,
+      `놓치기 아까운 `,
+      `최근 눈에 띄는 `,
+      `인기 많은 `,
+      `빠르게 팔리는 `,
+      `이번 달 추천하는 `,
+      `주목받는 `,
+      `많이 찾고 있는 `,
+      `새로운 `,
+    ];
+    return tmp[Math.floor(Math.random() * tmp.length)];
+  };
+
+  const getRandomEmozi = () => {
+    const tmp = [`😜 `, `🙃 `, `😁 `, `😃 `, `😆 `, `🥰 `, `🤗 `];
+    return tmp[Math.floor(Math.random() * tmp.length)];
+  };
+
+  useEffect(() => {
+    console.log('booksByGenre', booksByGenre);
+  }, [booksByGenre]);
+
+  useEffect(() => {
+    console.log('booksByInterest', booksByInterest);
+  }, [booksByInterest]);
+
   useEffect(() => {
     setNickname(recoilUserInfo.nickname);
     authorApi
       .getSubscribeAuthor()
       .then((res) => {
         setSubAuthorList(() => [...res.data]);
-        // bookApi.getGenre();
       })
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
+
+    bookApi
+      .getRecommendBookByGenre()
+      .then((res) => setBooksByGenre(res))
+      .catch(() => {
+        setIsAlertOpen(true);
+      });
+
+    bookApi
+      .getBookByInterests()
+      .then((res) => setBooksByInterest(Object.entries(res)))
       .catch(() => {
         setIsAlertOpen(true);
       });
@@ -44,10 +89,21 @@ export default function UserHome() {
       </S.BannerSection>
       <S.RecommendSection>
         <S.Title>
-          <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
+          ❤️ <strong>{nickname}</strong>님을 위한 <strong>맞춤</strong>추천
         </S.Title>
-        <Carousel />
+        <Carousel data={booksByGenre} />
       </S.RecommendSection>
+      {booksByInterest?.map(([key, arr]: [string, RecommendBook[]]) => (
+        <S.RecommendSection>
+          <S.Title>
+            {getRandomEmozi()}
+            {getRandomMessage(key)}
+            <strong>{key}</strong>
+          </S.Title>
+          <Carousel data={arr} />
+        </S.RecommendSection>
+      ))}
+
       {subAuthorList.length > 0 && (
         <S.RecommendSection>
           <S.Title>

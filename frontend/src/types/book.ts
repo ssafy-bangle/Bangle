@@ -15,6 +15,16 @@ export type BookInfo = {
   buy: boolean;
 };
 
+export type RecommendBook = {
+  averageScore: number;
+  cover: string;
+  genre: string;
+  id: number;
+  purchasePrice: number;
+  rentalPrice: number;
+  title: string;
+};
+
 export type reviewProps = {
   id: number;
   cover: string;

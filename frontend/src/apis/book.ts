@@ -1,5 +1,6 @@
 import { getBookshelfResProp, postBookReqProps, buyBookReqProps } from '@src/types/book';
 import apiInstance from './client';
+import axios from 'axios';
 
 const client = apiInstance();
 
@@ -53,12 +54,25 @@ const postBook = async (body: postBookReqProps) => {
 
 const buyBook = async (body: buyBookReqProps) => {
   try {
-    const res = await client.post(`/orders/book`, body);
+    const res = await axios
+      .create({
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+      })
+      .post(' https://j9a501.p.ssafy.io' + `/api/orders/book`, body);
     return res.data;
   } catch (e) {
-    console.log('error at buybook', e);
     throw new Error('');
   }
+  // try {
+  //   const res = await client.post(`/orders/book`, body);
+  //   return res.data;
+  // } catch (e) {
+  //   console.log('error at buybook', e);
+  //   throw new Error('');
+  // }
 };
 
 const wishBook = async (bookId: number) => {
@@ -88,5 +102,46 @@ const getGenre = async () => {
   }
 };
 
-const book = { getGenre, getBookShelf, getBookDetail, postBook, buyBook, wishBook, getWishList };
+const getRecommendBookByGenre = async () => {
+  // try {
+  //   const res = await client.post(`/books/recommend/genre`);
+  //   return res.data.data;
+  // } catch (e) {
+  //   throw new Error('');
+  // }
+  try {
+    const res = await axios
+      .create({
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+      })
+      .post(' https://j9a501.p.ssafy.io' + '/api/books/recommend/genre');
+    return res.data.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const getBookByInterests = async () => {
+  try {
+    const res = await client.get(`/members/interests`);
+    return res.data.data;
+  } catch (e) {
+    throw new Error('');
+  }
+};
+
+const book = {
+  getGenre,
+  getBookShelf,
+  getBookDetail,
+  postBook,
+  buyBook,
+  wishBook,
+  getWishList,
+  getRecommendBookByGenre,
+  getBookByInterests,
+};
 export default book;
