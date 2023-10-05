@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
 import { AlertOpenState } from '@src/modules/state';
+import { cookie } from '@src/utils/cookie';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -86,6 +87,8 @@ export default function BookId() {
       .then(({data}) => {
         showModal();
         setUserInfo({ ...userInfo, dust: data.dust });
+        // 즉시 구매했는데 장바구니에 들어있으면 제거하기
+        cookie.onSet("cartItems",cookie.onGet("cartItems").filter((e: any) => e.id !==id));
         router.push('/bookshelf');
       })
       .catch(() => {
