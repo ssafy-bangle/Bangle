@@ -1,6 +1,7 @@
 import axios from "axios";
 import cryptography from "./cryptography";
 import CryptoJS from "crypto-js";
+import apiInstance from "@src/apis/client";
 
 function byteArrayToWordArray(ba: Uint8Array) {
 	var wa:number[] = []
@@ -13,15 +14,17 @@ function byteArrayToWordArray(ba: Uint8Array) {
 
 const downloadBookFile = (userPW:string, address: string) => {
 	console.log("pw", userPW)
-	return axios({
-		// url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
-		url: 'http://j9a501.p.ssafy.io:8080/ipfs/' + address,
-		method: "GET",
-		responseType: "blob"
-	})
+	return apiInstance().get(
+		'/bookshelf/ipfs/' + address)
+	// return axios({
+	// 	// url: 'https://j9a501.p.ssafy.io/ipfs/' + address,
+	// 	url: 'http://j9a501.p.ssafy.io:8080/ipfs/' + address,
+	// 	method: "GET",
+	// 	responseType: "blob"
+	// })
 	.then((res) => {
 		console.log("download: ", res)
-		const blob = new Blob([res.data])
+		const blob = new Blob([res.data.data])
 		// need user input to pw
 		return cryptography.deriveAESkey(userPW)
 			.then((aesKey) => {

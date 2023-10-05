@@ -108,9 +108,11 @@ export default function Bookshelf() {
           </>
         )}
         <BooksContainer page="bookShelf" title="모든 책" data={bookList} onClick={handleBookClick} />
-        {wishList?.length && (
-          <BooksContainer page="wishList" title="관심있는 책" data={wishList} onClick={handlePageClick} />
-        )}
+        {wishList && wishList?.length > 0 ? 
+          <BooksContainer page="wishList" title="관심있는 책" data=
+          {wishList} onClick={handlePageClick} />
+          : <></>
+        }
       </S.Container>
     </>
   );

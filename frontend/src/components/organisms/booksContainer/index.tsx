@@ -27,11 +27,11 @@ export default function BooksContainer({ title, type, page, data, onClick }: Boo
     switch (page) {
       case 'bookShelf':
         return data?.map((item: getBookshelfResProp, idx: number) => (
-          <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} />
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={onClick} showProgress={true}/>
         ));
       case 'wishList':
         return data?.map((item: bookListProp, idx: number) => (
-          <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.bookId)} />
+          <Book data={item} key={idx} imgsrc={item.cover} onClick={() => pageOnclickHandler(item.bookId)} showProgress={false}/>
         ));
       default:
         return null;

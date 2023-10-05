@@ -48,6 +48,12 @@ public class IpfsService {
 
     @Value("${kubo.rpc.host}")
     private String kuboRpcHost;
+
+    public String download(String address) {
+//        String text = getFileFromIPFS(address);
+//        return Base64.getDecoder().decode(text);
+        return getFileFromIPFS(address);
+    }
     public IpfsResponse upload(byte[] encryptedBook) {
         try {
             // upload to IPFS
@@ -76,11 +82,6 @@ public class IpfsService {
         String text = getFileFromIPFS(bookRepository.findById(bookId)
             .orElseThrow(NoSuchElementException::new)
             .getAddress());
-//        ByteArrayBuilder byteArrayBuilder = new ByteArrayBuilder();
-//        for (char c : text.toCharArray()) {
-//            byteArrayBuilder.append(c);
-//        }
-//        return byteArrayBuilder.toByteArray();
         return Base64.getDecoder().decode(text);
     }
 

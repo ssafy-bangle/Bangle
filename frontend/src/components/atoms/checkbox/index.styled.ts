@@ -16,6 +16,11 @@ export const StyledCheckBox = styled(Checkbox)`
       .ant-checkbox-inner {
       background-color: var(--BG_MAIN);
     }
+    :where(.css-190m0jy).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+      .ant-checkbox-checked:not(.ant-checkbox-disabled)
+      .ant-checkbox-inner {
+      background-color: var(--BG_MAIN);
+    }
   }
   :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
     .ant-checkbox-inner,
@@ -23,6 +28,15 @@ export const StyledCheckBox = styled(Checkbox)`
     border-color: var(--BG_MAIN);
   }
   :where(.css-dev-only-do-not-override-190m0jy).ant-checkbox .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+    outline: none;
+    outline-offset: 0;
+  }
+  :where(.css-190m0jy).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
+    .ant-checkbox-inner,
+  :where(.css-190m0jy).ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+    border-color: var(--BG_MAIN);
+  }
+  :where(.css-190m0jy).ant-checkbox .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
     outline: none;
     outline-offset: 0;
   }

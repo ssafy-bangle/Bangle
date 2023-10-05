@@ -20,10 +20,12 @@ export const BookTitle = styled.div`
   cursor: pointer;
 `;
 
-// progress 색 변경 어떻게 하죠//?
 export const Progress = styled.div`
   margin-top: 0.8rem;
   & > :where(.css-dev-only-do-not-override-190m0jy).ant-progress .ant-progress-text {
+    color: var(--BG_GRAY1);
+  }
+  & > :where(.css-190m0jy).ant-progress .ant-progress-text {
     color: var(--BG_GRAY1);
   }
 `;

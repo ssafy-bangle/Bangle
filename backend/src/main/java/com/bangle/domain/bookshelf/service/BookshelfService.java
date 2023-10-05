@@ -62,4 +62,8 @@ public class BookshelfService {
 				.epubCfi(bookshelf.getEpubCfi())
 				.build();
 	}
+	public String getBookshelfAddress(Long memberId, Long bookId) {
+		Bookshelf bookshelf = bookshelfRepository.findByMemberIdAndBookId(memberId, bookId);
+		return bookshelf.getAddress();
+	}
 }
