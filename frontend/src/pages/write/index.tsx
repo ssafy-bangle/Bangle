@@ -8,7 +8,8 @@ import type { DropdownItems } from '@src/types/props';
 import { bookApi } from '@src/apis';
 import { useRouter } from 'next/router';
 import Button from '@src/components/atoms/button';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { UserInfoState } from '@src/modules/user';
 import { AlertOpenState } from '@src/modules/state';
 
 const genreList = ['인문', 'SF', '자기계발', '로맨스', '소설', '건강', '경제', '취미', '어학', '여행'];
@@ -21,6 +22,7 @@ const items: DropdownItems[] = itemList;
 
 export default function Write() {
   const router = useRouter();
+  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
   const [title, setTitle] = useState<string>('');
   const [fileData, setFileData] = useState<File>();
   const [coverData, setCoverData] = useState<File>();
@@ -41,12 +43,15 @@ export default function Write() {
     await bookApi
       .postBook({
         title: title,
-        price: 0,
+        price: price,
         introduce: introduction,
         genre: genre,
         pageNum: pageNum,
         file: fileData,
         cover: coverData,
+      })
+      .then(({data}) => {
+        setUserInfo({ ...userInfo, dust: data.dust });
       })
       .catch(() => {
         setIsAlertOpen(true);
