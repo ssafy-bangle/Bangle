@@ -35,6 +35,7 @@ public class BookAndReviewResponse {
 	public void addReview(List<Review> reviews) {
 		List<ReviewResponse> reviewResponse = new ArrayList<>();
 		reviews.forEach(review -> reviewResponse.add(review.toResponse()));
+		reviewResponse.sort((o1, o2) -> (int)(o2.getId() - o1.getId()));
 		this.reviews = reviewResponse;
 	}
 }
