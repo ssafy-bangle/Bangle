@@ -101,7 +101,6 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
         borderColor: colorsArray[idx % 30],
         backgroundColor: colorsArray[idx % 30],
       }));
-    console.log(datasets);
     labels = ['조회수', '구매수', '리뷰수'];
 
     setData({

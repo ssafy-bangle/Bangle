@@ -83,7 +83,14 @@ export default function Bookshelf() {
       .getWishList()
       .then((res) => {
         if (res.data) {
-          setWishList(res.data);
+          let newWishList: any = []
+          res.data.forEach((elem:any)=>{
+            newWishList.push({
+              ...elem, 
+              bookId: elem.id
+            })
+          })
+          setWishList(newWishList)
         }
       })
       .catch(() => {

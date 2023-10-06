@@ -23,14 +23,12 @@ export default function ReviewCard({ imgsrc, size, reviewId }: BookCoverProps) {
     if (reviewId) {
       reviewApi.getReviewDetail(reviewId)
         .then((res)=>{
-          console.log("review res:", res)
           const date = new Date(res.data.createdTime);
           const dateString = date.toLocaleDateString('ko-ko', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
           });
-          console.log(dateString)
           setReview({
             ...(res.data),
             createdTime: dateString

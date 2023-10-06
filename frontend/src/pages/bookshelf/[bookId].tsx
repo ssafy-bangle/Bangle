@@ -40,7 +40,6 @@ export default function BookId() {
     bookApi
       .getBookDetail(bookId)
       .then((response) => {
-        console.log(response)
         const res = response.data.bookDetail;
         const info: BookInfo = {
           bookId: res.id,
@@ -59,7 +58,6 @@ export default function BookId() {
           buy: response.data.buy,
         };
         setBookInfo({ ...bookInfo, ...info });
-        console.log("cover: ",bookInfo.reviews)
         if (response.data.wish) {
           setIsWish(true);
         }

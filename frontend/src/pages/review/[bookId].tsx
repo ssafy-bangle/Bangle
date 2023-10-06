@@ -38,9 +38,6 @@ export default function Review() {
         });
         router.push(`/bookshelf/${bookId}`);
       })
-      .catch((e) => {
-        console.log('eeeor: ', e);
-      });
   };
 
   const getCoverImg = (searchWord: string) => {

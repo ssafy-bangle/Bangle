@@ -26,7 +26,6 @@ const getReviewDetail = async (reviewId: number) => {
     const res = await client.get('/books/review?reviewId=' + reviewId);
     return res.data
   } catch (e) {
-    console.log(e)
     throw new Error('');
   }
 }
