@@ -62,6 +62,17 @@ export const LineChart = React.memo(function LineChart({
   const [data, setData] = useState<ChartData>({ labels: [], datasets: [] });
   let labels = [];
   const colorsArray = [
+    '#FF99CC',
+    '#99CCFF',
+    '#CC99FF',
+    '#FFFF99',
+    '#99FFCC',
+    '#CCFF99',
+    '#FFCC99',
+    '#99FF99',
+    '#99FFFF',
+    '#FF99FF',
+    '#CCFFFF',
     '#FF5733',
     '#FF33A1',
     '#33FF57',
@@ -81,17 +92,6 @@ export const LineChart = React.memo(function LineChart({
     '#33AAFF',
     '#FF66FF',
     '#66FF66',
-    '#FF99CC',
-    '#99CCFF',
-    '#CC99FF',
-    '#FFFF99',
-    '#99FFCC',
-    '#CCFF99',
-    '#FFCC99',
-    '#99FF99',
-    '#99FFFF',
-    '#FF99FF',
-    '#CCFFFF',
   ];
 
   useEffect(() => {

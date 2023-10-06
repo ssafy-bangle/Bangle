@@ -91,8 +91,8 @@ export default function Write() {
           onClick={async () => {
             await handlePostBook();
             Swal.fire({
-              title: '책 등록',
-              text: '책 등록 완료되었습니다.',
+              title: '등록 완료',
+              text: '책 등록이 완료되었습니다.',
               confirmButtonColor: '#2cc295',
             });
             router.push('/home');
