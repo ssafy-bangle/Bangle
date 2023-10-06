@@ -1,6 +1,8 @@
 package com.bangle.domain.review.service;
 
 import com.bangle.domain.book.entity.Book;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class ReviewService {
 			.book(book)
 			.content(request.content())
 			.score(request.score())
+			.createdTime(LocalDateTime.now())
 			.cover(awsS3Service.uploadFromUrlToS3(request.cover()))
 			.build());
 
