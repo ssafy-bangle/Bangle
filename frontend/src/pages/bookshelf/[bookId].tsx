@@ -138,7 +138,7 @@ export default function BookId() {
                   content="대여하기"
                   onClick={() =>
                     Swal.fire({
-                      title: '준비 중',
+                      title: '준비중',
                       text: '추후 업데이트 될 예정입니다.',
                       confirmButtonColor: '#2cc295',
                     })

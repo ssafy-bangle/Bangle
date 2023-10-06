@@ -12,7 +12,7 @@ export default function EbookNav({ closeViewer }: { closeViewer: () => void }) {
           alt="BookmarkImg"
           onClick={() => {
             Swal.fire({
-              title: '준비 중',
+              title: '준비중',
               text: '추후 업데이트 될 예정입니다.',
               confirmButtonColor: '#2cc295',
             });
@@ -23,7 +23,7 @@ export default function EbookNav({ closeViewer }: { closeViewer: () => void }) {
           alt="HighLightImg"
           onClick={() => {
             Swal.fire({
-              title: '준비 중',
+              title: '준비중',
               text: '추후 업데이트 될 예정입니다.',
               confirmButtonColor: '#2cc295',
             });
@@ -34,7 +34,7 @@ export default function EbookNav({ closeViewer }: { closeViewer: () => void }) {
           alt="SettingImg"
           onClick={() => {
             Swal.fire({
-              title: '준비 중',
+              title: '준비중',
               text: '추후 업데이트 될 예정입니다.',
               confirmButtonColor: '#2cc295',
             });

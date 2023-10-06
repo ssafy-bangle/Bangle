@@ -123,7 +123,7 @@ export default function Mypage() {
     });
     Swal.fire({
       title: '로그아웃',
-      text: '성공적으로 로그아웃 되었습니다.',
+      text: '로그아웃 되었습니다.',
       confirmButtonColor: '#2cc295',
     });
     router.push('/');
