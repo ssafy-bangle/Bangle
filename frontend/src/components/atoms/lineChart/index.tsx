@@ -13,6 +13,7 @@ import { Line } from 'react-chartjs-2';
 import { bookStatProp } from '@src/types/author';
 import * as S from './index.styled';
 import Loading from '../loading';
+import NoValue from '../noValue';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -51,10 +52,27 @@ export const options = {
   },
 };
 
-export const LineChart = React.memo(function LineChart({ book }: { book: bookStatProp[] }) {
+export const LineChart = React.memo(function LineChart({
+  book,
+  isLoading,
+}: {
+  book: bookStatProp[];
+  isLoading: boolean;
+}) {
   const [data, setData] = useState<ChartData>({ labels: [], datasets: [] });
   let labels = [];
   const colorsArray = [
+    '#FF99CC',
+    '#99CCFF',
+    '#CC99FF',
+    '#FFFF99',
+    '#99FFCC',
+    '#CCFF99',
+    '#FFCC99',
+    '#99FF99',
+    '#99FFFF',
+    '#FF99FF',
+    '#CCFFFF',
     '#FF5733',
     '#FF33A1',
     '#33FF57',
@@ -74,17 +92,6 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
     '#33AAFF',
     '#FF66FF',
     '#66FF66',
-    '#FF99CC',
-    '#99CCFF',
-    '#CC99FF',
-    '#FFFF99',
-    '#99FFCC',
-    '#CCFF99',
-    '#FFCC99',
-    '#99FF99',
-    '#99FFFF',
-    '#FF99FF',
-    '#CCFFFF',
   ];
 
   useEffect(() => {
@@ -111,8 +118,14 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
 
   return (
     <>
-      {data.datasets.length > 0 ? (
-        <Line options={options} data={data} width={630} />
+      {!isLoading ? (
+        data.datasets.length > 0 ? (
+          <Line options={options} data={data} width={630} />
+        ) : (
+          <S.NoValueContainer>
+            <NoValue type={'authorHome'} />
+          </S.NoValueContainer>
+        )
       ) : (
         <S.LoadingBox>
           <Loading content="분석 중..." />

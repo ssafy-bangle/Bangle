@@ -123,7 +123,7 @@ export default function Mypage() {
     });
     Swal.fire({
       title: '로그아웃',
-      text: '성공적으로 로그아웃 되었습니다.',
+      text: '로그아웃 되었습니다.',
       confirmButtonColor: '#2cc295',
     });
     router.push('/');
@@ -299,7 +299,20 @@ export default function Mypage() {
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
               <S.MunziBtnContainer>
-                <Image src={Munzi3} width={250} alt="munzi3Img" layout="responsive" />
+                <Image
+                  src={Munzi3}
+                  width={250}
+                  alt="munzi3Img"
+                  style={{ cursor: 'pointer' }}
+                  layout="responsive"
+                  onClick={() => {
+                    Swal.fire({
+                      title: '준비중',
+                      text: '추후 업데이트 될 예정입니다.',
+                      confirmButtonColor: '#2cc295',
+                    });
+                  }}
+                />
                 <Munzibtn price={1} content="￦1,000" onClick={() => chargeDustImmediately(1)} />
                 <Munzibtn price={5} content="￦5,000" onClick={() => chargeDustImmediately(5)} />
                 <Munzibtn price={10} content="￦10,000" onClick={() => chargeDustImmediately(10)} />

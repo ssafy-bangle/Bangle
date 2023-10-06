@@ -6,3 +6,9 @@ export const LoadingBox = styled.div`
   margin: auto;
   margin-top: 4rem;
 `;
+
+export const NoValueContainer = styled.div`
+  width: 35rem;
+  margin: auto;
+  margin-top: 4rem;
+`;

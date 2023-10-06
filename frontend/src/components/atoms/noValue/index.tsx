@@ -15,6 +15,8 @@ export default function NoValue({ type }: NoValueProps) {
         return '아직 구매한 책이 없어요';
       case 'card':
         return '아직 카드가 없어요';
+      case 'authorHome':
+        return '오늘은 아직 아무도 내 책을 안 봤어요';
       default:
         return '';
     }
