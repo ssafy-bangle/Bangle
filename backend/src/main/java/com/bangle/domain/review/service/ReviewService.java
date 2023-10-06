@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bangle.domain.book.repository.BookRepository;
 import com.bangle.domain.member.repository.MemberRepository;
+import com.bangle.domain.review.dto.ReviewDetailResponse;
 import com.bangle.domain.review.dto.ReviewRequest;
 import com.bangle.domain.review.entity.Review;
 import com.bangle.domain.review.repository.ReviewRepository;
@@ -70,4 +71,7 @@ public class ReviewService {
 		reviewRepository.deleteById(reviewId);
 	}
 
+	public ReviewDetailResponse getReview(Long reviewId) {
+		return reviewRepository.getReviewDetailByReviewId(reviewId);
+	}
 }
