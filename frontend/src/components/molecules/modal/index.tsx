@@ -9,6 +9,7 @@ import paymentAPI from '@src/apis/payment';
 import { useRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { cookie } from '@src/utils/cookie';
+import Swal from 'sweetalert2';
 
 export default function Modal({ data, isOpen, setIsOpen, type, title, price, onClick }: ModalProps) {
   // get user info
@@ -45,7 +46,11 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
 
       var found = cartItems.find((e: { id: number }) => e.id === data.bookId);
       if (found) {
-        alert('장바구니에 담겨있는 책입니다.');
+        Swal.fire({
+          title: '담기 실패',
+          text: '장바구니에 이미 담겨있는 책입니다.',
+          confirmButtonColor: '#2cc295',
+        });
         openModalHandler();
         return;
       }
@@ -54,7 +59,11 @@ export default function Modal({ data, isOpen, setIsOpen, type, title, price, onC
     }
     openModalHandler();
     cookie.onSet('cartItems', [...cartItem]);
-    alert('장바구니에 책이 담겼습니다');
+    Swal.fire({
+      title: '담기 성공',
+      text: '장바구니에 책이 담겼습니다',
+      confirmButtonColor: '#2cc295',
+    });
     // router.push('/home');
   };
 

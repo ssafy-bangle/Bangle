@@ -9,6 +9,7 @@ import { reviewApi } from '@src/apis';
 import { useRouter } from 'next/router';
 import { AlertOpenState } from '@src/modules/state';
 import { useSetRecoilState } from 'recoil';
+import Swal from 'sweetalert2';
 
 export default function Review() {
   const [reviewImg, setReviewImg] = useState<string>('');
@@ -22,18 +23,24 @@ export default function Review() {
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
 
   const handlePostReview = () => {
-    reviewApi.postReview({
-      bookId: bookId,
-      content: review,
-      cover: reviewImg,
-      score: score,
-    })
-      .then((res)=>{
-        console.log(res)
-        alert('리뷰 등록이 완료되었습니다.');
+    reviewApi
+      .postReview({
+        bookId: bookId,
+        content: review,
+        cover: reviewImg,
+        score: score,
+      })
+      .then((res) => {
+        Swal.fire({
+          title: '리뷰 등록',
+          text: '리뷰 등록이 완료되었습니다.',
+          confirmButtonColor: '#2cc295',
+        });
         router.push(`/bookshelf/${bookId}`);
       })
-      .catch((e)=>{console.log("eeeor: ", e)})
+      .catch((e) => {
+        console.log('eeeor: ', e);
+      });
   };
 
   const getCoverImg = (searchWord: string) => {
