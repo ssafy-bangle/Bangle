@@ -123,7 +123,7 @@ export default function BookId() {
               {isWish ? <BookFilled onClick={setWishListHandler} /> : <BookOutlined onClick={setWishListHandler} />}
             </S.TopInfoContainer>
             <S.SmallInfo>
-              <span onClick={() => router.push(`/authorpage/${bookInfo.authorId}`)} style={{ cursor: 'pointer' }}>
+              <span onClick={() => router.push(`/author/${bookInfo.authorId}`)} style={{ cursor: 'pointer' }}>
                 {bookInfo.nickname}
               </span>{' '}
               · {bookInfo.publicationDate} · {bookInfo.genre}
