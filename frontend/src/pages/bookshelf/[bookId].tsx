@@ -162,11 +162,11 @@ export default function BookId() {
         </S.InfoContainer>
         <S.ReviewContainer>
           <S.InfoTitle>리뷰</S.InfoTitle>
-          <Rating value={bookInfo.averageScore} label={true} editable={false} setInput={() => {}} />
+          <Rating size="default" value={bookInfo.averageScore} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
             {bookInfo.reviews.map((card: reviewProps) => (
               <>
-                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} onClick={() => {}} />
+                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} reviewId={card.id} />
               </>
             ))}
           </S.CardContainer>

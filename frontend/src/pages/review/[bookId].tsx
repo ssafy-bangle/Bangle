@@ -110,7 +110,7 @@ export default function Review() {
                 placeholder="간단한 리뷰를 남겨주세요"
                 onChange={({ target: { value } }) => setReview(value)}></S.TextArea>
               <S.InfoBottom>
-                <Rating value={score} label={false} editable={true} setInput={setScore} />
+                <Rating size="default" value={score} label={false} editable={true} setInput={setScore} />
                 <Button
                   length="medium"
                   content="작성완료"
