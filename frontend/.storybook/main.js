@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-interactions',
     '@storybook/addon-controls',
     'storybook-axios/register',
+    '@storybook/addon-story-state',
   ],
   framework: {
     name: '@storybook/nextjs',

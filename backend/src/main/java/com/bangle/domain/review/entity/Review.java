@@ -1,7 +1,10 @@
 package com.bangle.domain.review.entity;
 
+import java.time.LocalDateTime;
+
 import com.bangle.domain.book.entity.Book;
 import com.bangle.domain.member.entity.Member;
+import com.bangle.domain.review.dto.ReviewResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,5 +45,12 @@ public class Review {
 
 	private String cover;
 
+	private LocalDateTime createdTime;
 
+	public ReviewResponse toResponse() {
+		return ReviewResponse.builder()
+			.id(this.id)
+			.cover(this.cover)
+			.build();
+	}
 }

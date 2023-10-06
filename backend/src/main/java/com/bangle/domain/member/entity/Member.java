@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.bangle.domain.author.entity.Author;
 import com.bangle.domain.member.dto.JoinRequest;
-import com.bangle.domain.member.dto.MemberResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,13 +44,11 @@ public class Member {
 
 	private String nickname;
 
-	private float point;
-
 	private String provider;
 
 	private String roles;
 
-	private float dust;
+	private int dust;
 
 	@Column(name = "user_id")
 	private String userId;
@@ -68,14 +65,41 @@ public class Member {
 
 	public void join(JoinRequest joinForm) {
 		this.nickname = joinForm.nickname();
-		this.privateKey = joinForm.privateKey();
+		this.publicKey = joinForm.publicKey();
 	}
 
 	public void joinAuthor(JoinRequest joinForm, Author saveAuthor) {
 		this.nickname = joinForm.nickname();
-		this.privateKey = joinForm.privateKey();
+		this.publicKey = joinForm.publicKey();
 		this.roles = "ROLE_AUTHOR";
 		this.author = saveAuthor;
 	}
 
+	public void changeNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void updateDust(int amount) { this.dust += amount; }
+
+	public void buyBook(int cost) {
+		if (dust < cost) {
+			throw new IllegalArgumentException("잔액 부족");
+		}
+		dust -= cost;
+	}
+
+	public void publishBook(int cost) {
+		if (dust < cost) {
+			throw new IllegalArgumentException("잔액 부족");
+		}
+		dust -= cost;
+	}
+
+	public void upgradeAuthor() {
+		this.roles = "ROLE_AUTHOR";
+	}
+
+	public boolean isAuthor() {
+		return roles.equals("ROLE_AUTHOR");
+	}
 }

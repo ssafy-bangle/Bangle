@@ -9,12 +9,18 @@ type Story = StoryObj<typeof Button>;
 
 const Template: Story = {
   name: 'Default',
+  argTypes: {
+    name: {
+      type: 'string',
+      control: 'select',
+      options: ['홈', '출판', '마이페이지'],
+    },
+  },
   render: (args) => <Button {...args} />,
 };
 
-export const LongBigBtn: Story = {
+export const Default: Story = {
   ...Template,
-  name: 'Long & Big',
   args: {
     ...Template.args,
   },

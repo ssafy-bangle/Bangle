@@ -1,18 +1,25 @@
 package com.bangle.domain.order.controller;
 
+import com.bangle.domain.book.dto.BookIdAddressResponse;
+import com.bangle.domain.order.dto.OrderRequest;
 import com.bangle.domain.order.service.OrderService;
-import com.bangle.domain.order.dto.IpfsResponse;
-import com.bangle.domain.order.dto.RegisterRequest;
 import com.bangle.global.auth.security.CustomMemberDetails;
+import com.bangle.global.response.BaseResponse;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
@@ -20,17 +27,17 @@ public class OrderController {
 
   private final OrderService ordersService;
 
-  @PostMapping("/register")
-  public ResponseEntity<?> registerBookFile(
-      @AuthenticationPrincipal CustomMemberDetails customMemberDetails,
-      RegisterRequest registerRequest) {
+  @PostMapping("/book")
+
+  public ResponseEntity<?> orderBook(
+          @AuthenticationPrincipal CustomMemberDetails member,
+          @RequestBody OrderRequest orders) {
     try {
-      // need to check file if is real EPUB???
-      IpfsResponse ipfsResponse = ordersService
-          .upload(registerRequest, customMemberDetails.getPublicKey());
-      return new ResponseEntity<>(ipfsResponse, HttpStatus.OK);
+      Map<String, Object> ret = ordersService.order(member.getUsername(), orders);
+      return BaseResponse.okWithData(HttpStatus.OK,"주문 완료",  ret);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      e.printStackTrace();
+    return BaseResponse.fail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
   }
 }

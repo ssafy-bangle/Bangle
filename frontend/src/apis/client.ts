@@ -1,11 +1,32 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_DOMAIN + 'bangle/api'
-axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
+function apiInstance(contentType: string = 'application/json;charset=utf-8') {
+  const client = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_DOMAIN + 'api',
+    headers: {
+      'Content-Type': contentType,
+    },
+  });
 
-export const client = () => {
-	const instance = axios.create({
-		// something like tokens
-	})
-	return instance;
+  client.interceptors.request.use(
+    async (config: AxiosRequestConfig) => {
+      const token = 'Bearer ' + localStorage.getItem('accessToken');
+      const Config: InternalAxiosRequestConfig = {
+        ...config,
+        // @ts-ignore
+        headers: {
+          ...config.headers,
+          Authorization: token,
+        },
+      };
+      return Config;
+    },
+    (error) => {
+      Promise.reject(error);
+    },
+  );
+
+  return client;
 }
+
+export default apiInstance;

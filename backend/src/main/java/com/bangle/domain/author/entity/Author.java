@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,25 @@ public class Author {
 
 	private Long income;
 
+	@Column(length = 1024)
 	private String introduction;
 
 	private Long follower;
+
+	public static Author createAuthor(Member member) {
+		return Author.builder()
+			.member(member)
+			.follower(0L)
+			.income(0L)
+			.introduction("")
+			.build();
+	}
+
+	public String getNickname() {
+		return member.getNickname();
+	}
+
+	public void updateIntroduction(String introduce) {
+		this.introduction = introduce;
+	}
 }

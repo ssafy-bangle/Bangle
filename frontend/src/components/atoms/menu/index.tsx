@@ -7,7 +7,7 @@ export default function Menu({ name, url }: MenuProps) {
   return (
     <>
       <S.Container>
-        <S.Menu href={`/${url}`} isSelected={router.pathname === `/${url}`}>
+        <S.Menu href={`/${url}`} selected={router.pathname === `/${url}`}>
           {name}
         </S.Menu>
       </S.Container>

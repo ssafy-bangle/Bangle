@@ -6,6 +6,9 @@ import userApi from '@src/apis/user';
 import { useEffect, useState } from 'react';
 import { privateToPublic } from '@ethereumjs/util';
 import { useRouter } from 'next/router';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { UserInfoState, UserModeState } from '@src/modules/user';
+import cryptography from '@src/utils/cryptography';
 
 export default function InfoContent() {
   const router = useRouter();
@@ -16,24 +19,19 @@ export default function InfoContent() {
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
-  const handleOnClick = () => {
-    const send = () => {
-      if (privateKey) {
-        const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
-          .map((b) => b.toString(16).padStart(2, '0'))
-          .join('');
-        setPrivateKey(undefined);
-        userApi.postPublicKey(nickname, publicKey);
-      }
-      // send(); //닉네임과 블록체인 암호키를 같이 보내도록 수정(POST) 그에 대한 응답으로 USERDto 받아와서 전역으로 세팅
-    };
-    router.push('/home');
-  };
-
-  const makeHash = async (password: string) => {
-    const encodedPassword = new TextEncoder().encode(password);
-    const hashedBuffer = await crypto.subtle.digest('SHA-256', encodedPassword);
-    return new Uint8Array(hashedBuffer);
+  const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+  const setMode = useSetRecoilState(UserModeState);
+  const handleOnClick = async () => {
+    if (privateKey) {
+      const publicKey = Array.from(new Uint8Array(privateToPublic(privateKey)))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+      setPrivateKey(undefined);
+      setUserInfo({ ...userInfo, nickname: nickname, roles: isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER' });
+      setMode(isAuthor ? 'author' : 'user');
+      await userApi.postMemberInfo(nickname, publicKey, isAuthor ? 'ROLE_AUTHOR' : 'ROLE_USER');
+      router.push('/genre');
+    }
   };
 
   useEffect(() => {
@@ -45,15 +43,9 @@ export default function InfoContent() {
   }, [nickname, isKeyValid, privateKey]);
 
   useEffect(() => {
-    if (password === passwordCheck) {
-      makeHash(password).then((hashedBuffer) => {
+    if (password === passwordCheck && password.length >= 8) {
+      cryptography.makeHash(password).then((hashedBuffer) => {
         setPrivateKey(hashedBuffer);
-        console.log(
-          'hashedBufferPrivateKey: ',
-          Array.from(new Uint8Array(hashedBuffer))
-            .map((b) => b.toString(16).padStart(2, '0'))
-            .join(''),
-        );
       });
       setIsKeyValid(true);
     } else {
@@ -61,14 +53,18 @@ export default function InfoContent() {
     }
   }, [password, passwordCheck]);
 
+  const recoilNickname = '현재 닉네임: ' + useRecoilValue(UserInfoState).nickname;
+
   return (
     <>
       <S.Container>
-        <Input size={'default'} state={'default'} placeholder={'닉네임'} setInput={setNickname} />
-        <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호'} setInput={setPassword} />
+        <Input size={'default'} state={'default'} placeholder={recoilNickname} setInput={setNickname} />
+        <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호(8자 이상)'} setInput={setPassword} />
         <Input size={'default'} state={'default'} placeholder={'지갑 비밀번호 확인'} setInput={setPasswordCheck} />
-        <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
-        <Button size={'big'} length={'short'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
+        <S.CheckBoxContainer>
+          <Checkbox content={'작가인가요?'} setInput={setIsAuthor} />
+        </S.CheckBoxContainer>
+        <Button theme="default" length={'medium'} content="시작하기" active={isButtonActive} onClick={handleOnClick} />
       </S.Container>
     </>
   );

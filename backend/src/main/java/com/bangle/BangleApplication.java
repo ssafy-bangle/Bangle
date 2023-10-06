@@ -2,10 +2,14 @@ package com.bangle;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class BangleApplication {
 
-	public static void main(String[] args) {SpringApplication.run(BangleApplication.class, args);}
+	public static void main(String[] args) {
+		SpringApplication.run(BangleApplication.class, args);
+	}
 
 }

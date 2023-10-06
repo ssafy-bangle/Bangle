@@ -41,6 +41,11 @@ body {
   height: 100%;
   background-color: var(--BG_BLACK);
   font-family: NotoSansKR;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 
@@ -67,6 +72,10 @@ button {
 
 a, a:visited {
   text-decoration: none;
+}
+
+a:hover{
+  color:  var(--BG_MAIN);
 }
 `;
 

@@ -11,4 +11,5 @@ import com.bangle.domain.member.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	Optional<Member> findByUserId(String userId);
+	Optional<Member> findById(Long memberId);
 }

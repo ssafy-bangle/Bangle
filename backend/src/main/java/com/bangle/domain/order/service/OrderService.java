@@ -1,79 +1,145 @@
 package com.bangle.domain.order.service;
 
-import com.bangle.global.util.CryptoUtil;
-import com.bangle.domain.order.dto.IpfsResponse;
-import com.bangle.domain.order.dto.KuboAddResponse;
-import com.bangle.domain.order.dto.RegisterRequest;
+import com.bangle.domain.author.entity.Author;
+import com.bangle.domain.blockchain.service.EthereumService;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import lombok.RequiredArgsConstructor;
+import com.bangle.domain.blockchain.dto.IpfsResponse;
+import com.bangle.domain.blockchain.service.IpfsService;
+import com.bangle.domain.book.dto.BookIdAddressResponse;
+import com.bangle.global.util.CryptoUtil;
+
+import org.apache.catalina.util.ParameterMap;
+import org.bouncycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import com.bangle.domain.book.entity.Book;
+import com.bangle.domain.book.repository.BookRepository;
+import com.bangle.domain.bookshelf.entity.Bookshelf;
+import com.bangle.domain.bookshelf.repository.BookshelfRepository;
+import com.bangle.domain.member.entity.Member;
+import com.bangle.domain.member.repository.MemberRepository;
+import com.bangle.domain.order.dto.OrderBookRequest;
+import com.bangle.domain.order.dto.OrderRequest;
+import com.bangle.domain.order.entity.Order;
+import com.bangle.domain.order.entity.OrderBook;
+import com.bangle.domain.order.entity.OrderStatus;
+import com.bangle.domain.order.repository.OrderRepository;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class OrderService {
 
-  private final RestTemplate restTemplate;
+	private final MemberRepository memberRepository;
+	private final BookRepository bookRepository;
+	private final OrderRepository orderRepository;
+	private final BookshelfRepository bookshelfRepository;
+	private final IpfsService ipfsService;
+	private final EthereumService ethereumService;
+	private final RedisTemplate<String, String> template;
 
-  @Value("${kubo.rpc.host}")
-  private String kuboRpcHost;
+	@Value("${wallet.public}")
+	private String serverPublicKey;
 
-  public IpfsResponse upload(RegisterRequest registerRequest, String publicKeyHex) {
-    try {
-      // encrypt book
-      SecretKey secretAesKey = CryptoUtil.createSecretKey();
-      IvParameterSpec iv = CryptoUtil.generateIv();
-      byte[] encryptedBook = CryptoUtil
-          .encryptBook(secretAesKey, iv, registerRequest.getBook().getBytes());
+	@Transactional
+	public Map<String,Object> order(String userId, OrderRequest order)
+		throws Exception {
+		Member member = memberRepository.findByUserId(userId)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+		List<Book> books = bookRepository.findAllById(order.books().stream()
+			.map(OrderBookRequest::bookId)
+			.toList());
+		if (order.books().size() != books.size()) {
+			throw new IllegalArgumentException("존재하지 않는 책입니다.");
+		}
 
-      // encrypt AES secretKey with member's public key
-      // not working yet
-      String encryptedKeyHex = CryptoUtil.encryptAesKey(publicKeyHex, secretAesKey);
+		List<OrderBook> orderBooks = new ArrayList<>();
+		List<Bookshelf> bookshelfList = new ArrayList<>();
+		int totalDust = 0;
+		for (int i = 0; i < books.size(); i++) {
+			Book book = books.get(i);
+			OrderStatus orderStatus = order.books().get(i).orderStatus();
+			totalDust += book.getPrice(orderStatus);
+			Author author = book.getAuthor();
+			author.getMember().updateDust(book.getPrice(orderStatus));
+			orderBooks.add(OrderBook.createOrderBook(orderStatus, book));
+			bookshelfList.add(Bookshelf.createBookShelf(member, book, orderStatus));
+			// 오늘 구매수 증가
+			String key = "bookId:" + book.getId() + ":today_purchases";
+			String today_purchases = template.opsForValue().get(key);
+			if (today_purchases == null) {
+				template.opsForValue().set(key, "1");
+			} else {
+				template.opsForValue().set(key, Long.parseLong(today_purchases) + 1L + "");
+			}
+			// 누적 구매수 증가
+			String total_key = "bookId:" + book.getId() + ":total_purchases";
+			String total_purchases = template.opsForValue().get(total_key);
+			if (total_purchases == null) {
+				template.opsForValue().set(total_key, "1");
+			} else {
+				template.opsForValue().set(total_key, Long.parseLong(total_purchases) + 1L + "");
+			}
+			// 이번달 판매량 증가
+			int currentMonth = LocalDate.now().getMonth().getValue();
+			System.out.println(currentMonth);
+			String month_key = "bookId:" + book.getId() + ":month_purchases:" + currentMonth;
+			String month_purchases = template.opsForValue().get(month_key);
+			if (month_purchases == null) {
+				template.opsForValue().set(month_key, "1");
+			} else {
+				template.opsForValue().set(month_key, Long.parseLong(month_purchases) + 1L + "");
+			}
+		}
+		Order newOrder = Order.createOrder(member, orderBooks, totalDust);
 
-      // make encryptedBook to file, use docker volume to make spring & kubo use same file path
-//      Path filepath = Paths.get("./books/testbook.epub"); // need to make path unique to file
-//      Files.write(filepath, encryptedBook);
-//      System.out.println("filepath: " + filepath);
+		for (Bookshelf bookshelf: bookshelfList) {
+			// get SERVER's ipfs epub file
+			byte[] encryptedServerEpub = ipfsService.downloadServerFileOf(bookshelf.getBook().getId());
+			// decrypt SERVER's ipfs epub file
+			byte[] decryptedServerEpub = CryptoUtil.decryptBook(serverPublicKey, encryptedServerEpub);
+			// re-encrypt with MEMBER's public key
+			byte[] encryptedMemberBook = CryptoUtil.encryptBook(member.getPublicKey(), decryptedServerEpub);
+			// upload to ipfs
+			IpfsResponse upload = ipfsService.upload(encryptedMemberBook);
+			// add address to bookshelf entity
+			bookshelf.setIpfsAddress(upload.getAddress());
+			// save address to Sepolia network
+//			ethereumService.savePurchase(
+//				upload.getAddress(), member.getPublicKey(), bookshelf.getMember().getPublicKey(),
+//				bookshelf.getBook().getPrice(OrderStatus.BUY));
+		}
 
-      // upload to IPFS
-      // header
-      HttpHeaders header = new HttpHeaders();
-      header.setContentType(MediaType.MULTIPART_FORM_DATA);
-      // body
-      LinkedMultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-      body.add("file", encryptedBook);
-      // Uri
-      UriComponents uriComponents = UriComponentsBuilder.newInstance()
-          .scheme("http")
-          .host(kuboRpcHost)
-          .path("/api/v0/add")
-          .build();
-
-      KuboAddResponse kuboAddResponse = restTemplate.postForObject(
-          uriComponents.toString(), new HttpEntity<>(body, header), KuboAddResponse.class);
-      if (kuboAddResponse != null) {
-        return new IpfsResponse(encryptedKeyHex, kuboAddResponse.getHash());
-      } else {
-        return new IpfsResponse("", "");
-      }
-    } catch (Exception e) {
-      System.out.println(e);
-      return new IpfsResponse("", "");
-    }
-  }
-
+		orderRepository.save(newOrder);
+		bookshelfRepository.saveAll(bookshelfList);
+		Map<String, Object> map = new HashMap<>();
+		// book id 오름차순으로 정렬하고 {bookid, address} 반환
+		// map.put("bookIdAddressResponse",bookshelfList.stream().sorted().map(BookIdAddressResponse::new).toList());
+		map.put("dust", member.getDust());
+		return map;
+	}
 }

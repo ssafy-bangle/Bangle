@@ -50,7 +50,9 @@ public class SecurityConfig {
 			.antMatchers("/api/users/login").permitAll() //로그인
 		 */
 		http
-			.authorizeHttpRequests(requests -> requests.anyRequest().permitAll());
+			.authorizeHttpRequests(requests -> requests.requestMatchers("/","/api/members/login/kakao","/login/oauth2/code/kakao","/login/reissue").permitAll()
+				.requestMatchers("/api/authors","/api/books/publish").hasRole("AUTHOR")
+				.anyRequest().authenticated());
 
 		http
 			.exceptionHandling(e -> e.accessDeniedHandler(new RestAccessDeniedHandler())

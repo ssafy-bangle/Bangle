@@ -1,16 +1,18 @@
 import * as S from './index.styled';
-import { NavProps } from '@src/types/props';
 import Menu from '@src/components/atoms/menu';
-import { CartImg, LogoImg } from '@src/assets/imgs';
-import Input from '@src/components/atoms/input';
-import Image from 'next/image';
-import { useSetRecoilState } from 'recoil';
+import { LogoImg } from '@src/assets/imgs';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { CartOpenState } from '@src/modules/state';
 import { useRouter } from 'next/router';
+import { UserInfoState, UserModeState } from '@src/modules/user';
+import SearchBar from '../searchBar';
+import Icon from '@src/components/atoms/icon';
 
-export default function Nav({ role }: NavProps) {
+export default function Nav() {
   const router = useRouter();
+  const mode = useRecoilValue(UserModeState);
   const setOpen = useSetRecoilState(CartOpenState);
+  const { nickname } = useRecoilValue(UserInfoState);
 
   const showDrawer = () => {
     setOpen(true);
@@ -31,30 +33,32 @@ export default function Nav({ role }: NavProps) {
   Object.freeze(authorList);
   Object.freeze(userList);
 
-  const selectedList = role === 'author' ? authorList : userList;
+  const selectedList = mode === 'author' ? authorList : userList;
 
   return (
     <S.Container>
-      <S.LogoBox src={LogoImg} width={36} alt="logoImg" onClick={() => router.push('/')} />
+      <S.LogoBox src={LogoImg} width={48} alt="logoImg" onClick={() => router.push('/home')} />
       <S.NavContainer>
         <S.MenuContainer>
           {Object.entries(selectedList).map(([k, v], idx) => (
             <Menu key={idx} name={v} url={k} />
           ))}
         </S.MenuContainer>
-        {role === 'user' ? (
-          <>
-            <Input size="medium" state="focus" placeholder="검색어를 입력해주세요" setInput={() => {}} />
-            <S.CartBox>
-              <Image src={CartImg} alt="cartImg" onClick={showDrawer} />
-            </S.CartBox>
-          </>
+        {mode === 'user' ? (
+          router.pathname !== '/search' ? (
+            <SearchBar />
+          ) : null
         ) : (
           <S.Info>
-            안녕하세요. <strong>방글이 작가</strong>님
+            안녕하세요. <strong>{nickname} 작가</strong>님
           </S.Info>
         )}
       </S.NavContainer>
+      {mode === 'user' && (
+        <S.CartBox onClick={showDrawer}>
+          <Icon name="cart" />
+        </S.CartBox>
+      )}
     </S.Container>
   );
 }

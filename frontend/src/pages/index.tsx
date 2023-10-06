@@ -1,26 +1,28 @@
 import Button from '@src/components/atoms/button';
-import * as S from './index.styled';
-import { LightImg, ShineImg } from '@src/assets/imgs';
+import * as S from '@src/styles/pageStyles/index/index.styled';
+import { TotalImg } from '@src/assets/imgs';
 import { useRouter } from 'next/router';
 
 export default function Landing() {
   const router = useRouter();
+  const kakao_redirect = process.env.NEXT_PUBLIC_DOMAIN + 'login/oauth2/code/kakao';
+  const kakao_redirect_url =
+    'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=c6c5b92bfb2099f919dedc2c24a91134&redirect_uri=' +
+    kakao_redirect;
   return (
     <>
       <S.Container>
         <S.ImgBox>
-          <S.Light priority width={120} src={LightImg} alt={'light'} />
-          <S.Shine priority width={360} src={ShineImg} alt={'shine'} />
+          <S.Shine priority width={360} src={TotalImg} alt={'shine'} />
         </S.ImgBox>
-        <S.TitleContainer>
-          <S.Title>방에서 쓴 글이</S.Title>
-          <S.Title>모두의 블록 안으로</S.Title>
-        </S.TitleContainer>
         <S.Content>
-          설명 길게 주저리 주저리 포인트는 감성을 담아서 <br /> 열심히 적어보면 아주 좋을 것 같습니다. <br />
-          저는 감성이 없어서 항상 이런 식으로 미루는 걸 좋아해요 ㅎㅎ
+          독립출판물을 위한 전자 서점 방글에서는
+          <br />
+          방에서 쓴 내 글을 독자의 방으로 쉽게 공유할 수 있습니다.
+          <br />
+          작가와 독자가 직접 만날 수 있는 방글을 시작해보세요.
         </S.Content>
-        <Button length="short" size="small" content="시작하기" onClick={() => router.push('/info')} />
+        <Button length="medium" size="big" content="시작하기" onClick={() => router.push(kakao_redirect_url)} />
       </S.Container>
     </>
   );

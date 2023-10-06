@@ -9,31 +9,9 @@ type Story = StoryObj<typeof Nav>;
 
 const Template: Story = {
   name: 'Default',
-  argTypes: {
-    role: {
-      type: 'string',
-      control: 'select',
-      options: ['author', 'user'],
-      description: '모드 선택',
-    },
-  },
-  render: (args) => <Nav {...args} />,
+  render: () => <Nav />,
 };
 
-export const authorNav: Story = {
+export const Default: Story = {
   ...Template,
-  name: 'authorNav',
-  args: {
-    ...Template.args,
-    role: 'author',
-  },
-};
-
-export const userNav: Story = {
-  ...Template,
-  name: 'userNav',
-  args: {
-    ...Template.args,
-    role: 'user',
-  },
 };
