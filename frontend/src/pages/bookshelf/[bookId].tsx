@@ -15,6 +15,7 @@ import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
 import { AlertOpenState } from '@src/modules/state';
 import { cookie } from '@src/utils/cookie';
+import Swal from 'sweetalert2';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -40,7 +41,7 @@ export default function BookId() {
     bookApi
       .getBookDetail(bookId)
       .then((response) => {
-        console.log(response)
+        console.log(response);
         const res = response.data.bookDetail;
         const info: BookInfo = {
           bookId: res.id,
@@ -59,7 +60,7 @@ export default function BookId() {
           buy: response.data.buy,
         };
         setBookInfo({ ...bookInfo, ...info });
-        console.log("cover: ",bookInfo.reviews)
+        console.log('cover: ', bookInfo.reviews);
         if (response.data.wish) {
           setIsWish(true);
         }
@@ -132,7 +133,17 @@ export default function BookId() {
             {bookInfo.buy == false && (
               <S.PriceContainer>
                 <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={() => showModal(0)} />
-                <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={() => showModal(1)} />
+                <Munzibtn
+                  price={bookInfo.rentalPrice}
+                  content="대여하기"
+                  onClick={() =>
+                    Swal.fire({
+                      title: '준비 중',
+                      text: '추후 업데이트 될 예정입니다.',
+                      confirmButtonColor: '#2cc295',
+                    })
+                  }
+                />
                 <Modal
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}

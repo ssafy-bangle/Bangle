@@ -13,6 +13,7 @@ import { Line } from 'react-chartjs-2';
 import { bookStatProp } from '@src/types/author';
 import * as S from './index.styled';
 import Loading from '../loading';
+import NoValue from '../noValue';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -51,7 +52,13 @@ export const options = {
   },
 };
 
-export const LineChart = React.memo(function LineChart({ book }: { book: bookStatProp[] }) {
+export const LineChart = React.memo(function LineChart({
+  book,
+  isLoading,
+}: {
+  book: bookStatProp[];
+  isLoading: boolean;
+}) {
   const [data, setData] = useState<ChartData>({ labels: [], datasets: [] });
   let labels = [];
   const colorsArray = [
@@ -112,8 +119,14 @@ export const LineChart = React.memo(function LineChart({ book }: { book: bookSta
 
   return (
     <>
-      {data.datasets.length > 0 ? (
-        <Line options={options} data={data} width={630} />
+      {!isLoading ? (
+        data.datasets.length > 0 ? (
+          <Line options={options} data={data} width={630} />
+        ) : (
+          <S.NoValueContainer>
+            <NoValue type={'authorHome'} />
+          </S.NoValueContainer>
+        )
       ) : (
         <S.LoadingBox>
           <Loading content="분석 중..." />

@@ -8,11 +8,10 @@ import { bookStatProp } from '@src/types/author';
 import { selectedBook } from '@src/types/props';
 import { AlertOpenState } from '@src/modules/state';
 import { useSetRecoilState } from 'recoil';
-import Loading from '@src/components/atoms/loading';
 
 export default function AuthorHome() {
   const setIsAlertOpen = useSetRecoilState(AlertOpenState);
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [book, setBook] = useState<bookStatProp[]>([
     {
       cover: '',
@@ -57,7 +56,7 @@ export default function AuthorHome() {
       .then((res: bookStatProp[]) => {
         setBook(res);
         calTotalTodayData();
-
+        setIsLoading(false);
         res.length > 0 &&
           setSelectedBook({
             purchases: res[0].total_purchases,
@@ -75,7 +74,7 @@ export default function AuthorHome() {
       <S.Container>
         <S.Title>오늘의 분석</S.Title>
         <S.Box>
-          <LineChart book={book} />
+          <LineChart book={book} isLoading={isLoading} />
         </S.Box>
         <S.Title2>월별 분석</S.Title2>
         <S.ChipSection>
