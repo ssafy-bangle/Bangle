@@ -11,6 +11,7 @@ export const LeftSection = styled.div`
 export const AuthorInfo = styled.div`
   color: var(--BG_GRAY2);
   font-size: 1.6rem;
+  line-height: normal;
   margin-bottom: 2.5rem;
   font-weight: 400;
 `;

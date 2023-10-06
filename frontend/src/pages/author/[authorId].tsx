@@ -20,8 +20,16 @@ export default function AuthorId() {
     authorApi
       .getAuthorInfo(authorId)
       .then((res) => {
+        
+        let newList: any = []
+        res.data.bookList.forEach((elem:any)=>{
+          newList.push({
+            ...elem, 
+            bookId: elem.id
+          })
+        })
         const data = {
-          bookList: res.data.bookList,
+          bookList: newList,
           follower: res.data.follower,
           introduction: res.data.introduction,
           isFollow: res.data.isFollow,
