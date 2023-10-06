@@ -123,7 +123,7 @@ export default function BookId() {
               {isWish ? <BookFilled onClick={setWishListHandler} /> : <BookOutlined onClick={setWishListHandler} />}
             </S.TopInfoContainer>
             <S.SmallInfo>
-              <span onClick={() => router.push(`/authorpage/${bookInfo.authorId}`)} style={{ cursor: 'pointer' }}>
+              <span onClick={() => router.push(`/author/${bookInfo.authorId}`)} style={{ cursor: 'pointer' }}>
                 {bookInfo.nickname}
               </span>{' '}
               · {bookInfo.publicationDate} · {bookInfo.genre}
@@ -158,14 +158,16 @@ export default function BookId() {
             <S.InfoText>
               <S.InfoTitle>소개</S.InfoTitle>
               <S.InfoContent isClicked={isClicked}>{bookInfo.introduction}</S.InfoContent>
-              <S.MoreInfoBtn onClick={() => setIsClicked((pre) => !pre)}>
-                {isClicked ? (
-                  <UpOutlined style={{ marginRight: '0.8rem' }} />
-                ) : (
-                  <DownOutlined style={{ marginRight: '0.8rem' }} />
-                )}
-                더보기
-              </S.MoreInfoBtn>
+              {bookInfo.introduction.length > 300 && (
+                <S.MoreInfoBtn onClick={() => setIsClicked((pre) => !pre)}>
+                  {isClicked ? (
+                    <UpOutlined style={{ marginRight: '0.8rem' }} />
+                  ) : (
+                    <DownOutlined style={{ marginRight: '0.8rem' }} />
+                  )}
+                  더보기
+                </S.MoreInfoBtn>
+              )}
             </S.InfoText>
           </S.BookInfo>
         </S.InfoContainer>

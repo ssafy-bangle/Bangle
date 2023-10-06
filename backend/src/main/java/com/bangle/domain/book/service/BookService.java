@@ -56,7 +56,7 @@ public class BookService {
 		}
 
 		BookAndReviewResponse findBookDetail = bookRepository.findDetailBookByIdAndMember(member, id);
-		List<Review> review = reviewRepository.findAllByBookId(id);
+		List<Review> review = reviewRepository.findAllByBookIdOrderByCreatedTimeDesc(id);
 		findBookDetail.addReview(review);
 
 		return findBookDetail;
