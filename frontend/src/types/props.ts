@@ -27,6 +27,7 @@ export type BookCoverProps = {
   imgsrc: StaticImageData | string;
   size?: 'small' | 'big';
   onClick?: () => void;
+  reviewId?: number;
 };
 
 export type BookProps = {
@@ -115,6 +116,7 @@ export type RatingProps = {
   label: boolean;
   editable: boolean;
   setInput: (value: number) => void;
+  size: "default" | "small";
 };
 
 export type NoValueProps = {

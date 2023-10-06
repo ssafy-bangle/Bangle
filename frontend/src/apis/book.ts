@@ -88,13 +88,6 @@ const buyBook = async (body: buyBookReqProps) => {
   } catch (e) {
     throw new Error('');
   }
-  // try {
-  //   const res = await client.post(`/orders/book`, body);
-  //   return res.data;
-  // } catch (e) {
-  //   console.log('error at buybook', e);
-  //   throw new Error('');
-  // }
 };
 
 const wishBook = async (bookId: number) => {

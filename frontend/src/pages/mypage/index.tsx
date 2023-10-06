@@ -13,6 +13,7 @@ import { authorApi, paymentApi, userApi } from '@src/apis';
 import { UserInfo } from '@src/types/user';
 import { useRouter } from 'next/router';
 import { AlertOpenState } from '@src/modules/state';
+import Swal from 'sweetalert2';
 
 export type munziLogReqProps = {
   createdAt: string;
@@ -74,7 +75,13 @@ export default function Mypage() {
     setUserInfo({ ...userInfo, roles: 'ROLE_AUTHOR' });
     userApi
       .putMemberRolesToAuthor()
-      .then(() => alert('작가로 전환되었습니다.'))
+      .then(() =>
+        Swal.fire({
+          title: '전환 완료',
+          text: `작가로 전환이 완료되었습니다`,
+          confirmButtonColor: '#2cc295',
+        }),
+      )
       .catch(() => {
         setIsOpenAlert(true);
       });
@@ -86,11 +93,20 @@ export default function Mypage() {
       paymentApi
         .postPayment(price)
         .then(() => {
-          alert(`${price} 먼지 충전이 완료되었습니다`);
+          Swal.fire({
+            title: '충전 완료',
+            text: `${price} 먼지 충전이 완료되었습니다`,
+            confirmButtonColor: '#2cc295',
+          });
           setUserInfo({ ...userInfo, dust: userInfo.dust + price });
         })
         .catch(() => {
           setIsOpenAlert(true);
+          Swal.fire({
+            title: '충전 실패',
+            text: '충전 중 오류가 발생했습니다.',
+            confirmButtonColor: '#2cc295',
+          });
         });
     }
   };
@@ -104,6 +120,11 @@ export default function Mypage() {
       email: '',
       roles: 'ROLE_USER',
       userId: '',
+    });
+    Swal.fire({
+      title: '로그아웃',
+      text: '로그아웃 되었습니다.',
+      confirmButtonColor: '#2cc295',
     });
     router.push('/');
   };
@@ -134,7 +155,11 @@ export default function Mypage() {
   const handleIntroductionSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     authorApi.postIntroduction(introduction);
-    alert('작가 소개가 등록 되었습니다.');
+    Swal.fire({
+      title: '등록 완료',
+      text: '작가 소개가 등록 되었습니다',
+      confirmButtonColor: '#2cc295',
+    });
   };
 
   const popContent = (
@@ -200,14 +225,28 @@ export default function Mypage() {
               length={'medium'}
               icon="mode"
               content="작가모드로 보기"
-              onClick={() => (setMode('author'), alert('작가 모드로 전환되었습니다.'))}
+              onClick={() => (
+                setMode('author'),
+                Swal.fire({
+                  title: '전환 완료',
+                  text: '작가 모드로 전환되었습니다.',
+                  confirmButtonColor: '#2cc295',
+                })
+              )}
             />
           ) : (
             <Button
               length={'medium'}
               icon="mode"
               content="독자모드로 보기"
-              onClick={() => (setMode('user'), alert('독자 모드로 전환되었습니다.'))}
+              onClick={() => (
+                setMode('user'),
+                Swal.fire({
+                  title: '전환 완료',
+                  text: '독자 모드로 전환되었습니다.',
+                  confirmButtonColor: '#2cc295',
+                })
+              )}
             />
           )}
           <S.Logout onClick={handleLogout}>로그아웃</S.Logout>
@@ -260,7 +299,20 @@ export default function Mypage() {
             <S.RightBottomRightSection>
               <S.PartTitle>개별 먼지</S.PartTitle>
               <S.MunziBtnContainer>
-                <Image src={Munzi3} width={250} alt="munzi3Img" layout="responsive" />
+                <Image
+                  src={Munzi3}
+                  width={250}
+                  alt="munzi3Img"
+                  style={{ cursor: 'pointer' }}
+                  layout="responsive"
+                  onClick={() => {
+                    Swal.fire({
+                      title: '준비중',
+                      text: '추후 업데이트 될 예정입니다.',
+                      confirmButtonColor: '#2cc295',
+                    });
+                  }}
+                />
                 <Munzibtn price={1} content="￦1,000" onClick={() => chargeDustImmediately(1)} />
                 <Munzibtn price={5} content="￦5,000" onClick={() => chargeDustImmediately(5)} />
                 <Munzibtn price={10} content="￦10,000" onClick={() => chargeDustImmediately(10)} />

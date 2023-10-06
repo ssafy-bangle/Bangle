@@ -15,6 +15,7 @@ import { BookInfo, reviewProps } from '@src/types/book';
 import { BookInfoState } from '@src/modules/book';
 import { AlertOpenState } from '@src/modules/state';
 import { cookie } from '@src/utils/cookie';
+import Swal from 'sweetalert2';
 
 export default function BookId() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -40,7 +41,6 @@ export default function BookId() {
     bookApi
       .getBookDetail(bookId)
       .then((response) => {
-        console.log(response)
         const res = response.data.bookDetail;
         const info: BookInfo = {
           bookId: res.id,
@@ -59,7 +59,6 @@ export default function BookId() {
           buy: response.data.buy,
         };
         setBookInfo({ ...bookInfo, ...info });
-        console.log("cover: ",bookInfo.reviews)
         if (response.data.wish) {
           setIsWish(true);
         }
@@ -132,7 +131,17 @@ export default function BookId() {
             {bookInfo.buy == false && (
               <S.PriceContainer>
                 <Munzibtn price={bookInfo.purchasePrice} content="구매하기" onClick={() => showModal(0)} />
-                <Munzibtn price={bookInfo.rentalPrice} content="대여하기" onClick={() => showModal(1)} />
+                <Munzibtn
+                  price={bookInfo.rentalPrice}
+                  content="대여하기"
+                  onClick={() =>
+                    Swal.fire({
+                      title: '준비중',
+                      text: '추후 업데이트 될 예정입니다.',
+                      confirmButtonColor: '#2cc295',
+                    })
+                  }
+                />
                 <Modal
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
@@ -149,24 +158,26 @@ export default function BookId() {
             <S.InfoText>
               <S.InfoTitle>소개</S.InfoTitle>
               <S.InfoContent isClicked={isClicked}>{bookInfo.introduction}</S.InfoContent>
-              <S.MoreInfoBtn onClick={() => setIsClicked((pre) => !pre)}>
-                {isClicked ? (
-                  <UpOutlined style={{ marginRight: '0.8rem' }} />
-                ) : (
-                  <DownOutlined style={{ marginRight: '0.8rem' }} />
-                )}
-                더보기
-              </S.MoreInfoBtn>
+              {bookInfo.introduction.length > 300 && (
+                <S.MoreInfoBtn onClick={() => setIsClicked((pre) => !pre)}>
+                  {isClicked ? (
+                    <UpOutlined style={{ marginRight: '0.8rem' }} />
+                  ) : (
+                    <DownOutlined style={{ marginRight: '0.8rem' }} />
+                  )}
+                  더보기
+                </S.MoreInfoBtn>
+              )}
             </S.InfoText>
           </S.BookInfo>
         </S.InfoContainer>
         <S.ReviewContainer>
           <S.InfoTitle>리뷰</S.InfoTitle>
-          <Rating value={bookInfo.averageScore} label={true} editable={false} setInput={() => {}} />
+          <Rating size="default" value={bookInfo.averageScore} label={true} editable={false} setInput={() => {}} />
           <S.CardContainer>
             {bookInfo.reviews.map((card: reviewProps) => (
               <>
-                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} onClick={() => {}} />
+                <S.ReviewCardItem imgsrc={card.cover} size="small" key={card.id} reviewId={card.id} />
               </>
             ))}
           </S.CardContainer>

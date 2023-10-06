@@ -11,6 +11,7 @@ import Button from '@src/components/atoms/button';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { UserInfoState } from '@src/modules/user';
 import { AlertOpenState } from '@src/modules/state';
+import Swal from 'sweetalert2';
 
 const genreList = ['인문', 'SF', '자기계발', '로맨스', '소설', '건강', '경제', '취미', '어학', '여행'];
 const itemList = genreList.map((genre: string, idx: number) => ({
@@ -89,7 +90,11 @@ export default function Write() {
           price={10}
           onClick={async () => {
             await handlePostBook();
-            alert('책 등록 완료되었습니다.');
+            Swal.fire({
+              title: '등록 완료',
+              text: '책 등록이 완료되었습니다.',
+              confirmButtonColor: '#2cc295',
+            });
             router.push('/home');
           }}
         />

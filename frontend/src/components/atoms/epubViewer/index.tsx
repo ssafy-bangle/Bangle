@@ -54,14 +54,7 @@ export default function EPubViewer({
   }, [bookBinary]);
   // 페이지 변경 감지 시, 책 화면 변경
   useEffect(() => {
-    // if (rendition?.location) {
-    //   console.log(rendition.location.start.cfi)
-    //   rendition.display("epubcfi(/6/4!/4/1:0)")
-    // }
-    // let temp = rendition?.location.start.cfi
-    // rendition?.display(temp)
     if (book && rendition && rendition.location) {
-      // rendition.display(curPage)
       if (clickState > 0) {
         rendition.next();
       } else if (clickState < 0) {
@@ -70,7 +63,6 @@ export default function EPubViewer({
       setEpubCfi(rendition.location.end.cfi);
       setClickState(0);
     }
-    // book && rendition && rendition.display(curPage);
   }, [book, rendition, clickState]);
 
   // 책 화면 변경 감지 시, 텍스트 색상 변경

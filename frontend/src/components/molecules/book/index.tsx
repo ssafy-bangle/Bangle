@@ -43,9 +43,11 @@ export default function Book({ data, imgsrc, onClick, showProgress }: BookProps)
               onClick={(e) => {
                 e.stopPropagation();
               }}>
-              <Popover content={content} trigger={'click'} placement="bottomRight" arrow>
-                <MoreOutlined />
-              </Popover>
+              { data?.authorId && 
+                <Popover content={content} trigger={'click'} placement="bottomRight" arrow>
+                  <MoreOutlined />
+                </Popover>
+              }
             </div>
           </S.BookTitle>
         </div>
