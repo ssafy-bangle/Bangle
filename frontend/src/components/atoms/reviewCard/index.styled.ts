@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { BookCoverProps } from '@src/types/props';
+import { PopoverProps } from 'antd';
 
 export const ImgContainer = styled.div<BookCoverProps>`
   width: ${({ size }) => (size === 'small' ? '16.8rem' : '17.5rem')};

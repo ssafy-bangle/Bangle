@@ -21,5 +21,15 @@ const getReviewImg = async (comment: string) => {
   }
 };
 
-const review = { postReview, getReviewImg };
+const getReviewDetail = async (reviewId: number) => {
+  try {
+    const res = await client.get('/books/review?reviewId=' + reviewId);
+    return res.data
+  } catch (e) {
+    console.log(e)
+    throw new Error('');
+  }
+}
+
+const review = { postReview, getReviewImg, getReviewDetail };
 export default review;
